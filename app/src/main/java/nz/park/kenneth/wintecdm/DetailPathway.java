@@ -24,10 +24,11 @@ public class DetailPathway extends AppCompatActivity {
 
     // Variables
     nz.park.kenneth.wintecdm.ExpandableListAdapter listAdapter;
-    List<String> yearList, programmeList;
+    List<String> yearList, semesterList, programmeList;
     HashMap<String, List<String>> programmeMap;
 
     private static final int YEAR_COUNT = 3;
+    private static final int SEMESTER_COUNT = 6;
 
     private String[][] softwareProgrammeNames = {
             {"IT Operations", "Fundamentals of Programming and Problem Solving", "Professional Practice", "Business Systems Analysis & Design"},
@@ -82,29 +83,35 @@ public class DetailPathway extends AppCompatActivity {
         init();
 
         pathwayList = findViewById(R.id.pathwayList);
-        listAdapter = new nz.park.kenneth.wintecdm.ExpandableListAdapter(this, yearList, programmeMap);
+        listAdapter = new nz.park.kenneth.wintecdm.ExpandableListAdapter(this, semesterList, programmeMap);
 
         pathwayList.setAdapter(listAdapter);
     }
 
     public void init(){
         yearList = new ArrayList<String>();
+        semesterList = new ArrayList<String>();
         programmeMap = new HashMap<String, List<String>>();
 
         // set years
-        yearList.add("Year1");
-        yearList.add("Year2");
-        yearList.add("Year3");
+        for(int i=0; i<YEAR_COUNT; i++){
+            yearList.add("Year" + (i + 1));
+        }
+
+        // set semesters
+        for(int i=0; i<SEMESTER_COUNT; i++){
+            semesterList.add("Semester" + (i + 1));
+        }
 
         // set programmes
-        for(int i=0; i<softwareProgrammeNames.length; i++){
+        for(int i=0; i<SEMESTER_COUNT; i++){
             programmeList = new ArrayList<String>();
 
             for(int j=0; j<softwareProgrammeNames[i].length; j++){
                 programmeList.add(softwareProgrammeNames[i][j]);
             }
 
-            programmeMap.put(yearList.get(i), programmeList);
+            programmeMap.put(semesterList.get(i), programmeList);
         }
     }
 }

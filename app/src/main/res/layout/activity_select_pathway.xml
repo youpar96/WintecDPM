@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SelectPathway">
+
+    <TextView
+        android:id="@+id/tvDetailPathway"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/yellow_back_black_border"
+        android:padding="10dp"
+        android:text="Select Pathway"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="@color/wintecBasicBlack"
+        android:layout_marginBottom="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +37,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:layout_width="160dp"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:layout_marginRight="20dp"
                 app:cardBackgroundColor="@color/wintecBasicBackground"
                 app:cardCornerRadius="15dp"
@@ -40,20 +53,26 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@mipmap/ic_launcher"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:background="@mipmap/icon_software"
                         android:padding="10dp"
                         android:layout_marginBottom="10dp"/>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="2dp"
+                        android:background="@color/wintecBasicBlack" />
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/wintecBasicBackground"
                         android:text="Software Engineering"
                         android:textColor="@color/wintecBasicBlack"
-                        android:textSize="20sp"
+                        android:textSize="17dp"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
 
@@ -66,7 +85,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:layout_width="160dp"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 app:cardBackgroundColor="@color/wintecBasicBackground"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="4dp"
@@ -81,20 +100,26 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@mipmap/ic_launcher"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:background="@mipmap/icon_database"
                         android:padding="10dp"
                         android:layout_marginBottom="10dp"/>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="2dp"
+                        android:background="@color/wintecBasicBlack" />
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/wintecBasicBackground"
                         android:text="Database Architecture"
                         android:textColor="@color/wintecBasicBlack"
-                        android:textSize="20sp"
+                        android:textSize="17dp"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
 
@@ -117,7 +142,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:layout_width="160dp"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:layout_marginRight="20dp"
                 app:cardBackgroundColor="@color/wintecBasicBackground"
                 app:cardCornerRadius="15dp"
@@ -133,20 +158,26 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@mipmap/ic_launcher"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:background="@mipmap/icon_networking"
                         android:padding="10dp"
                         android:layout_marginBottom="10dp"/>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="2dp"
+                        android:background="@color/wintecBasicBlack" />
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/wintecBasicBackground"
                         android:text="Networking"
                         android:textColor="@color/wintecBasicBlack"
-                        android:textSize="20sp"
+                        android:textSize="17dp"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
 
@@ -159,7 +190,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:layout_width="160dp"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 app:cardBackgroundColor="@color/wintecBasicBackground"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="4dp"
@@ -174,20 +205,26 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@mipmap/ic_launcher"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:background="@mipmap/icon_web_development"
                         android:padding="10dp"
                         android:layout_marginBottom="10dp"/>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="2dp"
+                        android:background="@color/wintecBasicBlack" />
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/wintecBasicBackground"
-                        android:text="Multi Media Web Development"
+                        android:text="Multi Media    Web Development"
                         android:textColor="@color/wintecBasicBlack"
-                        android:textSize="20sp"
+                        android:textSize="17dp"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
 
@@ -198,4 +235,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
