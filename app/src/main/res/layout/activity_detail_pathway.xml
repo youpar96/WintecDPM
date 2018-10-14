@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".DetailPathway">
 
     <TextView
@@ -14,25 +16,14 @@
         android:padding="10dp"
         android:text="Detail Pathway"
         android:textStyle="bold"
-        android:textSize="30dp"
+        android:textSize="20dp"
 
         android:textColor="@color/wintecBasicBlack"/>
 
-    <ScrollView
+    <ExpandableListView
+        android:id="@+id/pathwayList"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ExpandableListView
-                android:id="@+id/pathwayList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </ExpandableListView>
-        </LinearLayout>
-    </ScrollView>
+    </ExpandableListView>
 </LinearLayout>
