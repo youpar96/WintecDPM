@@ -179,7 +179,8 @@
                         android:textColor="@color/wintecBasicBlack"
                         android:textSize="17dp"
                         android:textStyle="bold"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:gravity="center"/>
 
                 </LinearLayout>
 

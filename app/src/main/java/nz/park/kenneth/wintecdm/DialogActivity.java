@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class DialogActivity extends Activity {
 
-    Button btnDialogOk;
+    Button btnDialogOk, btnDialogCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,11 +16,18 @@ public class DialogActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_dialog);
 
+        btnDialogCancel = findViewById(R.id.btnDialogCancel);
         btnDialogOk = findViewById(R.id.btnDialogOk);
 
         btnDialogOk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
+            }
+        });
+        btnDialogCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
             }
         });
     }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
@@ -54,11 +55,11 @@ public class DetailPathway extends AppCompatActivity {
         setContentView(R.layout.activity_detail_pathway);
 
         Intent i = getIntent();
-
         tvDetailPathway = findViewById(R.id.tvDetailPathway);
 
         String pathWay = i.getStringExtra("pathWay");
         String title = "";
+        int imgId = 0;
 
         switch(pathWay){
             case "S":
