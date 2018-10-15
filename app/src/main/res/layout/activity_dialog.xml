@@ -32,13 +32,31 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:padding="10dp"
+            android:layout_marginBottom="10dp"
             android:textSize="15dp"
-            android:text="The DPM App is a Prototype version of a degree planner only and NOT an official study plan.
+            android:text="The DPM App is a Prototype version of a degree planner only and NOT an official study plan."
+            android:textColor="@color/wintecBasicBlack"
+            />
 
-It is intended that students shall use this to get an understanding of the pathways offered and then discuss study plans with a Wintec representative.
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15dp"
+            android:text="It is intended that students shall use this to get an understanding of the pathways offered and then discuss study plans with a Wintec representative."
+            android:textColor="@color/wintecBasicBlack"
+            />
 
-Pathways may change accordingly making older versions redundant
-– Wintec takes no responsibility of outdated pathways or information displayed on the app."
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15dp"
+            android:text="Pathways may change accordingly making older versions redundant – Wintec takes no responsibility of outdated pathways or information displayed on the app."
             android:textColor="@color/wintecBasicBlack"
             />
 
