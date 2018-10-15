@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:background="@drawable/yellow_back_black_border"
+        android:background="@color/wintecBasicBackground"
         android:text="Detail Pathway"
         android:textStyle="bold"
         android:textSize="20dp"

@@ -11,7 +11,7 @@
         android:id="@+id/tvDetailPathway"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/yellow_back_black_border"
+        android:background="@color/wintecBasicBackground"
         android:padding="10dp"
         android:text="Select Pathway"
         android:textStyle="bold"
