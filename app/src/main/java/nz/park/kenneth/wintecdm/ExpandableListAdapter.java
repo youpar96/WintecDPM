@@ -5,16 +5,21 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
     private List<String> _listDataHeader; // header titles
+    private ModuleClickListener _listener;
+
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
@@ -48,12 +53,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+        EditText txtListChild = (EditText) convertView.findViewById(R.id.lblListItem);
+
+
+        if (Session.IsAdmin()) {
+            _listener = new ModuleClickListener(convertView);
+            txtListChild.setOnLongClickListener(_listener);
+        }
 
         txtListChild.setText(childText);
         return convertView;
     }
+
 
     @Override
     public int getChildrenCount(int groupPosition) {

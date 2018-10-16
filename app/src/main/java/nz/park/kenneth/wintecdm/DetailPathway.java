@@ -1,11 +1,18 @@
 package nz.park.kenneth.wintecdm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -22,6 +29,7 @@ public class DetailPathway extends AppCompatActivity {
     // View objects
     ExpandableListView pathwayList;
     TextView tvDetailPathway;
+    ImageView delete;
 
     // Variables
     nz.park.kenneth.wintecdm.ExpandableListAdapter listAdapter;
@@ -60,7 +68,7 @@ public class DetailPathway extends AppCompatActivity {
         String pathWay = i.getStringExtra("pathWay");
         String title = "Pathway > ";
 
-        switch(pathWay){
+        switch (pathWay) {
             case "S":
                 title += "Software Engineering";
                 break;
@@ -84,34 +92,66 @@ public class DetailPathway extends AppCompatActivity {
 
         pathwayList = findViewById(R.id.pathwayList);
         listAdapter = new nz.park.kenneth.wintecdm.ExpandableListAdapter(this, semesterList, programmeMap);
-
         pathwayList.setAdapter(listAdapter);
+
+
     }
 
-    public void init(){
+    public void init() {
         yearList = new ArrayList<String>();
         semesterList = new ArrayList<String>();
         programmeMap = new HashMap<String, List<String>>();
 
         // set years
-        for(int i=0; i<YEAR_COUNT; i++){
+        for (int i = 0; i < YEAR_COUNT; i++) {
             yearList.add("Year" + (i + 1));
         }
 
         // set semesters
-        for(int i=0; i<SEMESTER_COUNT; i++){
+        for (int i = 0; i < SEMESTER_COUNT; i++) {
             semesterList.add("Semester" + (i + 1));
         }
 
         // set programmes
-        for(int i=0; i<SEMESTER_COUNT; i++){
+        for (int i = 0; i < SEMESTER_COUNT; i++) {
             programmeList = new ArrayList<String>();
 
-            for(int j=0; j<softwareProgrammeNames[i].length; j++){
+            for (int j = 0; j < softwareProgrammeNames[i].length; j++) {
                 programmeList.add(softwareProgrammeCodes[i][j] + " | " + softwareProgrammeNames[i][j]);
             }
 
             programmeMap.put(semesterList.get(i), programmeList);
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                EditText et = ((EditText) v);
+                et.setBackgroundColor(Color.WHITE);
+                et.setCursorVisible(false);
+                et.setInputType(InputType.TYPE_NULL);
+
+//                ImageView edit = (ImageView) findViewById(R.id.editModule);
+//                edit.setVisibility(View.INVISIBLE);
+                delete = findViewById(R.id.deleteModule);
+                delete.setVisibility(View.INVISIBLE);
+
+
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+
+
+        }
+        return super.dispatchTouchEvent(event);
     }
 }

@@ -1,11 +1,16 @@
 package nz.park.kenneth.wintecdm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class SelectPathway extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,11 +24,25 @@ public class SelectPathway extends AppCompatActivity implements View.OnClickList
         Intent i = getIntent();
         String userType = i.getStringExtra("userType");
 
-        // display the disclaimer to students
-        if("S".equals(userType)) {
-            Intent it = new Intent(getApplicationContext(), DialogActivity.class);
-            startActivity(i);
+        boolean isAdmin = false;
+
+        switch (userType) {
+            case "S":
+//                Intent it = new Intent(getApplicationContext(), DialogActivity.class);
+//                startActivity(i);
+                break;
+
+            case "M":
+                isAdmin = true;
+                break;
+
+
         }
+
+
+        Session _session = new Session(getApplicationContext());
+        _session.AddValues(isAdmin);
+
 
         cvSoftware = findViewById(R.id.cvSoftware);
         cvDatabase = findViewById(R.id.cvDatabase);
@@ -41,7 +60,7 @@ public class SelectPathway extends AppCompatActivity implements View.OnClickList
         Intent i = new Intent(this, DetailPathway.class);
         String pathWay = null;
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.cvSoftware:
                 pathWay = "S";
                 break;

@@ -4,14 +4,46 @@
     android:layout_height="55dip"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lblListItem"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="17dp"
-        android:textColor="@color/wintecBasicBlack"
-        android:paddingTop="5dp"
+        android:orientation="horizontal"
         android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+        android:paddingTop="5dp"
+        >
 
+
+        <EditText
+            android:id="@+id/lblListItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="8"
+            android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+            android:textColor="@color/wintecBasicBlack"
+            android:textSize="17dp"
+            android:background="@null"
+            android:cursorVisible="false"
+            android:focusableInTouchMode="true"
+            android:editable="false"
+            />
+
+        <!--<ImageView-->
+            <!--android:id="@+id/editModule"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/ic_edit_black_24dp"-->
+            <!--android:visibility="invisible" />-->
+
+        <ImageView
+            android:id="@+id/deleteModule"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_black_24dp"
+            />
+
+
+    </LinearLayout>
 </LinearLayout>
