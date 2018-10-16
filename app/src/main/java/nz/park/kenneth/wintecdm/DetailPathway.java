@@ -126,28 +126,29 @@ public class DetailPathway extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
             View v = getCurrentFocus();
 
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                EditText et = ((EditText) v);
-                et.setBackgroundColor(Color.WHITE);
-                et.setCursorVisible(false);
-                et.setInputType(InputType.TYPE_NULL);
-
-//                ImageView edit = (ImageView) findViewById(R.id.editModule);
-//                edit.setVisibility(View.INVISIBLE);
-                delete = findViewById(R.id.deleteModule);
-                delete.setVisibility(View.INVISIBLE);
-
 
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+
+                    v.setBackgroundColor(Color.WHITE);
+                    ((EditText) v).setCursorVisible(false);
+                    ((EditText) v).setInputType(InputType.TYPE_NULL);
                     v.clearFocus();
+                    v.setFocusable(false);
+
+                    delete = findViewById(R.id.deleteModule);
+                    delete.setImageResource(0);
+
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
+
             }
 
 

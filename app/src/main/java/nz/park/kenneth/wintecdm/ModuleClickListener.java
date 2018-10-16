@@ -13,9 +13,7 @@ public class ModuleClickListener implements View.OnLongClickListener {
 
     public ModuleClickListener(View convertView) {
         this.convertView = convertView;
-//        ivEdit = convertView.findViewById(R.id.editModule);
         ivDelete = convertView.findViewById(R.id.deleteModule);
-        ivDelete.setVisibility(View.INVISIBLE);
 
     }
 
@@ -25,19 +23,11 @@ public class ModuleClickListener implements View.OnLongClickListener {
         EditText et = convertView.findViewById(R.id.lblListItem);
         et.setBackgroundColor(Color.LTGRAY);
         et.setCursorVisible(true);
+        et.setFocusable(true);
+
         et.setInputType(InputType.TYPE_CLASS_TEXT);
 
-//        ivEdit.setVisibility(View.VISIBLE);
-//        ivEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
-
-
-        ivDelete.setVisibility(View.VISIBLE);
+        ivDelete.setImageResource(R.drawable.ic_delete_black_24dp);
 
         return true;
     }

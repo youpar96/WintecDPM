@@ -1,0 +1,181 @@
+[1mdiff --git a/.idea/assetWizardSettings.xml b/.idea/assetWizardSettings.xml[m
+[1mdeleted file mode 100644[m
+[1mindex 8be2503..0000000[m
+[1m--- a/.idea/assetWizardSettings.xml[m
+[1m+++ /dev/null[m
+[36m@@ -1,46 +0,0 @@[m
+[31m-<?xml version="1.0" encoding="UTF-8"?>[m
+[31m-<project version="4">[m
+[31m-  <component name="WizardSettings">[m
+[31m-    <option name="children">[m
+[31m-      <map>[m
+[31m-        <entry key="vectorWizard">[m
+[31m-          <value>[m
+[31m-            <PersistentState>[m
+[31m-              <option name="children">[m
+[31m-                <map>[m
+[31m-                  <entry key="vectorAssetStep">[m
+[31m-                    <value>[m
+[31m-                      <PersistentState>[m
+[31m-                        <option name="children">[m
+[31m-                          <map>[m
+[31m-                            <entry key="clipartAsset">[m
+[31m-                              <value>[m
+[31m-                                <PersistentState>[m
+[31m-                                  <option name="values">[m
+[31m-                                    <map>[m
+[31m-                                      <entry key="url" value="jar:file:/Z:/Android/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_delete_black_24dp.xml" />[m
+[31m-                                    </map>[m
+[31m-                                  </option>[m
+[31m-                                </PersistentState>[m
+[31m-                              </value>[m
+[31m-                            </entry>[m
+[31m-                          </map>[m
+[31m-                        </option>[m
+[31m-                        <option name="values">[m
+[31m-                          <map>[m
+[31m-                            <entry key="outputName" value="ic_delete_black_24dp" />[m
+[31m-                            <entry key="sourceFile" value="C:\Users\Rahul" />[m
+[31m-                          </map>[m
+[31m-                        </option>[m
+[31m-                      </PersistentState>[m
+[31m-                    </value>[m
+[31m-                  </entry>[m
+[31m-                </map>[m
+[31m-              </option>[m
+[31m-            </PersistentState>[m
+[31m-          </value>[m
+[31m-        </entry>[m
+[31m-      </map>[m
+[31m-    </option>[m
+[31m-  </component>[m
+[31m-</project>[m
+\ No newline at end of file[m
+[1mdiff --git a/.idea/caches/build_file_checksums.ser b/.idea/caches/build_file_checksums.ser[m
+[1mindex 855a1fd..a5af3e3 100644[m
+Binary files a/.idea/caches/build_file_checksums.ser and b/.idea/caches/build_file_checksums.ser differ
+[1mdiff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml[m
+[1mindex 2de4234..ab12402 100644[m
+[1m--- a/app/src/main/AndroidManifest.xml[m
+[1m+++ b/app/src/main/AndroidManifest.xml[m
+[36m@@ -15,6 +15,7 @@[m
+             android:theme="@style/SplashTheme">[m
+             <intent-filter>[m
+                 <action android:name="android.intent.action.MAIN" />[m
+[32m+[m
+                 <category android:name="android.intent.category.LAUNCHER" />[m
+             </intent-filter>[m
+         </activity>[m
+[36m@@ -22,7 +23,6 @@[m
+         <activity[m
+             android:name=".DialogActivity"[m
+             android:theme="@android:style/Theme.Dialog" />[m
+[31m-[m
+         <activity[m
+             android:name=".AuthorityCheck"[m
+             android:theme="@android:style/Theme.Dialog"/>[m
+[1mdiff --git a/app/src/main/java/nz/park/kenneth/wintecdm/DetailPathway.java b/app/src/main/java/nz/park/kenneth/wintecdm/DetailPathway.java[m
+[1mindex cd8608f..0b6487e 100644[m
+[1m--- a/app/src/main/java/nz/park/kenneth/wintecdm/DetailPathway.java[m
+[1m+++ b/app/src/main/java/nz/park/kenneth/wintecdm/DetailPathway.java[m
+[36m@@ -1,18 +1,11 @@[m
+ package nz.park.kenneth.wintecdm;[m
+ [m
+[31m-import android.content.Context;[m
+ import android.content.Intent;[m
+[31m-import android.graphics.Color;[m
+[31m-import android.graphics.Rect;[m
+ import android.support.v7.app.AppCompatActivity;[m
+ import android.os.Bundle;[m
+[31m-import android.text.InputType;[m
+[31m-import android.view.MotionEvent;[m
+ import android.view.View;[m
+ import android.view.ViewGroup;[m
+[31m-import android.view.inputmethod.InputMethodManager;[m
+ import android.widget.BaseExpandableListAdapter;[m
+[31m-import android.widget.EditText;[m
+ import android.widget.ExpandableListAdapter;[m
+ import android.widget.ExpandableListView;[m
+ import android.widget.ImageView;[m
+[36m@@ -29,7 +22,6 @@[m [mpublic class DetailPathway extends AppCompatActivity {[m
+     // View objects[m
+     ExpandableListView pathwayList;[m
+     TextView tvDetailPathway;[m
+[31m-    ImageView delete;[m
+ [m
+     // Variables[m
+     nz.park.kenneth.wintecdm.ExpandableListAdapter listAdapter;[m
+[36m@@ -68,7 +60,7 @@[m [mpublic class DetailPathway extends AppCompatActivity {[m
+         String pathWay = i.getStringExtra("pathWay");[m
+         String title = "Pathway > ";[m
+ [m
+[31m-        switch (pathWay) {[m
+[32m+[m[32m        switch(pathWay){[m
+             case "S":[m
+                 title += "Software Engineering";[m
+                 break;[m
+[36m@@ -92,66 +84,34 @@[m [mpublic class DetailPathway extends AppCompatActivity {[m
+ [m
+         pathwayList = findViewById(R.id.pathwayList);[m
+         listAdapter = new nz.park.kenneth.wintecdm.ExpandableListAdapter(this, semesterList, programmeMap);[m
+[31m-        pathwayList.setAdapter(listAdapter);[m
+[31m-[m
+ [m
+[32m+[m[32m        pathwayList.setAdapter(listAdapter);[m
+     }[m
+ [m
+[31m-    public void init() {[m
+[32m+[m[32m    public void init(){[m
+         yearList = new ArrayList<String>();[m
+         semesterList = new ArrayList<String>();[m
+         programmeMap = new HashMap<String, List<String>>();[m
+ [m
+         // set years[m
+[31m-        for (int i = 0; i < YEAR_COUNT; i++) {[m
+[32m+[m[32m        for(int i=0; i<YEAR_COUNT; i++){[m
+             yearList.add("Year" + (i + 1));[m
+         }[m
+ [m
+         // set semesters[m
+[31m-        for (int i = 0; i < SEMESTER_COUNT; i++) {[m
+[32m+[m[32m        for(int i=0; i<SEMESTER_COUNT; i++){[m
+             semesterList.add("Semester" + (i + 1));[m
+         }[m
+ [m
+         // set programmes[m
+[31m-        for (int i = 0; i < SEMESTER_COUNT; i++) {[m
+[32m+[m[32m        for(int i=0; i<SEMESTER_COUNT; i++){[m
+             programmeList = new ArrayList<String>();[m
+ [m
+[31m-            for (int j = 0; j < softwareProgrammeNames[i].length; j++) {[m
+[32m+[m[32m            for(int j=0; j<softwareProgrammeNames[i].length; j++){[m
+                 programmeList.add(softwareProgrammeCodes[i][j] + " | " + softwareProgrammeNames[i][j]);[m
+             }[m
+ [m
+             programmeMap.put(semesterList.get(i), programmeList);[m
+         }[m
+     }[m
+[31m-[m
+[31m-    @Override[m
+[31m-    public boolean dispatchTouchEvent(MotionEvent event) {[m
+[31m-        if (event.getAction() == MotionEvent.ACTION_DOWN) {[m
+[31m-            View v = getCurrentFocus();[m
+[31m-[m
+[31m-            if (v instanceof EditText) {[m
+[31m-                Rect outRect = new Rect();[m
+[31m-                v.getGlobalVisibleRect(outRect);[m
+[31m-                EditText et = ((EditText) v);[m
+[31m-                et.setBackgroundColor(Color.WHITE);[m
+[31m-                et.setCursorVisible(false);[m
+[31m-                et.setInputType(InputType.TYPE_NULL);[m
+[31m-[m
+[31m-//                ImageView edit = (ImageView) findViewById(R.id.editModule);[m
+[31m-//                edit.setVisibility(View.INVISIBLE);[m
+[31m-                delete = findViewById(R.id.deleteModule);[m
+[31m-                delete.setVisibility(View.INVISIBLE);[m
+[31m-[m
+[31m-[m
+[31m-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {[m
+[31m-                    v.clearFocus();[m
+[31m-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);[m
+[31m-                    im

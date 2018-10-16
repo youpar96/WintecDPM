@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -54,7 +55,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         EditText txtListChild = (EditText) convertView.findViewById(R.id.lblListItem);
+        txtListChild.setBackgroundColor(Color.WHITE);
+        txtListChild.setCursorVisible(false);
 
+        ((ImageView) convertView.findViewById(R.id.deleteModule)).setImageResource(0);
 
         if (Session.IsAdmin()) {
             _listener = new ModuleClickListener(convertView);
