@@ -22,7 +22,7 @@ public class SelectPathway extends AppCompatActivity implements View.OnClickList
         // display the disclaimer to students
         if("S".equals(userType)) {
             Intent it = new Intent(getApplicationContext(), DialogActivity.class);
-            startActivity(i);
+            startActivity(it);
         }
 
         cvSoftware = findViewById(R.id.cvSoftware);
