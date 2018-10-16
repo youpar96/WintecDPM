@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         cvStudent.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getApplicationContext(), SelectPathway.class);
+                i.putExtra("userType", "S");
                 startActivity(i);
             }
         });
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         cvManager.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 // before moving to the activity to select pathway, must check the password
-                Intent i = new Intent(getApplicationContext(), SelectPathway.class);
+                Intent i = new Intent(getApplicationContext(), AuthorityCheck.class);
                 startActivity(i);
             }
         });
