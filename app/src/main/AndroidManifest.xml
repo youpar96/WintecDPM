@@ -19,9 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".DialogActivity"
             android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".AuthorityCheck"
+            android:theme="@android:style/Theme.Dialog"/>
+
+
         <activity android:name=".MainActivity" />
 
         <meta-data
@@ -29,7 +35,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".SelectPathway" />
-        <activity android:name=".DetailPathway"></activity>
+        <activity android:name=".DetailPathway" />
     </application>
 
 </manifest>

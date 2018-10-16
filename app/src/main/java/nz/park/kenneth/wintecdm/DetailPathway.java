@@ -58,21 +58,20 @@ public class DetailPathway extends AppCompatActivity {
         tvDetailPathway = findViewById(R.id.tvDetailPathway);
 
         String pathWay = i.getStringExtra("pathWay");
-        String title = "";
-        int imgId = 0;
+        String title = "Pathway > ";
 
         switch(pathWay){
             case "S":
-                title = "Software Engineering";
+                title += "Software Engineering";
                 break;
             case "D":
-                title = "Database Architecture";
+                title += "Database Architecture";
                 break;
             case "N":
-                title = "Networking";
+                title += "Networking";
                 break;
             case "W":
-                title = "Multi Media Web Development";
+                title += "Multi Media Web Development";
                 break;
             default:
                 break;
@@ -109,7 +108,7 @@ public class DetailPathway extends AppCompatActivity {
             programmeList = new ArrayList<String>();
 
             for(int j=0; j<softwareProgrammeNames[i].length; j++){
-                programmeList.add(softwareProgrammeNames[i][j]);
+                programmeList.add(softwareProgrammeCodes[i][j] + " | " + softwareProgrammeNames[i][j]);
             }
 
             programmeMap.put(semesterList.get(i), programmeList);

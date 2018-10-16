@@ -16,8 +16,14 @@ public class SelectPathway extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pathway);
 
-        Intent i = new Intent(getApplicationContext(), DialogActivity.class);
-        startActivity(i);
+        Intent i = getIntent();
+        String userType = i.getStringExtra("userType");
+
+        // display the disclaimer to students
+        if("S".equals(userType)) {
+            Intent it = new Intent(getApplicationContext(), DialogActivity.class);
+            startActivity(i);
+        }
 
         cvSoftware = findViewById(R.id.cvSoftware);
         cvDatabase = findViewById(R.id.cvDatabase);
