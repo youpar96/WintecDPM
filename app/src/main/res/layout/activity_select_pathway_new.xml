@@ -19,6 +19,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:itemIconTint="@color/wintecBasicBlack"
+        app:itemTextColor="@color/wintecBasicBlack"
         app:headerLayout="@layout/nav_header_select_pathway"
         app:menu="@menu/activity_select_pathway_new_drawer" />
 
