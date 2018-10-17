@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
         cvStudent.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent i = new Intent(getApplicationContext(), SelectPathway.class);
+                // Change the SelectPathway screen to SelectPathwayActivity
+                //Intent i = new Intent(getApplicationContext(), SelectPathway.class);
+                Intent i = new Intent(getApplicationContext(), SelectPathwayActivity.class);
                 i.putExtra("userType", "S");
                 startActivity(i);
             }

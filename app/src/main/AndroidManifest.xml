@@ -19,15 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".DialogActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".AuthorityCheck"
-            android:theme="@android:style/Theme.Dialog"/>
-
-
+            android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".MainActivity" />
 
         <meta-data
@@ -36,6 +33,10 @@
 
         <activity android:name=".SelectPathway" />
         <activity android:name=".DetailPathway" />
+        <activity
+            android:name=".SelectPathwayActivity"
+            android:label="@string/title_activity_select_pathway"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
