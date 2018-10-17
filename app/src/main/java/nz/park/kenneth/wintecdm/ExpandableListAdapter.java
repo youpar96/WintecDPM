@@ -88,7 +88,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    R.layout.activity_my_pathway.
                 }
             });
 
