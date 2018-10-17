@@ -22,8 +22,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
     private Map<String, List<Structure>> _mylistDataChild;
-
     private boolean _ismyPathway = false;
+
+    private CheckListener _listener;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<String>> listChildData) {
@@ -84,19 +85,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             CheckBox chbox = convertView.findViewById(R.id.chkCompleted);
             Structure _val = (Structure) _child;
             chbox.setChecked(_val.getCompleted());
-            chbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                }
-            });
+            _listener= new CheckListener(convertView.getRootView());
+            chbox.setOnCheckedChangeListener(_listener);
 
 
             boolean _enabled = _val.getEnabled();
             chbox.setEnabled(_enabled);
             txtListChild.setAlpha(_enabled ? 1f : 0.5f);
-
-
         }
 
         return convertView;
@@ -144,6 +140,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 
+        if (_ismyPathway) {
+
+
+        }
 
         return convertView;
     }
