@@ -4,26 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top"
     android:orientation="vertical"
-    tools:context=".DetailPathway">
+    tools:context="nz.park.kenneth.wintecdm.MyPathway">
 
     <TextView
-        android:id="@+id/tvDetailPathway"
+        android:id="@+id/tvmyDetailPathway"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:padding="10dp"
         android:background="@color/wintecBasicBackground"
+        android:padding="10dp"
         android:gravity="center_vertical"
-        android:text="Detail Pathway"
+        android:text="My Pathway"
         android:textStyle="bold"
         android:textSize="20dp"
         android:textColor="@color/wintecBasicBlack"/>
 
     <ExpandableListView
-        android:id="@+id/pathwayList"
+        android:id="@+id/mypathwayList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        />
 
 </LinearLayout>
-

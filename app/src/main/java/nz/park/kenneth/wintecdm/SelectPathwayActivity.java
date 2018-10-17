@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -50,7 +52,7 @@ public class SelectPathwayActivity extends AppCompatActivity
 
 
         // display the disclaimer to students
-        if("S".equals(userType)) {
+        if ("S".equals(userType)) {
             Intent it = new Intent(getApplicationContext(), DialogActivity.class);
             startActivity(it);
         }
@@ -104,15 +106,22 @@ public class SelectPathwayActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        Intent _intent = null;
+        switch (id) {
+            case R.id.nav_camera:
+                break;
+            case R.id.nav_gallery:
+                break;
+            case R.id.nav_mypathway:
+                _intent = new Intent(getApplicationContext(), MyPathway.class);
+                break;
+            case R.id.nav_manage:
+                break;
 
         }
+
+        startActivity(_intent);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -124,7 +133,7 @@ public class SelectPathwayActivity extends AppCompatActivity
         Intent i = new Intent(this, DetailPathway.class);
         String pathWay = null;
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.cvSoftware:
                 pathWay = "S";
                 break;
