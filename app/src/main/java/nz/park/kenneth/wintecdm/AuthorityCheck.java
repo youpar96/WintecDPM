@@ -32,7 +32,7 @@ public class AuthorityCheck extends Activity {
 
                 // checking password
                 if(CheckAuthority.check(password)){
-                    Intent i = new Intent(getApplicationContext(), SelectPathway.class);
+                    Intent i = new Intent(getApplicationContext(), SelectPathwayActivity.class);
                     i.putExtra("userType", "M");
                     startActivity(i);
                     finish();
