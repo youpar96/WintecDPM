@@ -31,7 +31,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".SelectPathway" />
         <activity android:name=".DetailPathway" />
         <activity
             android:name=".SelectPathwayActivity"
