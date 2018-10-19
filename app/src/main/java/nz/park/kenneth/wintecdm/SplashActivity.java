@@ -2,19 +2,11 @@ package nz.park.kenneth.wintecdm;
 
 import android.content.Intent;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import nz.park.kenneth.wintecdm.database.DBHelper;
-import nz.park.kenneth.wintecdm.database.TableClients;
-import nz.park.kenneth.wintecdm.database.TableModules;
-import nz.park.kenneth.wintecdm.database.TablePathwayModule;
-import nz.park.kenneth.wintecdm.database.TablePathways;
-import nz.park.kenneth.wintecdm.database.TableStudentPathway;
-import nz.park.kenneth.wintecdm.database.TableStudents;
 
 public class SplashActivity extends AppCompatActivity {
 

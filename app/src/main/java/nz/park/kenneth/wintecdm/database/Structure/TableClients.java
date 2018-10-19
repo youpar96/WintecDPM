@@ -1,4 +1,4 @@
-package nz.park.kenneth.wintecdm.database;
+package nz.park.kenneth.wintecdm.database.Structure;
 
 public class TableClients {
     public static final String TABLE_NAME = "clients";
