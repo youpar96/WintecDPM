@@ -6,6 +6,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nz.park.kenneth.wintecdm.database.DBHelper;
 
 public class SplashActivity extends AppCompatActivity {
@@ -28,6 +31,10 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, TIME_OUT);
         _database = new DBHelper(getApplicationContext(), null);
+
+        //sample stuff
+        //List<?> _students = _database.GetStudentByWintecId(100000);
+
     }
 
 

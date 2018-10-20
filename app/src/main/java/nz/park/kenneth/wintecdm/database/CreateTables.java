@@ -65,12 +65,12 @@ public class CreateTables implements Closeable{
     }
 
     private void createClients() {
-        String queryClients =
-                "CREATE TABLE IF NOT EXISTS " + TableClients.TABLE_NAME +
-                        "(" + TableClients.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                        TableClients.COLUMN_NAME + " VARCHAR NOT NULL)";
-
-        _db.execSQL(queryClients);
+//        String queryClients =
+//                "CREATE TABLE IF NOT EXISTS " + TableClients.TABLE_NAME +
+//                        "(" + TableClients.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+//                        TableClients.COLUMN_NAME + " VARCHAR NOT NULL)";
+//
+//        _db.execSQL(queryClients);
     }
 
     private void createPathwayModule() {

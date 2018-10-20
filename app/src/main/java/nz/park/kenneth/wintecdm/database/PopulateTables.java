@@ -1,5 +1,4 @@
 package nz.park.kenneth.wintecdm.database;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,8 +11,9 @@ import java.lang.reflect.Field;
 public class PopulateTables implements Closeable{
 
     private SQLiteDatabase _dbHelper;
-    private static final String PACKAGE = "nz.park.kenneth.wintecdm.database.";
-    private static String TAG="Populate data";
+    private static final String PACKAGE = "nz.park.kenneth.wintecdm.database."; //common package path
+    private static final String TAG="Populate data"; //log stuff
+    private static final String DATA_ATTRIBUTE="content"; //Property name in each data file
 
     public PopulateTables(Closeable db){
 
@@ -31,7 +31,7 @@ public class PopulateTables implements Closeable{
     private boolean Validate(String table) {
 
         boolean _return = false;
-        Cursor c = _dbHelper.rawQuery("SELECT * FROM " + table + " Limit 5", null);
+        Cursor c = _dbHelper.rawQuery("SELECT * FROM " + table + " Limit 2", null);
         c.moveToFirst();
         _return = c.moveToFirst();
         c.close();
@@ -49,7 +49,7 @@ public class PopulateTables implements Closeable{
                 Class _dataClass = Class.forName(String.format("%sData.%s", PACKAGE, _tableName));
 
 
-                Field _datafield = _dataClass.getDeclaredField("content");
+                Field _datafield = _dataClass.getDeclaredField(DATA_ATTRIBUTE);
                 _datafield.setAccessible(true);
 
 
