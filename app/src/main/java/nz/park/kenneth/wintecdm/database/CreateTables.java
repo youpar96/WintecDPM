@@ -9,13 +9,14 @@ import nz.park.kenneth.wintecdm.database.Structure.TableClients;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePathwayModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePathways;
+import nz.park.kenneth.wintecdm.database.Structure.TablePreRequisites;
 import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
 
-public class CreateTables implements Closeable{
+public class CreateTables implements Closeable {
 
     SQLiteDatabase _db;
 
-    public CreateTables(Closeable db){
+    public CreateTables(Closeable db) {
         this._db = (SQLiteDatabase) db;
 
 
@@ -23,6 +24,7 @@ public class CreateTables implements Closeable{
         createPathways();
         createStudents();
         createPathwayModule();
+        createPreRequisites();
     }
 
     private void createStudents() {
@@ -44,7 +46,6 @@ public class CreateTables implements Closeable{
                         TableModules.COLUMN_NAME + " VARCHAR NOT NULL, " +
                         TableModules.COLUMN_CODE + " VARCHAR NOT NULL, " +
                         TableModules.COLUMN_CREDITS + " INTEGER NOT NULL, " +
-                        TableModules.COLUMN_PREREQ + " VARCHAR  NULL, " +
                         TableModules.COLUMN_DETAILS + " TEXT, " +
                         TableModules.COLUMN_SEMESTER + " INTEGER NOT NULL," +
                         TableModules.COLUMN_LEVEL + " INTEGER NOT NULL, " +
@@ -64,13 +65,19 @@ public class CreateTables implements Closeable{
         _db.execSQL(queryPathways);
     }
 
-    private void createClients() {
-//        String queryClients =
-//                "CREATE TABLE IF NOT EXISTS " + TableClients.TABLE_NAME +
-//                        "(" + TableClients.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-//                        TableClients.COLUMN_NAME + " VARCHAR NOT NULL)";
-//
-//        _db.execSQL(queryClients);
+    private void createPreRequisites() {
+        String queryClients =
+                "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.PreRequisites +
+                        "(" + TablePreRequisites.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        TablePreRequisites.COLUMN_STREAM + " INT NOT NULL, " +
+                        TablePreRequisites.COLUMN_CODE + " VARCHAR NOT NULL, " +
+                        TablePreRequisites.COLUMN_PREREQ + " VARCHAR, " +
+                        TablePreRequisites.COLUMN_COMBINATION + " INT DEFAULT 0, " +
+                        "FOREIGN KEY(" + TablePreRequisites.COLUMN_CODE + ") REFERENCES " + DBHelper.Tables.Modules + "(" + TableModules.COLUMN_CODE + "), " +
+                        "FOREIGN KEY(" + TablePreRequisites.COLUMN_STREAM + ") REFERENCES " + DBHelper.Tables.Pathways + "(" + TablePathways.COLUMN_ID + "))";
+
+
+        _db.execSQL(queryClients);
     }
 
     private void createPathwayModule() {

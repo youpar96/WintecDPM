@@ -11,16 +11,18 @@ import java.util.Collection;
 import java.util.List;
 
 import nz.park.kenneth.wintecdm.Structure;
+import nz.park.kenneth.wintecdm.database.Data.PreRequisites;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
+import nz.park.kenneth.wintecdm.database.Structure.TablePreRequisites;
 import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
 
 
 public class DBHelper extends SQLiteOpenHelper {
 
     private static String DB_NAME = "wintec_dpm.db";
-    private static final Integer DB_VERSION = 3;
+    private static final Integer DB_VERSION = 1;
 
-    public enum Tables {Modules, Pathways, PathwayModules, Students, StudentPathway}
+    public enum Tables {Modules, Pathways, PathwayModules, Students, StudentPathway, PreRequisites}
 
     private SQLiteDatabase _dbHelper;
 
@@ -29,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         super(context, DB_NAME, factory, DB_VERSION);
 
-        // context.deleteDatabase(DB_NAME); //for test purpose
+       // context.deleteDatabase(DB_NAME); //for test purpose
         this._dbHelper = getInstance();
 
     }
@@ -56,13 +58,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return _dbHelper.rawQuery(query, params);
     }
 
+
+    //without pre-req
+    public List<?> GetAllModules() {
+        _dbHelper = getReadableDatabase();
+        Cursor c = ExecuteQuery("select * from " + Tables.Modules);
+        return SelectAllModules(c);
+    }
+
+
     //Modules
     //implement where params later
-    public Collection<TableModules> SelectAllModules() {
+    private List<TableModules> SelectAllModules(Cursor c) {
 
         List<TableModules> _returnList = new ArrayList<TableModules>();
-        _dbHelper = getReadableDatabase();
-        Cursor c = ExecuteQuery("select * from " + Tables.Modules); //db.rawQuery(", null);
 
         if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
@@ -78,14 +87,35 @@ public class DBHelper extends SQLiteOpenHelper {
                     String _url = c.getString(c.getColumnIndex(TableModules.COLUMN_URL));
 
                     //pre-req change
+                    Cursor _prereqCursor = ExecuteQuery("select * from " + Tables.PreRequisites + " where " +
+                            TablePreRequisites.COLUMN_CODE + "='" + _code + "';");
 
-                    _returnList.add(new TableModules(_id, _name, _code, _credits, null, _details, _sem, _level, _url));
+                    List<TablePreRequisites> _prereqs = null;
+                    if (_prereqCursor.moveToFirst()) {
+
+                        _prereqs = new ArrayList<TablePreRequisites>();
+
+                        do {
+                            String _prereqCode = _prereqCursor.getString(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_PREREQ));
+                            int _prereqCombination = _prereqCursor.getInt(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_COMBINATION));
+
+                            _prereqs.add(new TablePreRequisites(_prereqCode, _prereqCombination == 1));
+
+                        }
+                        while (_prereqCursor.moveToNext());
+
+                    }
+                    _prereqCursor.close();
+
+                    _returnList.add(new TableModules(_id, _name, _code, _credits, _details, _sem, _level, _url,_prereqs));
 
                 }
                 c.moveToNext();
             }
         }
         _dbHelper.close();
+
+        c.close();
         return _returnList;
     }
 
@@ -118,7 +148,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public List<?> GetStudentByWintecId(int id) {
         _dbHelper = getReadableDatabase();
-        Cursor c = ExecuteQuery("select * from " + Tables.Students + " where "+TableStudents.COLUMN_ID_WINTEC+"=?", String.valueOf(id));
+        Cursor c = ExecuteQuery("select * from " + Tables.Students + " where " + TableStudents.COLUMN_ID_WINTEC + "=?", String.valueOf(id));
         return SelectStudents(c);
     }
 

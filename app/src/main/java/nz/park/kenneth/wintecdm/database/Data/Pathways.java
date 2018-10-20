@@ -3,6 +3,7 @@ package nz.park.kenneth.wintecdm.database.Data;
 public class Pathways {
 
     public static String[][] content = {
+            {"0", "General"},
             {"1", "Network Engineering"},
             {"2", "Software Engineering"},
             {"3", "Database Architecture"},

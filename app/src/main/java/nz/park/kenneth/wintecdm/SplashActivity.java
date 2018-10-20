@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
         _database = new DBHelper(getApplicationContext(), null);
 
         //sample stuff
-        //List<?> _students = _database.GetStudentByWintecId(100000);
+        //List<?> _modules = _database.GetAllModules();
 
     }
 

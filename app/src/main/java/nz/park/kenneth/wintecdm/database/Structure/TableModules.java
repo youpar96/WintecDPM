@@ -1,9 +1,10 @@
 package nz.park.kenneth.wintecdm.database.Structure;
 
+import java.util.List;
+
 import nz.park.kenneth.wintecdm.database.FieldOrder;
 
 public class TableModules {
-
 
 
     public static final String COLUMN_ID = "id";
@@ -13,43 +14,42 @@ public class TableModules {
     public static final String COLUMN_CODE = "code";
     @FieldOrder(order = 3)
     public static final String COLUMN_CREDITS = "credits";
+    //    @FieldOrder(order = 4)
+//    public static final String COLUMN_PREREQ = "prereq";
     @FieldOrder(order = 4)
-    public static final String COLUMN_PREREQ = "prereq";
-    @FieldOrder(order = 5)
     public static final String COLUMN_DETAILS = "details";
-    @FieldOrder(order = 6)
+    @FieldOrder(order = 5)
     public static final String COLUMN_SEMESTER = "semester";
-    @FieldOrder(order = 7)
+    @FieldOrder(order = 6)
     public static final String COLUMN_LEVEL = "level";
-    @FieldOrder(order = 8)
+    @FieldOrder(order = 7)
     public static final String COLUMN_URL = "url";
-
 
 
     private int _id;
     private String _name;
     private String _code;
     private int _credits;
-    private String _prereq;
     private String _details;
     private int _sem;
     private int _level;
     private String _url;
+    private List<TablePreRequisites> _prereqs = null;
 
-    public TableModules(){
+    public TableModules() {
 
     }
 
-    public TableModules(int id,String name,String code,int credits,String prereq,String details,int semester,int level,String url){
-        this._id=id;
-        this._name=name;
-        this._code=code;
-        this._credits=credits;
-        this._prereq=prereq;
-        this._sem=semester;
-        this._level=level;
-        this._url=url;
 
+    public TableModules(int id, String name, String code, int credits, String details, int semester, int level, String url, List<TablePreRequisites> prereqs) {
+        this._id = id;
+        this._name = name;
+        this._code = code;
+        this._credits = credits;
+        this._sem = semester;
+        this._level = level;
+        this._url = url;
+        this._prereqs = prereqs;
     }
 
 
@@ -85,13 +85,6 @@ public class TableModules {
         this._credits = _credits;
     }
 
-    public String get_prereq() {
-        return _prereq;
-    }
-
-    public void set_prereq(String _prereq) {
-        this._prereq = _prereq;
-    }
 
     public String get_details() {
         return _details;
@@ -125,7 +118,13 @@ public class TableModules {
         this._url = _url;
     }
 
+    public List<TablePreRequisites> get_prereqs() {
+        return _prereqs;
+    }
 
+    public void set_prereqs(List<TablePreRequisites> _prereqs) {
+        this._prereqs = _prereqs;
+    }
 
 
 }
