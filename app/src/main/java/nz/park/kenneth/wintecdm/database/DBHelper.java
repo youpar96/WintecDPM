@@ -54,8 +54,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.delete(Tables.Modules.toString(),null,null);
-        db.delete(Tables.PathwayModules.toString(),null,null);
+        //Test purpose
+        db.delete(Tables.Modules.toString(), null, null);
+        db.delete(Tables.PathwayModules.toString(), null, null);
 
         onCreate(db);
     }
@@ -133,8 +134,9 @@ public class DBHelper extends SQLiteOpenHelper {
         _dbHelper = getReadableDatabase();
 
         String _query = "select * from " + Tables.Modules + " inner join "
-                + Tables.PathwayModules + " on " + TableModules.COLUMN_CODE + "=" + TablePathwayModules.COLUMN_ID_MODULE +
-                " where " + TablePathwayModules.COLUMN_ID_PATHWAY + " IN (" + path.ordinal()+",0) order by "+TableModules.COLUMN_SEMESTER;
+                + Tables.PathwayModules + " on " + TableModules.COLUMN_CODE + "=" + TablePathwayModules.COLUMN_ID_MODULE
+                +" where " + TablePathwayModules.COLUMN_ID_PATHWAY + " IN (" + path.ordinal() + ",0) order by " + TableModules.COLUMN_SEMESTER
+                +","+TableModules.COLUMN_CODE;
 
         Cursor c = ExecuteQuery(_query);
         return SelectAllModules(c);
