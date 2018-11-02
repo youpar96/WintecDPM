@@ -14,26 +14,17 @@ import nz.park.kenneth.wintecdm.database.DBHelper;
 public class SplashActivity extends AppCompatActivity {
 
     private static int TIME_OUT = 3000;
-    DBHelper _database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        // To delete database
-        //getApplicationContext().deleteDatabase(NAME_DATABASE);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 moveToMainActivity();
             }
         }, TIME_OUT);
-        _database = new DBHelper(getApplicationContext(), null);
-
-        //sample stuff
-        //List<?> _modules = _database.GetAllModules();
 
     }
 

@@ -5,11 +5,26 @@ public class PathwayModules {
     //1-Networking, 2-Software,3-Database,4-Web
     public static String[][] content = {
 
+
+            {"0", "COMP501"},
+            {"0", "COMP502​"},
+            {"0", "INFO501​"},
+            {"0", "INFO502​"},
+            {"0", "COMP503​"},
+            {"0", "COMP504​"},
+            {"0", "INFO503​"},
+            {"0", "INFO504​"},
+            {"0", "COMP601​"},
+            {"0", "INFO601​"},
+
+
+
+
             {"1", "INFO603​"},
             {"1", "COMP604​"},
-            {"1", "COMP701​"},
             {"1", "COMP702​"},
             {"1", "COMP704"},
+            {"1", "COMP701​"},
             {"1", "COMP705​"},
             {"1", "INFO702​"},
             {"1", "COMP703"},
