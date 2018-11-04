@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class NavigationMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +48,24 @@ public class NavigationMainActivity extends AppCompatActivity
         if ("S".equals(userType)) {
             Intent it = new Intent(getApplicationContext(), DialogActivity.class);
             startActivity(it);
+        }
+
+        // separate menu by userType
+        // create header view to get views from navigation view
+        View navHeader = navigationView.getHeaderView(0);
+        TextView navUserName = navHeader.findViewById(R.id.navUserName);
+
+        // students
+        if("S".equals(userType)){
+            navUserName.setText("Student");
+
+            navigationView.inflateMenu(R.menu.student_menu);
+        }
+        // managers (clients)
+        else if("M".equals(userType)){
+            navUserName.setText("Client");
+
+            navigationView.inflateMenu(R.menu.manager_menu);
         }
     }
 
