@@ -10,6 +10,7 @@ import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePathwayModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePathways;
 import nz.park.kenneth.wintecdm.database.Structure.TablePreRequisites;
+import nz.park.kenneth.wintecdm.database.Structure.TableStudentPathway;
 import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
 
 public class CreateTables implements Closeable {
@@ -25,6 +26,7 @@ public class CreateTables implements Closeable {
         createStudents();
         createPathwayModule();
         createPreRequisites();
+        createStudentPathway();
     }
 
     private void createStudents() {
@@ -93,16 +95,15 @@ public class CreateTables implements Closeable {
     }
 
     private void createStudentPathway() {
-//        String queryStudentPathway =
-//                "CREATE TABLE IF NOT EXISTS " + TableStudentPathway.TABLE_NAME +
-//                        "(" + TableStudentPathway.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
-//                        TableStudentPathway.COLUMN_ID_STUDENT + " INTEGER NOT NULL, " +
-//                        TableStudentPathway.COLUMN_ID_PATHWAY + " INTEGER NOT NULL, " +
-//                        TableStudentPathway.COLUMN_COMPLETED + " BOOLEAN, " +
-//                        "FOREIGN KEY(" + TableStudentPathway.COLUMN_ID_STUDENT + ") REFERENCES " + TableStudents.TABLE_NAME + "(" + TableStudents.COLUMN_ID + "), " +
-//                        "FOREIGN KEY(" + TableStudentPathway.COLUMN_ID_PATHWAY + ") REFERENCES " + TablePathways.TABLE_NAME + "(" + TablePathways.COLUMN_ID + "))";
-//
-//        _dbHelper.execSQL(queryStudentPathway);
+        String queryStudentPathway =
+                "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.StudentPathway.toString() +
+                        "(" + TableStudentPathway.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
+                        TableStudentPathway.COLUMN_STUDENT_ID + " INT NOT NULL, " +
+                        TableStudentPathway.COLUMN_MODULE + " VARCHAR, " +
+                        //TableStudentPathway.COLUMN_IS_ENABLED + " INT DEFAULT 0, " +
+                        TableStudentPathway.COLUMN_IS_COMPLETED + " INT DEFAULT 0 )";
+
+        _db.execSQL(queryStudentPathway);
     }
 
 

@@ -6,6 +6,7 @@ public class TablePreRequisites {
 
     public static final String COLUMN_ID="id";
     private String _code;
+    private String _prereq;
     private boolean _is_combo;
 
 
@@ -19,6 +20,14 @@ public class TablePreRequisites {
         this._code=code;
         this._is_combo=is_combo;
 
+    }
+
+    public String get_prereqcode() {
+        return _prereq;
+    }
+
+    public void set_prereqcode(String _code) {
+        this._prereq = _code;
     }
 
     public String get_code() {

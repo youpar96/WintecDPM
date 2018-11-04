@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -136,11 +137,28 @@ public class DBHelper extends SQLiteOpenHelper {
 
         String _query = "select * from " + Tables.Modules + " inner join "
                 + Tables.PathwayModules + " on substr(" + TableModules.COLUMN_CODE + ",1,7) = substr(" + TablePathwayModules.COLUMN_ID_MODULE
-                +",1,7) where " + TablePathwayModules.COLUMN_ID_PATHWAY + " IN (0,?) order by " + TableModules.COLUMN_SEMESTER
-                +","+TableModules.COLUMN_CODE;
+                + ",1,7) where " + TablePathwayModules.COLUMN_ID_PATHWAY + " IN (0,?) order by " + TableModules.COLUMN_SEMESTER
+                + "," + TableModules.COLUMN_CODE;
 
-        Cursor c = ExecuteQuery(_query,String.valueOf(path.ordinal()) );
+        Cursor c = ExecuteQuery(_query, String.valueOf(path.ordinal()));
         return SelectAllModules(c);
+    }
+
+    //custom student pathway
+    public ArrayList<?> GetModulesForStudent(int ID) {
+
+        //Get pathway from student ID
+        int _pathway = GetStudentByWintecId(ID).get_pathway();
+        List<TableModules> _modules= GetModulesByPathway(Pathways.PathwayEnum.values()[_pathway]);
+
+
+        String _query="select * from "+Tables.PreRequisites+" where substr("+TablePreRequisites.COLUMN_CODE+",1,7) in ()";
+       // ExecuteQuery();
+
+
+
+
+        return null;
     }
 
 
@@ -212,10 +230,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return SelectStudents(c);
     }
 
-    public List<?> GetStudentByWintecId(int id) {
+    public TableStudents GetStudentByWintecId(int id) {
         _dbHelper = getReadableDatabase();
         Cursor c = ExecuteQuery("select * from " + Tables.Students + " where " + TableStudents.COLUMN_ID_WINTEC + "=?", String.valueOf(id));
-        return SelectStudents(c);
+        return SelectStudents(c).get(0);
     }
 
     private List<TableStudents> SelectStudents(Cursor c) {
@@ -231,8 +249,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     int _wintec_id = c.getInt(c.getColumnIndex(TableStudents.COLUMN_ID_WINTEC));
                     String _degree = c.getString(c.getColumnIndex(TableStudents.COLUMN_DEGREE));
                     String _photo = c.getString(c.getColumnIndex(TableStudents.COLUMN_PHOTO));
-
-                    _returnList.add(new TableStudents(_id, _wintec_id, _name, _degree, _photo));
+                    int _pathway = c.getInt(c.getColumnIndex(TableStudents.COLUMN_PATHWAY));
+                    _returnList.add(new TableStudents(_id, _wintec_id, _name, _degree, _photo, _pathway));
 
                 }
                 c.moveToNext();

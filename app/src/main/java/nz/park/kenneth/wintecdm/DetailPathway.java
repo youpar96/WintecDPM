@@ -35,26 +35,6 @@ public class DetailPathway extends AppCompatActivity {
     List<String> yearList, semesterList, programmeList;
     HashMap<String, List<String>> programmeMap;
 
-//    private static final int YEAR_COUNT = 3;
-//    private static final int SEMESTER_COUNT = 6;
-
-//    private String[][] programmeNames = {
-//            {"IT Operations", "Fundamentals of Programming and Problem Solving", "Professional Practice", "Business Systems Analysis & Design"},
-//            {"Introduction to Networks (Cisco 1)", "Operating Systems & Systems Support", "Database Principles", "Technical Support"},
-//            {"Object Oriented Programming", "Data-modelling and SQL", "Mathematics for IT", "Web Development"},
-//            {"Business, Interpersonal Communications & Technical Writing", "The Web Environment", "Data Structures and Algorithms", "Mathmatics for programming"},
-//            {"Project Management", "Business Essentials for IT Professionals", "Big Data and Analytics", "Games Development"},
-//            {"Data-Warehousing and Business Intelligence", "Principles of Software Testing", "Mobile Apps Development", "Software Engineering Project"}
-//    };
-//
-//    private String[][] programmeCodes = {
-//            {"COMP501", "COMP502", "INFO501", "INFO502"},
-//            {"COMP503", "COMP504", "INFO503", "INFO504"},
-//            {"COMP601", "INFO601", "MATH601", "COMP602"},
-//            {"INFO602", "COMP603", "COMP605", "MATT602"},
-//            {"INFO701", "BIZM701", "INFO703", "COMP706"},
-//            {"INFO704", "COMP707", "COMP709", "COMP708"}
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +75,6 @@ public class DetailPathway extends AppCompatActivity {
         }
 
         ArrayList<TableModules> _values = _dbhelper.GetModulesByPathway(_path);
-
-
         tvDetailPathway.setText(title);
 
         // to prepare lists to display on expandable list view
@@ -135,21 +113,5 @@ public class DetailPathway extends AppCompatActivity {
 
         }
 
-
-        // set semesters
-//        for (int i = 0; i < SEMESTER_COUNT; i++) {
-//            semesterList.add("Semester" + (i + 1));
-//        }
-
-        // set programmes
-//        for (int i = 0; i < SEMESTER_COUNT; i++) {
-//            programmeList = new ArrayList<String>();
-//
-//            for (int j = 0; j < programmeNames[i].length; j++) {
-//                programmeList.add(programmeCodes[i][j] + " | " + programmeNames[i][j]);
-//            }
-//
-//            programmeMap.put(semesterList.get(i), programmeList);
-//        }
     }
 }
