@@ -17,11 +17,13 @@ public class PathwayModules {
             {"0", "INFO504​"},
             {"0", "COMP601​"},
             {"0", "INFO601​"},
-            {"0", "INFO602​"},
-            {"0", "INFO701​"},
-            {"0", "BIZM701​"},
             {"0", "MATH601​"},
             {"0", "COMP602"},
+            {"0", "INFO602​"},
+            {"0", "COMP603"},
+            {"0", "INFO701​"},
+            {"0", "BIZM701​"},
+
 
             //Networking
             {"1", "INFO603​"},
@@ -38,13 +40,11 @@ public class PathwayModules {
             {"2", "MATH602​"},
             {"2", "INFO703​"},
             {"2", "COMP706"},
+            {"2", "INFO704​"},
             {"2", "COMP707​"},
             {"2", "COMP709​"},
-            {"2", "INFO704​"},
-            {"2", "COMP605"},
-            {"2", "INFO602"},
-            {"2", "COMP603"},
             {"2", "COMP708"},
+
 
 
             //Database

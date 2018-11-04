@@ -10,15 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nz.park.kenneth.wintecdm.database.DBHelper;
+import nz.park.kenneth.wintecdm.database.Data.Pathways;
+import nz.park.kenneth.wintecdm.model.Pathway;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int TIME_OUT = 3000;
-
+    private static int TIME_OUT = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // To delete database
+        //getApplicationContext().deleteDatabase(NAME_DATABASE);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
