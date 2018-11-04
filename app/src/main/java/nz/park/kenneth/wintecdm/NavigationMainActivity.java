@@ -17,6 +17,8 @@ import android.widget.TextView;
 public class NavigationMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private boolean checkDisclaimer = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +46,14 @@ public class NavigationMainActivity extends AppCompatActivity
         Intent i = getIntent();
         String userType = i.getStringExtra("userType");
 
-        // display the disclaimer to students
+        // display the disclaimer to students - only once
         if ("S".equals(userType)) {
-            Intent it = new Intent(getApplicationContext(), DialogActivity.class);
-            startActivity(it);
+            if(!checkDisclaimer) {
+                Intent it = new Intent(getApplicationContext(), DialogActivity.class);
+                startActivity(it);
+
+                checkDisclaimer = true;
+            }
         }
 
         // separate menu by userType

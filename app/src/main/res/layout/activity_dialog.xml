@@ -68,18 +68,18 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <!--<Button
                 android:id="@+id/btnDialogCancel"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/rounded_button_cancel"
                 android:text="CANCEL"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF" />-->
 
             <Button
                 android:id="@+id/btnDialogOk"
-                android:layout_width="100dp"
+                android:layout_width="130dp"
                 android:layout_height="40dp"
                 android:background="@drawable/rounded_button_ok"
                 android:text="OK"
