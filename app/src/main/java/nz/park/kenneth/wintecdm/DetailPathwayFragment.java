@@ -36,7 +36,7 @@ public class DetailPathwayFragment extends Fragment {
     private String pathWay;
 
     // create constructor to get the pathWay value instead of getting from intent object
-    public DetailPathwayFragment(String pathWay){
+    public DetailPathwayFragment(String pathWay) {
         this.pathWay = pathWay;
     }
 

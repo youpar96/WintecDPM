@@ -1,13 +1,16 @@
 package nz.park.kenneth.wintecdm;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +19,9 @@ import nz.park.kenneth.wintecdm.database.DBHelper;
 import nz.park.kenneth.wintecdm.database.Data.Pathways;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 
-public class MyPathway extends AppCompatActivity {
+
+@SuppressLint("ValidFragment")
+public class MyPathwayFragment extends Fragment {
 
     ExpandableListView pathwayList;
     nz.park.kenneth.wintecdm.ExpandableListAdapter listAdapter;
@@ -25,29 +30,44 @@ public class MyPathway extends AppCompatActivity {
     DBHelper _dbhelper;
     Map<String, List<Structure>> programmeMap;
 
-    public MyPathway() {
+
+    public MyPathwayFragment() {
         semesterList = new ArrayList<String>();
         programmeMap = new HashMap<String, List<Structure>>();
-
     }
 
+    public static MyPathwayFragment newInstance(String param1, String param2) {
+        MyPathwayFragment fragment = new MyPathwayFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_pathway);
+        if (getArguments() != null) {
 
-        _dbhelper = new DBHelper(getApplicationContext(), null);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_my_pathway, container, false);
+        _dbhelper = new DBHelper(getContext(), null);
         ArrayList<TableModules> _values = _dbhelper.GetModulesByPathway(Pathways.PathwayEnum.Software);
         initialize(_values);
 
-        listAdapter = new nz.park.kenneth.wintecdm.ExpandableListAdapter(this, semesterList, programmeMap);
+        listAdapter = new nz.park.kenneth.wintecdm.ExpandableListAdapter(getContext(), semesterList, programmeMap);
 
 
-        pathwayList = findViewById(R.id.mypathwayList);
+        pathwayList = view.findViewById(R.id.mypathwayList);
         pathwayList.setAdapter(listAdapter);
-    }
 
+
+        return view;
+    }
 
     public void initialize(ArrayList<TableModules> modules) {
 
@@ -75,8 +95,4 @@ public class MyPathway extends AppCompatActivity {
         }
 
     }
-
-
 }
-
-
