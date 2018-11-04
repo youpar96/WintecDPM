@@ -2,6 +2,8 @@ package nz.park.kenneth.wintecdm.database.Data;
 
 public class Pathways {
 
+    public static enum PathwayEnum{Networking,Software,Db,Web}
+
     public static String[][] content = {
             {"0", "General"},
             {"1", "Network Engineering"},

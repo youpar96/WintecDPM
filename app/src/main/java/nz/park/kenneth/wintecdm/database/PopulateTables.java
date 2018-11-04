@@ -15,7 +15,6 @@ public class PopulateTables implements Closeable {
     private static final String PACKAGE = "nz.park.kenneth.wintecdm.database."; //common package path
     private static final String TAG = "Populate data"; //log stuff
     private static final String DATA_ATTRIBUTE = "content"; //Property name in each data file
-
     private static final String STRUCTURE = "Structure.Table";
     private static final String DATA = "Data.";
 
@@ -45,15 +44,12 @@ public class PopulateTables implements Closeable {
 
     public void populate(DBHelper.Tables table) {
 
-
         String _tableName = table.toString();
         try {
 
             if (!Validate(_tableName)) {
                 Class<?> _class = Class.forName(String.format("%s%s%s", PACKAGE, STRUCTURE, _tableName));
                 Class _dataClass = Class.forName(String.format("%s%s%s", PACKAGE, DATA, _tableName));
-
-
                 Field _datafield = _dataClass.getDeclaredField(DATA_ATTRIBUTE);
                 _datafield.setAccessible(true);
 
@@ -68,9 +64,7 @@ public class PopulateTables implements Closeable {
                             _values.put(f.get(_class.newInstance()).toString(), eachModule[index - 1]);
                             index++;
                         }
-
                     }
-
 
                     long _check = _dbHelper.insertOrThrow(_tableName, null, _values);
 

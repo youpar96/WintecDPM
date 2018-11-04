@@ -12,39 +12,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nz.park.kenneth.wintecdm.database.DBHelper;
+import nz.park.kenneth.wintecdm.database.Data.Pathways;
+import nz.park.kenneth.wintecdm.database.Structure.TableModules;
+
 public class MyPathway extends AppCompatActivity {
 
     ExpandableListView pathwayList;
     nz.park.kenneth.wintecdm.ExpandableListAdapter listAdapter;
     List<String> yearList, semesterList;
 
-    Map<String,List<Structure>> programmeMap;
+    DBHelper _dbhelper;
+    Map<String, List<Structure>> programmeMap;
 
-    public MyPathway(){
+    public MyPathway() {
         semesterList = new ArrayList<String>();
-        programmeMap = new HashMap<String,List<Structure>>();
+        programmeMap = new HashMap<String, List<Structure>>();
 
-    }
-
-    //Test data
-    private List<Structure> LoadSubjects(){
-
-        List<Structure> subjects=subjects=new ArrayList<Structure>();
-
-        subjects.add(new Structure("COMP501 | IT Operations",true,true));
-        subjects.add(new Structure("COMP502 | Fundamentals",true,true));
-        subjects.add(new Structure("INFO501 | Professional Practice",true,false));
-        return subjects;
-    }
-
-    private List<Structure> LoadSubjects1(){
-
-        List<Structure> subjects=subjects=new ArrayList<Structure>();
-
-        subjects.add(new Structure("COMP600 | IT Essentials",false,false));
-        subjects.add(new Structure("COMP601 | Fundamentals",false,false));
-        subjects.add(new Structure("COMP602 | Object Oriented Programming",false,false));
-        return subjects;
     }
 
 
@@ -53,18 +37,45 @@ public class MyPathway extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_pathway);
 
-
-        //Test data
-        semesterList.addAll(Arrays.asList("Semester1","Semester2"));
-        programmeMap.put("Semester1",LoadSubjects());
-        programmeMap.put("Semester2",LoadSubjects1());
-
+        _dbhelper = new DBHelper(getApplicationContext(), null);
+        ArrayList<TableModules> _values = _dbhelper.GetModulesByPathway(Pathways.PathwayEnum.Software);
+        initialize(_values);
 
         listAdapter = new nz.park.kenneth.wintecdm.ExpandableListAdapter(this, semesterList, programmeMap);
+
 
         pathwayList = findViewById(R.id.mypathwayList);
         pathwayList.setAdapter(listAdapter);
     }
+
+
+    public void initialize(ArrayList<TableModules> modules) {
+
+        String semDisplay = null;
+        List<Structure> programmeList = new ArrayList();
+
+        for (int i = 0; i < modules.size(); i++) {
+
+            TableModules currentItem = modules.get(i);
+            TableModules nextItem = (i + 1 < modules.size()) ? modules.get(i + 1) : null;
+
+
+            semDisplay = "Semester" + String.valueOf(currentItem.get_sem());
+
+            //change
+            programmeList.add(new Structure(currentItem.get_code() + " | " + currentItem.get_name(), true, false));
+
+            if (nextItem == null || currentItem.get_sem() != nextItem.get_sem()) {
+                semesterList.add(semDisplay);
+                programmeMap.put(semDisplay, programmeList);
+                programmeList = new ArrayList<Structure>();
+            }
+
+
+        }
+
+    }
+
 
 }
 

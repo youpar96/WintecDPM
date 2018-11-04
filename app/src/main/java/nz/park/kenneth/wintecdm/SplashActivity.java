@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nz.park.kenneth.wintecdm.database.DBHelper;
+import nz.park.kenneth.wintecdm.database.Data.Pathways;
+import nz.park.kenneth.wintecdm.model.Pathway;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int TIME_OUT = 3000;
-    DBHelper _database;
-
+    private static int TIME_OUT = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +30,6 @@ public class SplashActivity extends AppCompatActivity {
                 moveToMainActivity();
             }
         }, TIME_OUT);
-        _database = new DBHelper(getApplicationContext(), null);
-
-        //sample stuff
-        //List<?> _modules = _database.GetAllModules();
 
     }
 

@@ -1,51 +1,66 @@
 package nz.park.kenneth.wintecdm.database.Structure;
 
+import nz.park.kenneth.wintecdm.database.FieldOrder;
+
 public class TableStudentPathway {
 
-    //Edit later
-
     public static final String COLUMN_ID = "id";
-//    public static final String COLUMN_ID_STUDENT = "wintec_id";
-//    public static final String COLUMN_ID_PATHWAY = "idPathway";
-//    public static final String COLUMN_COMPLETED = "completed";
+    @FieldOrder(order = 1)
+    public static final String COLUMN_STUDENT_ID = "student_id";
+    @FieldOrder(order = 2)
+    public static final String COLUMN_MODULE = "module";
+    @FieldOrder(order = 3)
+    public static final String COLUMN_IS_COMPLETED = "is_completed";
+//    @FieldOrder(order = 4)
+//    public static final String COLUMN_IS_ENABLED = "is_enabled";
 
-    public TableStudentPathway(){}
 
     private int _student_id;
-    private int _module_id;
+    private String _module_code;
+    private int _sem;
+    private String _module_name;
     private boolean _is_completed;
+    private boolean _is_enabled;
 
-    public TableStudentPathway(int studentid, int moduleid, boolean iscompleted){
-        this._student_id=studentid;
-        this._module_id=moduleid;
-        this._is_completed=iscompleted;
+    public TableStudentPathway(String modulecode, boolean iscompleted, boolean isenabled) {
+        this._module_code = modulecode;
+        this._is_completed = iscompleted;
+        this._is_enabled = isenabled;
+
+    }
+
+    public TableStudentPathway(int studentid, int sem, String modulecode, String module, boolean iscompleted, boolean isenabled) {
+        this._student_id = studentid;
+        this._sem = sem;
+        this._module_code = modulecode;
+        this._module_name = module;
+        this._is_completed = iscompleted;
+        this._is_enabled = isenabled;
     }
 
     public int get_student_id() {
         return _student_id;
     }
 
-    public void set_student_id(int _student_id) {
-        this._student_id = _student_id;
+    public int get_sem() {
+        return _sem;
     }
 
-    public int get_module_id() {
-        return _module_id;
+    public String get_module_code() {
+        return _module_code;
     }
 
-    public void set_module_id(int _module_id) {
-        this._module_id = _module_id;
+    public String get_module() {
+        return _module_name;
     }
 
-    public boolean is_is_completed() {
+    public boolean get_is_completed() {
         return _is_completed;
     }
 
-    public void set_is_completed(boolean _is_completed) {
-        this._is_completed = _is_completed;
+    public boolean get_is_enabled() {
+        return _is_enabled;
     }
-
-
 
 
 }
