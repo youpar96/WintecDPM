@@ -45,6 +45,8 @@ public class SelectPathwayActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // check whether to change the header view and menu itmes - changed in menu itmes area
+        //navigationView.inflateHeaderView(R.layout.activity_dialog););
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent i = getIntent();

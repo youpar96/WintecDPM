@@ -32,7 +32,9 @@ public class AuthorityCheck extends Activity {
 
                 // checking password
                 if(CheckAuthority.check(password)){
-                    Intent i = new Intent(getApplicationContext(), SelectPathwayActivity.class);
+                    // 30.10.2018 - Change Activities to fragments, using NavigationMainActivity for navigation drawer
+                    //Intent i = new Intent(getApplicationContext(), SelectPathwayActivity.class);
+                    Intent i = new Intent(getApplicationContext(), NavigationMainActivity.class);
                     i.putExtra("userType", "M");
                     startActivity(i);
                     finish();

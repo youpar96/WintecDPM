@@ -22,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 // Change the SelectPathway screen to SelectPathwayActivity
                 //Intent i = new Intent(getApplicationContext(), SelectPathway.class);
-                Intent i = new Intent(getApplicationContext(), SelectPathwayActivity.class);
+                // 30.10.2018 - Change Activities to fragments, using NavigationMainActivity for navigation drawer
+                // Intent i = new Intent(getApplicationContext(), SelectPathwayActivity.class);
+                Intent i = new Intent(getApplicationContext(), NavigationMainActivity.class);
                 i.putExtra("userType", "S");
                 startActivity(i);
             }
