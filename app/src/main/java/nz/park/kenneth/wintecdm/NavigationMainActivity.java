@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class NavigationMainActivity extends AppCompatActivity
@@ -59,16 +60,20 @@ public class NavigationMainActivity extends AppCompatActivity
         // separate menu by userType
         // create header view to get views from navigation view
         View navHeader = navigationView.getHeaderView(0);
+
+        ImageView navTitleImg = navHeader.findViewById(R.id.navTitleImg);
         TextView navUserName = navHeader.findViewById(R.id.navUserName);
 
         // students
         if("S".equals(userType)){
+            navTitleImg.setImageResource(R.mipmap.icon_student);
             navUserName.setText("Student");
 
             navigationView.inflateMenu(R.menu.student_menu);
         }
         // managers (clients)
         else if("M".equals(userType)){
+            navTitleImg.setImageResource(R.mipmap.icon_manager);
             navUserName.setText("Client");
 
             navigationView.inflateMenu(R.menu.manager_menu);

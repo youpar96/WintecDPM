@@ -34,12 +34,6 @@
         <activity
             android:name=".NavigationMainActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".DetailPathway" />
-        <!--<activity
-            android:name=".SelectPathwayActivity"
-            android:label="@string/title_activity_select_pathway"
-            android:theme="@style/AppTheme" />-->
-        <activity android:name=".MyPathway"></activity>
     </application>
 
 </manifest>
