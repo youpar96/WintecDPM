@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -139,6 +140,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+
+        // change arrow images by expanded status
+        ImageView lblListHeaderImg = convertView.findViewById(R.id.lblListHeaderImg);
+        if(isExpanded){
+            lblListHeaderImg.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+        }else{
+            lblListHeaderImg.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+        }
 
         if (_ismyPathway) {
 
