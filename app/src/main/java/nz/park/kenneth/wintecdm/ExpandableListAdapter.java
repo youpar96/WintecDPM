@@ -69,7 +69,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         Object _child = getChild(groupPosition, childPosition);
-        final String childText = _ismyPathway ? ((Structure) _child).getSubject() : (String) _child;
+        String childText = _ismyPathway ? ((Structure) _child).getSubject() : (String) _child;
+        String[] childTextArr = childText.split("\\|");
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -78,12 +79,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(_ismyPathway ? R.layout.my_list_item : R.layout.list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView.findViewById(_ismyPathway ? R.id.mylblListItem : R.id.lblListItem);
-        txtListChild.setText(childText);
+        TextView txtCode = (TextView) convertView.findViewById(_ismyPathway ? R.id.txtMyPathwayCode : R.id.txtPathwayCode);
+        TextView txtName = (TextView) convertView.findViewById(_ismyPathway ? R.id.txtMyPathwayName : R.id.txtPathwayName);
+
+        txtCode.setText(childTextArr[0]);
+        txtName.setText(childTextArr[1]);
 
         if (_ismyPathway) {
 
-            CheckBox chbox = convertView.findViewById(R.id.chkCompleted);
+            /*CheckBox chbox = convertView.findViewById(R.id.chkCompleted);
             Structure _val = (Structure) _child;
             chbox.setChecked(_val.getCompleted());
 
@@ -93,7 +97,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             boolean _enabled = _val.getEnabled();
             chbox.setEnabled(_enabled);
-            txtListChild.setAlpha(_enabled ? 1f : 0.5f);
+            txtListChild.setAlpha(_enabled ? 1f : 0.5f);*/
         }
 
         return convertView;

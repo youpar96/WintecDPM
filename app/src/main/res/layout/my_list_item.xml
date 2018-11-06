@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/mylblListItem"
-        android:layout_width="0dp"
-        android:layout_weight="4"
-        android:layout_height="wrap_content"
-        android:textSize="17dp"
-        android:textColor="@color/wintecBasicBlack"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+        <TextView
+            android:id="@+id/txtMyPathwayCode"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/wintecBasicBlack"
+            android:textAlignment="center"
+            android:background="@color/wintecBasicBackground"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switchCompleted"
-        style="@style/SwitchCompatStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:thumbTint="@color/wintecBasicBackground"/>
+        <TextView
+            android:id="@+id/txtMyPathwayName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/wintecBasicBlack"
+            android:layout_marginTop="4dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_weight="9"/>
 
-    <CheckBox
-        android:id="@+id/chkCompleted"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#1f772d"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:scaleX="1"
-        android:scaleY="1"
-        android:gravity="right"
-        />
-
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchCompleted"
+            style="@style/SwitchCompatStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            app:thumbTint="@color/wintecBasicBackground"
+            android:layout_weight="2"/>
 
 </LinearLayout>
