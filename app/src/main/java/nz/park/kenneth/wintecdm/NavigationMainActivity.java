@@ -20,6 +20,17 @@ public class NavigationMainActivity extends AppCompatActivity
 
     private boolean checkDisclaimer = false;
 
+    public void setCheckDisclaimer(boolean checkDisclaimer){
+        this.checkDisclaimer = checkDisclaimer;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean("checkDisclaimer", checkDisclaimer);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +53,11 @@ public class NavigationMainActivity extends AppCompatActivity
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SelectPathwayFragment()).commit();
             //navigationView.setCheckedItem(R.id.navHome);
+        }else{
+            // set the value of savedInstanceState when the screen rotates
+            boolean disclaimer = savedInstanceState.getBoolean("checkDisclaimer");
+
+            setCheckDisclaimer(disclaimer);
         }
 
         Intent i = getIntent();

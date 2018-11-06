@@ -26,7 +26,6 @@ public class DetailPathwayFragment extends Fragment {
 
     // View objects
     ExpandableListView pathwayList;
-    TextView tvDetailPathway;
 
     // Variables
     nz.park.kenneth.wintecdm.ExpandableListAdapter listAdapter;
@@ -35,14 +34,41 @@ public class DetailPathwayFragment extends Fragment {
 
     private String pathWay;
 
+    public void setPathWay(String pathWay){
+        this.pathWay = pathWay;
+    }
+
     // create constructor to get the pathWay value instead of getting from intent object
+    public DetailPathwayFragment(){
+        super();
+    }
+
     public DetailPathwayFragment(String pathWay) {
+        super();
         this.pathWay = pathWay;
     }
 
     private static final int YEAR_COUNT = 3;
     private static final int SEMESTER_COUNT = 6;
     private DBHelper _dbhelper;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null){
+            String pathWay = savedInstanceState.getString("pathWay");
+
+            setPathWay(pathWay);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("pathWay", pathWay);
+    }
 
     @Nullable
     @Override
