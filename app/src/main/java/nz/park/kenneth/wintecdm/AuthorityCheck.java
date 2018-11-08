@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class AuthorityCheck extends Activity {
 
@@ -38,6 +39,9 @@ public class AuthorityCheck extends Activity {
                     i.putExtra("userType", "M");
                     startActivity(i);
                     finish();
+                }else{
+                    TextView txtErrMsg = findViewById(R.id.txtErrMsg);
+                    txtErrMsg.setVisibility(View.VISIBLE);
                 }
             }
         });

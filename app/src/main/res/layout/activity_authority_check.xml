@@ -27,16 +27,33 @@
             android:textSize="20dp"
             android:textColor="@color/wintecBasicBlack" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="15dp"
-            android:text="Enter the password"
-            android:textColor="@color/wintecBasicBlack"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15dp"
+                android:text="Enter the password"
+                android:textColor="@color/wintecBasicBlack"
+                android:layout_weight="2"
+                />
+
+            <TextView
+                android:id="@+id/txtErrMsg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="INCORRECT"
+                android:textColor="#FF0000"
+                android:layout_weight="1"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/authPassword"
