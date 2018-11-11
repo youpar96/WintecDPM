@@ -6,16 +6,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 import nz.park.kenneth.wintecdm.database.DBHelper;
 import nz.park.kenneth.wintecdm.database.Data.Pathways;
@@ -24,6 +28,8 @@ import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 
 @SuppressLint("ValidFragment")
 public class MyPathwayFragment extends Fragment {
+
+    ViewGroup viewContainer;
 
 
     ExpandableListView pathwayList;
@@ -58,14 +64,28 @@ public class MyPathwayFragment extends Fragment {
 
 
     private void SavePathway() {
+        String msg = "";
 
-        _dbhelper.InsertPathway();
+        if(_dbhelper.InsertPathway()){
+            msg = "Saving Success";
+        }else{
+            msg = "Saving Failed";
+        }
+
+        // because the background of toast message was white, chagne the color
+        Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_LONG);
+        View view = toast.getView();
+        TextView text = (TextView) view.findViewById(android.R.id.message);
+        text.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        toast.show();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        viewContainer = container;
 
         //modules.clear();
         View view = inflater.inflate(R.layout.fragment_my_pathway, container, false);

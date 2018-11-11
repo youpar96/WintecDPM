@@ -28,7 +28,7 @@ import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static String DB_NAME = "wintec_dpm.db";
-    private static final Integer DB_VERSION = 1;
+    private static final Integer DB_VERSION = 2;
 
     public enum Tables {Modules, Pathways, PathwayModules, Students, StudentPathway, PreRequisites}
 
@@ -325,30 +325,38 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //StudentPathway Save
 
-    public void InsertPathway() {
-        _dbHelper = this.getWritableDatabase();
+    public boolean InsertPathway() {
+        boolean result = true;
 
-        for (TableModules _each : Profile.modules) {
+        try {
+            _dbHelper = this.getWritableDatabase();
 
-            ContentValues _values = new ContentValues();
+            for (TableModules _each : Profile.modules) {
 
-            int _studentID = Profile.studentid;
-            _values.put(TableStudentPathway.COLUMN_STUDENT_ID, _studentID);
-            _values.put(TableStudentPathway.COLUMN_MODULE, _each.get_code());
-            _values.put(TableStudentPathway.COLUMN_IS_COMPLETED, _each.get_is_completed());
+                ContentValues _values = new ContentValues();
+
+                int _studentID = Profile.studentid;
+                _values.put(TableStudentPathway.COLUMN_STUDENT_ID, _studentID);
+                _values.put(TableStudentPathway.COLUMN_MODULE, _each.get_code());
+                _values.put(TableStudentPathway.COLUMN_IS_COMPLETED, _each.get_is_completed());
 
 
-            long id = _dbHelper.insertWithOnConflict(Tables.StudentPathway.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
+                long id = _dbHelper.insertWithOnConflict(Tables.StudentPathway.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
 
-            if (id == -1) {
-                _dbHelper.update(Tables.StudentPathway.toString(), _values,
-                        TableStudentPathway.COLUMN_STUDENT_ID + "=? and " + TableStudentPathway.COLUMN_MODULE + "=?",
-                        new String[]{String.valueOf(_studentID), _each.get_code()});
+                if (id == -1) {
+                    _dbHelper.update(Tables.StudentPathway.toString(), _values,
+                            TableStudentPathway.COLUMN_STUDENT_ID + "=? and " + TableStudentPathway.COLUMN_MODULE + "=?",
+                            new String[]{String.valueOf(_studentID), _each.get_code()});
+
+                }
+
 
             }
-
-
+        }catch(Exception e){
+            result = false;
         }
+
+        return result;
 
     }
 
