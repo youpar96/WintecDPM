@@ -7,6 +7,7 @@ import java.util.Map;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -65,7 +67,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         Object _child = getChild(groupPosition, childPosition);
@@ -87,17 +89,29 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         if (_ismyPathway) {
 
-            /*CheckBox chbox = convertView.findViewById(R.id.chkCompleted);
-            Structure _val = (Structure) _child;
-            chbox.setChecked(_val.getCompleted());
 
-            _listener= new CheckListener(convertView.getRootView());
-            chbox.setOnCheckedChangeListener(_listener);
+            SwitchCompat swtchbox = convertView.findViewById(R.id.switchCompleted);
+            Structure _val = (Structure) _child;
+            swtchbox.setChecked(_val.getCompleted());
+
+            // _listener= new CheckListener(convertView.getRootView());
+            swtchbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    int index = (4*groupPosition)+childPosition;
+                    SwitchCompat checkbox = (SwitchCompat) buttonView;
+                    Profile.modules.get(index).set_is_completed(isChecked);
+
+                }
+            });
 
 
             boolean _enabled = _val.getEnabled();
-            chbox.setEnabled(_enabled);
-            txtListChild.setAlpha(_enabled ? 1f : 0.5f);*/
+
+
+            swtchbox.setEnabled(_enabled);
+            swtchbox.setAlpha(_enabled ? 1f : 0.5f);
         }
 
         return convertView;
@@ -147,9 +161,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         // change arrow images by expanded status
         ImageView lblListHeaderImg = convertView.findViewById(R.id.lblListHeaderImg);
-        if(isExpanded){
+        if (isExpanded) {
             lblListHeaderImg.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
-        }else{
+        } else {
             lblListHeaderImg.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
         }
 

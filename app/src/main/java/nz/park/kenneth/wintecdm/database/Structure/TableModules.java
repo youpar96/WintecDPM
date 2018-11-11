@@ -34,14 +34,14 @@ public class TableModules {
     private int _sem;
     private int _level;
     private String _url;
-    private List<TablePreRequisites> _prereqs = null;
+    private boolean _is_completed;
+    private boolean _is_enabled;
 
     public TableModules() {
 
     }
 
-
-    public TableModules(int id, String name, String code, int credits, String details, int semester, int level, String url, List<TablePreRequisites> prereqs) {
+    public TableModules(int id, String name, String code, int credits, String details, int semester, int level, String url) {
         this._id = id;
         this._name = name;
         this._code = code;
@@ -49,7 +49,18 @@ public class TableModules {
         this._sem = semester;
         this._level = level;
         this._url = url;
-        this._prereqs = prereqs;
+    }
+
+
+    public TableModules(int id, String name, String code, int credits, String details, int semester, int level, String url, boolean _is_completed) {
+        this._id = id;
+        this._name = name;
+        this._code = code;
+        this._credits = credits;
+        this._sem = semester;
+        this._level = level;
+        this._url = url;
+        this._is_completed = _is_completed;
     }
 
 
@@ -85,7 +96,6 @@ public class TableModules {
         this._credits = _credits;
     }
 
-
     public String get_details() {
         return _details;
     }
@@ -118,12 +128,16 @@ public class TableModules {
         this._url = _url;
     }
 
-    public List<TablePreRequisites> get_prereqs() {
-        return _prereqs;
+    public boolean get_is_completed() { return _is_completed; }
+
+    public void set_is_completed(boolean is_completed) {
+        this._is_completed = is_completed;
     }
 
-    public void set_prereqs(List<TablePreRequisites> _prereqs) {
-        this._prereqs = _prereqs;
+    public boolean get_is_enabled() {return _is_enabled;}
+
+    public void set_is_enabled(boolean _is_enabled) {
+        this._is_enabled = _is_enabled;
     }
 
 

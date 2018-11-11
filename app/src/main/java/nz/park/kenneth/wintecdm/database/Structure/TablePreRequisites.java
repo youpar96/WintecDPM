@@ -4,21 +4,30 @@ import nz.park.kenneth.wintecdm.database.FieldOrder;
 
 public class TablePreRequisites {
 
-    public static final String COLUMN_ID="id";
+    @FieldOrder(order = 1)
+    public static final String COLUMN_STREAM = "stream";
+    @FieldOrder(order = 2)
+    public static final String COLUMN_CODE = "code";
+    @FieldOrder(order = 3)
+    public static final String COLUMN_PREREQ = "prereq";
+    @FieldOrder(order = 4)
+    public static final String COLUMN_COMBINATION = "is_combination";
+
+
+    public static final String COLUMN_ID = "id";
     private String _code;
     private String _prereq;
     private boolean _is_combo;
 
 
-    public TablePreRequisites(){
+    public TablePreRequisites() {
 
     }
 
-
-    public TablePreRequisites(String code,boolean is_combo){
-
-        this._code=code;
-        this._is_combo=is_combo;
+    public TablePreRequisites(String code, String prereq, boolean is_combo) {
+        this._code = code;
+        this._prereq = prereq;
+        this._is_combo = is_combo;
 
     }
 
@@ -45,15 +54,6 @@ public class TablePreRequisites {
     public void set_is_combo(boolean _is_combo) {
         this._is_combo = _is_combo;
     }
-
-    @FieldOrder(order = 1)
-    public static final String COLUMN_STREAM="stream";
-    @FieldOrder(order = 2)
-    public static final String COLUMN_CODE = "code";
-    @FieldOrder(order = 3)
-    public static final String COLUMN_PREREQ = "prereq";
-    @FieldOrder(order = 4)
-    public static final String COLUMN_COMBINATION = "is_combination";
 
 
 }

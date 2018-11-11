@@ -10,15 +10,18 @@ import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import nz.park.kenneth.wintecdm.Profile;
 import nz.park.kenneth.wintecdm.Structure;
 import nz.park.kenneth.wintecdm.database.Data.Pathways;
 import nz.park.kenneth.wintecdm.database.Data.PreRequisites;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePathwayModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePreRequisites;
+import nz.park.kenneth.wintecdm.database.Structure.TableStudentPathway;
 import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
 
 
@@ -36,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         super(context, DB_NAME, factory, DB_VERSION);
 
-        // context.deleteDatabase(DB_NAME); //for test purpose
+        //context.deleteDatabase(DB_NAME); //for test purpose
         this._dbHelper = getInstance();
 
     }
@@ -65,6 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     private Cursor ExecuteQuery(String query, String... params) {
+        _dbHelper = getReadableDatabase();
         return _dbHelper.rawQuery(query, params);
     }
 
@@ -89,28 +93,14 @@ public class DBHelper extends SQLiteOpenHelper {
                     int _sem = c.getInt(c.getColumnIndex(TableModules.COLUMN_SEMESTER));
                     String _url = c.getString(c.getColumnIndex(TableModules.COLUMN_URL));
 
-                    //pre-req change
-                    Cursor _prereqCursor = ExecuteQuery("select * from " + Tables.PreRequisites + " where " +
-                            TablePreRequisites.COLUMN_CODE + "='" + _code + "';");
-
-                    List<TablePreRequisites> _prereqs = null;
-                    if (_prereqCursor.moveToFirst()) {
-
-                        _prereqs = new ArrayList<TablePreRequisites>();
-
-                        do {
-                            String _prereqCode = _prereqCursor.getString(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_PREREQ));
-                            int _prereqCombination = _prereqCursor.getInt(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_COMBINATION));
-
-                            _prereqs.add(new TablePreRequisites(_prereqCode, _prereqCombination == 1));
-
-                        }
-                        while (_prereqCursor.moveToNext());
+                    boolean _is_completed = false;
+                    if (!c.isNull(c.getColumnIndex(TableStudentPathway.COLUMN_IS_COMPLETED))) {
+                        int _value = c.getInt(c.getColumnIndex(TableStudentPathway.COLUMN_IS_COMPLETED));
+                        _is_completed = _value == 1;
 
                     }
-                    _prereqCursor.close();
 
-                    _returnList.add(new TableModules(_id, _name, _code, _credits, _details, _sem, _level, _url, _prereqs));
+                    _returnList.add(new TableModules(_id, _name, _code, _credits, _details, _sem, _level, _url, _is_completed));
 
                 }
                 c.moveToNext();
@@ -124,41 +114,81 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //stuff to do --implement where params
-    public List<?> GetAllModules() {
-        _dbHelper = getReadableDatabase();
-        Cursor c = ExecuteQuery("select * from " + Tables.Modules);
-        return SelectAllModules(c);
-    }
+//    public List<?> GetAllModules() {
+//        _dbHelper = getReadableDatabase();
+//        Cursor c = ExecuteQuery("select * from " + Tables.Modules);
+//        return SelectAllModules(c);
+//    }
 
     //Particular pathway all modules
-    public ArrayList<TableModules> GetModulesByPathway(Pathways.PathwayEnum path) {
+    public ArrayList<TableModules> GetModules(Pathways.PathwayEnum path, String... studentID) {
 
         _dbHelper = getReadableDatabase();
 
-        String _query = "select * from " + Tables.Modules + " inner join "
-                + Tables.PathwayModules + " on substr(" + TableModules.COLUMN_CODE + ",1,7) = substr(" + TablePathwayModules.COLUMN_ID_MODULE
-                + ",1,7) where " + TablePathwayModules.COLUMN_ID_PATHWAY + " IN (0,?) order by " + TableModules.COLUMN_SEMESTER
-                + "," + TableModules.COLUMN_CODE;
+        String _query = "select m.*,sp.is_completed from " + Tables.Modules + " m inner join " + Tables.PathwayModules + " pm on substr(m." + TableModules.COLUMN_CODE + ",1,7) = substr(pm." + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) " +
+                " left join " + Tables.StudentPathway + " sp on substr(sp." + TableStudentPathway.COLUMN_MODULE + ",1,7)=substr(pm." + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) " +
+                "and sp.student_id=" + ((studentID.length >= 1) ? studentID[0] : "sp.student_id") +
+                " where pm." + TablePathwayModules.COLUMN_ID_PATHWAY + " IN (0,?) order by " + TableModules.COLUMN_SEMESTER + "," + TableModules.COLUMN_CODE;
+
 
         Cursor c = ExecuteQuery(_query, String.valueOf(path.ordinal()));
         return SelectAllModules(c);
     }
 
-    //custom student pathway
-    public ArrayList<?> GetModulesForStudent(int ID) {
+    public ArrayList<TableModules> GetModulesByPathway(Pathways.PathwayEnum path) {
+        return GetModules(path);
+    }
 
+
+    //custom student pathway
+    public List<TableModules> GetModulesForStudent(int ID) {
+
+        List<TableModules> _modules, _modulesCopy;
         //Get pathway from student ID
         int _pathway = GetStudentByWintecId(ID).get_pathway();
-        List<TableModules> _modules= GetModulesByPathway(Pathways.PathwayEnum.values()[_pathway]);
+        _modules = _modulesCopy = GetModules(Pathways.PathwayEnum.values()[_pathway], String.valueOf(ID));
+        List<TablePreRequisites> _prereqs = GetAllPreRequisites(Pathways.PathwayEnum.values()[_pathway]);
 
 
-        String _query="select * from "+Tables.PreRequisites+" where substr("+TablePreRequisites.COLUMN_CODE+",1,7) in ()";
-       // ExecuteQuery();
+        //Each modules for the pathway
+        criteria:
+        for (int i = 0; i < _modules.size(); i++) {
+
+            boolean _is_enabled = false;
+            String _currentModule = _modules.get(i).get_code();
+
+            ArrayList<Boolean> _eachCriteria = new ArrayList<>();
+            String _prerequisite = null;
+
+            //pathway based pre-requisites
+            for (TablePreRequisites prereq : _prereqs) {
+
+                if (_currentModule.equals(prereq.get_code())) {
+
+                    _prerequisite = prereq.get_prereqcode();
+
+                    //find if prerequisite module has been completed or not
+                    for (TableModules _eachModule : _modules) {
+
+                        if (_prerequisite.equals(_eachModule.get_code())) {
+                            boolean is_completed = _eachModule.get_is_completed();
+                            if (!prereq.is_is_combo()) {
+                                _modules.get(i).set_is_enabled(is_completed);
+                                break criteria;
+                            } else
+                                _eachCriteria.add(is_completed);
+                        }
+
+                    }
+                }
+            }
+
+            _modules.get(i).set_is_enabled(Arrays.asList(_eachCriteria).contains(true) || _prerequisite == null);
+
+        }
 
 
-
-
-        return null;
+        return _modules;
     }
 
 
@@ -179,6 +209,8 @@ public class DBHelper extends SQLiteOpenHelper {
             _values.put(TableModules.COLUMN_LEVEL, module.get_level());
         if (module.get_url() != null)
             _values.put(TableModules.COLUMN_URL, module.get_url());
+        if (module.get_is_completed())
+            _values.put(TableModules.COLUMN_URL, module.get_is_completed());
 
         return _values;
 
@@ -263,5 +295,61 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //prerequisites
 
+
+    public List<TablePreRequisites> GetAllPreRequisites(Pathways.PathwayEnum path) {
+
+        Cursor _prereqCursor = ExecuteQuery("select * from " + Tables.PreRequisites + " where " + TablePreRequisites.COLUMN_STREAM
+                + "=?", String.valueOf(path.ordinal()));
+
+        List<TablePreRequisites> _prereqs = new ArrayList<TablePreRequisites>();
+        if (_prereqCursor.moveToFirst()) {
+
+            do {
+
+                String _moduleCode = _prereqCursor.getString(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_CODE));
+                String _prereqCode = _prereqCursor.getString(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_PREREQ));
+                int _prereqCombination = _prereqCursor.getInt(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_COMBINATION));
+
+                _prereqs.add(new TablePreRequisites(_moduleCode, _prereqCode, _prereqCombination == 1));
+
+            }
+            while (_prereqCursor.moveToNext());
+
+        }
+        _prereqCursor.close();
+
+
+        return _prereqs;
+    }
+
+
+    //StudentPathway Save
+
+    public void InsertPathway() {
+        _dbHelper = this.getWritableDatabase();
+
+        for (TableModules _each : Profile.modules) {
+
+            ContentValues _values = new ContentValues();
+
+            int _studentID = Profile.studentid;
+            _values.put(TableStudentPathway.COLUMN_STUDENT_ID, _studentID);
+            _values.put(TableStudentPathway.COLUMN_MODULE, _each.get_code());
+            _values.put(TableStudentPathway.COLUMN_IS_COMPLETED, _each.get_is_completed());
+
+
+            long id = _dbHelper.insertWithOnConflict(Tables.StudentPathway.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
+
+            if (id == -1) {
+                _dbHelper.update(Tables.StudentPathway.toString(), _values,
+                        TableStudentPathway.COLUMN_STUDENT_ID + "=? and " + TableStudentPathway.COLUMN_MODULE + "=?",
+                        new String[]{String.valueOf(_studentID), _each.get_code()});
+
+            }
+
+
+        }
+
+    }
 
 }

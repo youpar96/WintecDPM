@@ -32,11 +32,12 @@ public class CreateTables implements Closeable {
     private void createStudents() {
         String queryStudents =
                 "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.Students +
-                        " (" + TableStudents.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                        " (" + TableStudents.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         " " + TableStudents.COLUMN_ID_WINTEC + " INTEGER NOT NULL," +
                         " " + TableStudents.COLUMN_NAME + " VARCHAR NOT NULL," +
                         " " + TableStudents.COLUMN_DEGREE + " VARCHAR NOT NULL," +
-                        " " + TableStudents.COLUMN_PHOTO + " BLOB)";
+                        " " + TableStudents.COLUMN_PHOTO + " BLOB,"+
+                        " " + TableStudents.COLUMN_PATHWAY + " INTEGER NOT NULL)";
 
         _db.execSQL(queryStudents);
     }
@@ -44,7 +45,7 @@ public class CreateTables implements Closeable {
     private void createModules() {
         String queryModules =
                 "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.Modules.toString() +
-                        "(" + TableModules.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        "(" + TableModules.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         TableModules.COLUMN_NAME + " VARCHAR NOT NULL, " +
                         TableModules.COLUMN_CODE + " VARCHAR NOT NULL, " +
                         TableModules.COLUMN_CREDITS + " INTEGER NOT NULL, " +
@@ -61,7 +62,7 @@ public class CreateTables implements Closeable {
 
         String queryPathways =
                 "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.Pathways.toString() +
-                        "(" + TablePathways.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY, " +
+                        "(" + TablePathways.COLUMN_ID + " INTEGER PRIMARY KEY, " +
                         TablePathways.COLUMN_NAME + " VARCHAR NOT NULL)";
 
         _db.execSQL(queryPathways);
@@ -70,7 +71,7 @@ public class CreateTables implements Closeable {
     private void createPreRequisites() {
         String queryClients =
                 "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.PreRequisites +
-                        "(" + TablePreRequisites.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        "(" + TablePreRequisites.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         TablePreRequisites.COLUMN_STREAM + " INT NOT NULL, " +
                         TablePreRequisites.COLUMN_CODE + " VARCHAR NOT NULL, " +
                         TablePreRequisites.COLUMN_PREREQ + " VARCHAR, " +
@@ -85,7 +86,7 @@ public class CreateTables implements Closeable {
     private void createPathwayModule() {
         String queryPathwayModule =
                 "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.PathwayModules.toString() +
-                        "(" + TablePathwayModules.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
+                        "(" + TablePathwayModules.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         TablePathwayModules.COLUMN_ID_PATHWAY + " INTEGER NOT NULL, " +
                         TablePathwayModules.COLUMN_ID_MODULE + " INTEGER NOT NULL, " +
                         "FOREIGN KEY(" + TablePathwayModules.COLUMN_ID_PATHWAY + ") REFERENCES " + DBHelper.Tables.Pathways + "(" + TablePathways.COLUMN_ID + "), " +
@@ -97,11 +98,13 @@ public class CreateTables implements Closeable {
     private void createStudentPathway() {
         String queryStudentPathway =
                 "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.StudentPathway.toString() +
-                        "(" + TableStudentPathway.COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
+                        "(" + TableStudentPathway.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         TableStudentPathway.COLUMN_STUDENT_ID + " INT NOT NULL, " +
                         TableStudentPathway.COLUMN_MODULE + " VARCHAR, " +
                         //TableStudentPathway.COLUMN_IS_ENABLED + " INT DEFAULT 0, " +
-                        TableStudentPathway.COLUMN_IS_COMPLETED + " INT DEFAULT 0 )";
+                        TableStudentPathway.COLUMN_IS_COMPLETED + " INT DEFAULT 0," +
+                        "UNIQUE("+TableStudentPathway.COLUMN_STUDENT_ID+","+TableStudentPathway.COLUMN_MODULE
+                        +") ON CONFLICT REPLACE)";
 
         _db.execSQL(queryStudentPathway);
     }
