@@ -134,7 +134,7 @@ public class DetailPathwayFragment extends Fragment {
 
 
             semDisplay = "Semester" + String.valueOf(currentItem.get_sem());
-            programmeList.add(currentItem.get_code() + " | " + currentItem.get_name());
+            programmeList.add(currentItem.get_code() + " | " + currentItem.get_name() +" | "+ currentItem.get_url());
 
             if (nextItem == null || currentItem.get_sem() != nextItem.get_sem()) {
                 semesterList.add(semDisplay);

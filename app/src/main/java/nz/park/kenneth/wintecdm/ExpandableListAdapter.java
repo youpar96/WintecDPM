@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.widget.SwitchCompat;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +84,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         Object _child = getChild(groupPosition, childPosition);
         String childText = _ismyPathway ? ((Structure) _child).getSubject() : (String) _child;
-        String[] childTextArr = childText.split("\\|");
+        final String[] childTextArr = childText.split("\\|");
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -92,6 +95,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtCode = (TextView) convertView.findViewById(_ismyPathway ? R.id.txtMyPathwayCode : R.id.txtPathwayCode);
         TextView txtName = (TextView) convertView.findViewById(_ismyPathway ? R.id.txtMyPathwayName : R.id.txtPathwayName);
+
+        //module link to website
+        if (!_ismyPathway) {
+
+            txtCode.setClickable(true);
+            txtCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW)
+                            .setData(Uri.parse(childTextArr[2].toString().trim()));
+                    _context.startActivity(intent);
+
+                }
+            });
+
+        }
 
         txtCode.setText(childTextArr[0]);
         txtName.setText(childTextArr[1]);
