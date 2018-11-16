@@ -2,9 +2,11 @@ package nz.park.kenneth.wintecdm;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -43,9 +45,13 @@ public class MyPathwayFragment extends Fragment {
     Button btnPathwaySave;
 
     public MyPathwayFragment() {
+
+
+    }
+
+    private void reset(){
         semesterList = new ArrayList<String>();
         programmeMap = new HashMap<String, List<Structure>>();
-
     }
 
     public static MyPathwayFragment newInstance(String param1, String param2) {
@@ -57,6 +63,7 @@ public class MyPathwayFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
@@ -82,12 +89,18 @@ public class MyPathwayFragment extends Fragment {
         toast.show();
 
 
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        reset();
 
         viewContainer = container;
 

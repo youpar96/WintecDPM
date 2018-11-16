@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         super(context, DB_NAME, factory, DB_VERSION);
 
-        //context.deleteDatabase(DB_NAME); //for test purpose
+        // context.deleteDatabase(DB_NAME); //for test purpose
         this._dbHelper = getInstance();
 
     }
@@ -151,7 +151,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         //Each modules for the pathway
-        criteria:
+
         for (int i = 0; i < _modules.size(); i++) {
 
             boolean _is_enabled = false;
@@ -161,30 +161,39 @@ public class DBHelper extends SQLiteOpenHelper {
             String _prerequisite = null;
 
             //pathway based pre-requisites
+
+            boolean _hasCombinationOfPrereqs = false;
+            criteria:
             for (TablePreRequisites prereq : _prereqs) {
 
-                if (_currentModule.equals(prereq.get_code())) {
+                //test
+//                if (_currentModule.equals("COMP602​")) {
+//                    int gh = 0;
+//                }
 
-                    _prerequisite = prereq.get_prereqcode();
+                if (_currentModule.contains(prereq.get_code())) {
+                    _prerequisite = prereq.get_prereqcode().trim();
 
                     //find if prerequisite module has been completed or not
                     for (TableModules _eachModule : _modules) {
-
-                        if (_prerequisite.equals(_eachModule.get_code())) {
+                        if (_prerequisite.contains(_eachModule.get_code())) {
                             boolean is_completed = _eachModule.get_is_completed();
-                            if (!prereq.is_is_combo()) {
-                                _modules.get(i).set_is_enabled(is_completed);
-                                break criteria;
-                            } else
-                                _eachCriteria.add(is_completed);
-                        }
+                            _hasCombinationOfPrereqs = prereq.is_is_combo();
+                            _eachCriteria.add(is_completed);
 
+
+                            if (!_hasCombinationOfPrereqs && is_completed)
+                                break criteria;
+
+                        }
                     }
                 }
             }
 
-            _modules.get(i).set_is_enabled(Arrays.asList(_eachCriteria).contains(true) || _prerequisite == null);
-
+            _modules.get(i).set_is_enabled(
+                    (_eachCriteria.contains(true) && !_hasCombinationOfPrereqs)
+                            || (!_eachCriteria.contains(false) && _hasCombinationOfPrereqs)
+                            || _prerequisite == null);
         }
 
 
@@ -299,7 +308,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<TablePreRequisites> GetAllPreRequisites(Pathways.PathwayEnum path) {
 
         Cursor _prereqCursor = ExecuteQuery("select * from " + Tables.PreRequisites + " where " + TablePreRequisites.COLUMN_STREAM
-                + "=?", String.valueOf(path.ordinal()));
+                + " IN (0,?)", String.valueOf(path.ordinal()));
 
         List<TablePreRequisites> _prereqs = new ArrayList<TablePreRequisites>();
         if (_prereqCursor.moveToFirst()) {
@@ -352,7 +361,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             result = false;
         }
 

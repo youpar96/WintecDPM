@@ -81,7 +81,7 @@ public class TableModules {
     }
 
     public String get_code() {
-        return _code;
+        return _code.trim();
     }
 
     public void set_code(String _code) {

@@ -16,7 +16,7 @@ public class PreRequisites {
             {"0", "INFO701​", "INFO502​​", "0"},
 
             //Networking
-            {"1", "COMP604​", "INFO503​", "0"},
+            {"1", "COMP604​", "COMP503​", "0"},
             {"1", "COMP701​", "INFO603​", "0"},
             {"1", "COMP702​", "COMP604​", "0"},
             {"1", "COMP704", "COMP604​", "0"},

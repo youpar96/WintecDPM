@@ -32,7 +32,7 @@ public class TablePreRequisites {
     }
 
     public String get_prereqcode() {
-        return _prereq;
+        return _prereq.trim();
     }
 
     public void set_prereqcode(String _code) {
@@ -40,7 +40,7 @@ public class TablePreRequisites {
     }
 
     public String get_code() {
-        return _code;
+        return _code.trim();
     }
 
     public void set_code(String _code) {
