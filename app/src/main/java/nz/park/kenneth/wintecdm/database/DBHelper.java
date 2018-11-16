@@ -28,7 +28,7 @@ import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static String DB_NAME = "wintec_dpm.db";
-    private static final Integer DB_VERSION = 2;
+    private static final Integer DB_VERSION = 1;
 
     public enum Tables {Modules, Pathways, PathwayModules, Students, StudentPathway, PreRequisites}
 
@@ -51,8 +51,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        new CreateTables(db);
-        new PopulateTables(db);
+        new CreateTables(db); //create every tables
+        new PopulateTables(db); //populate data
     }
 
     @Override

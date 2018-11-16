@@ -5,11 +5,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -66,11 +68,11 @@ public class MyPathwayFragment extends Fragment {
     private void SavePathway() {
         String msg = "";
 
-        if(_dbhelper.InsertPathway()){
+        if (_dbhelper.InsertPathway())
             msg = "Saving Success";
-        }else{
+        else
             msg = "Saving Failed";
-        }
+
 
         // because the background of toast message was white, chagne the color
         Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_LONG);
@@ -78,6 +80,8 @@ public class MyPathwayFragment extends Fragment {
         TextView text = (TextView) view.findViewById(android.R.id.message);
         text.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         toast.show();
+
+
     }
 
 
@@ -114,8 +118,37 @@ public class MyPathwayFragment extends Fragment {
         pathwayList = view.findViewById(R.id.mypathwayList);
         pathwayList.setAdapter(listAdapter);
 
+        expandEachGroup(semesterList.size());
+
+
+        pathwayList.setOnScrollListener(lv_onScrollListener);
+
 
         return view;
+    }
+
+    private AbsListView.OnScrollListener lv_onScrollListener = new AbsListView.OnScrollListener() {
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+        }
+
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                listAdapter.setScroll(false);
+                listAdapter.notifyDataSetChanged();
+            } else {
+                listAdapter.setScroll(true);
+            }
+        }
+    };
+
+    public void expandEachGroup(int count) {
+        int i = 0;
+        while (i < count) {
+            pathwayList.expandGroup(i);
+            i++;
+        }
+
     }
 
     public void initialize(List<TableModules> modules) {

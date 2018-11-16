@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private boolean _ismyPathway = false;
 
     private CheckListener _listener;
+    private Boolean _isScroll = false;
+
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<String>> listChildData) {
@@ -35,6 +38,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
 
+    }
+
+
+    public void setScroll(Boolean status) {
+        _isScroll = status;
     }
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
@@ -60,6 +68,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         return child;
     }
+
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
@@ -95,14 +104,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             swtchbox.setChecked(_val.getCompleted());
 
             // _listener= new CheckListener(convertView.getRootView());
+
+            //swtchbox.setOnCheckedChangeListener(null);
             swtchbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    int index = (4*groupPosition)+childPosition;
-                    SwitchCompat checkbox = (SwitchCompat) buttonView;
-                    Profile.modules.get(index).set_is_completed(isChecked);
+                    //SwitchCompat checkbox = (SwitchCompat) buttonView;
+                    if (!_isScroll) {
+                        int index = (4 * groupPosition) + childPosition;
 
+                        Profile.modules.get(index).set_is_completed(isChecked);
+
+                        Structure _child = (Structure) getChild(groupPosition, childPosition);
+                        _child.setCompleted(isChecked);
+                    }
                 }
             });
 
@@ -168,7 +184,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         if (_ismyPathway) {
-
 
         }
 
