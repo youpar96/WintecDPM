@@ -20,7 +20,7 @@ public class NavigationMainActivity extends AppCompatActivity
 
     private boolean checkDisclaimer = false;
 
-    public void setCheckDisclaimer(boolean checkDisclaimer){
+    public void setCheckDisclaimer(boolean checkDisclaimer) {
         this.checkDisclaimer = checkDisclaimer;
     }
 
@@ -50,10 +50,10 @@ public class NavigationMainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Automatically load the first menu fragment
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SelectPathwayFragment()).commit();
             //navigationView.setCheckedItem(R.id.navHome);
-        }else{
+        } else {
             // set the value of savedInstanceState when the screen rotates
             boolean disclaimer = savedInstanceState.getBoolean("checkDisclaimer");
 
@@ -65,7 +65,7 @@ public class NavigationMainActivity extends AppCompatActivity
 
         // display the disclaimer to students - only once
         if ("S".equals(userType)) {
-            if(!checkDisclaimer) {
+            if (!checkDisclaimer) {
                 Intent it = new Intent(getApplicationContext(), DialogActivity.class);
                 startActivity(it);
 
@@ -81,14 +81,14 @@ public class NavigationMainActivity extends AppCompatActivity
         TextView navUserName = navHeader.findViewById(R.id.navUserName);
 
         // students
-        if("S".equals(userType)){
+        if ("S".equals(userType)) {
             navTitleImg.setImageResource(R.mipmap.icon_student);
             navUserName.setText("Student");
 
             navigationView.inflateMenu(R.menu.student_menu);
         }
         // managers (clients)
-        else if("M".equals(userType)){
+        else if ("M".equals(userType)) {
             navTitleImg.setImageResource(R.mipmap.icon_manager);
             navUserName.setText("Client");
 
@@ -115,6 +115,9 @@ public class NavigationMainActivity extends AppCompatActivity
                 break;
             case R.id.nav_s_my_pathway:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPathwayFragment()).commit();
+                break;
+            case R.id.nav_m_send_plan:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SendPathwayFragment()).commit();
                 break;
         }
 
