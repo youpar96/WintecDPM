@@ -11,4 +11,9 @@
         android:id="@+id/nav_m_add_module"
         android:icon="@drawable/ic_library_books_black_24dp"
         android:title="Add Module" />
+    <item
+        android:id="@+id/nav_m_send_plan"
+        android:icon="@drawable/ic_email_black_24dp"
+        android:title="Send Plan" />
+
 </menu>
