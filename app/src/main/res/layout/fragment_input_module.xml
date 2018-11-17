@@ -65,7 +65,8 @@
                 android:layout_weight="5"
                 android:background="@drawable/rounded_border"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:textColor="@color/wintecBasicBlack"/>
 
         </LinearLayout>
 
@@ -91,7 +92,8 @@
                 android:layout_weight="5"
                 android:background="@drawable/rounded_border"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:textColor="@color/wintecBasicBlack"/>
 
         </LinearLayout>
 
@@ -117,7 +119,8 @@
                 android:layout_weight="5"
                 android:background="@drawable/rounded_border"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:textColor="@color/wintecBasicBlack"/>
 
         </LinearLayout>
 
