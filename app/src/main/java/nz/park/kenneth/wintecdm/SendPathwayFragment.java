@@ -76,25 +76,37 @@ public class SendPathwayFragment extends Fragment {
                     TableStudents studentDetails = _dbhelper.GetStudentByWintecId(Integer.parseInt(studentID));
                     List<TableModules> studentmodules = _dbhelper.GetModulesForStudent(Integer.parseInt(studentID));
 
-                    String Recepient = studentDetails.get_email();
-                    String body = LoadData(); //getResources().getString(R.string.email_template);
-                    String path = Pathways.PathwayEnum.values()[studentDetails.get_pathway()].toString();
+                    if (studentDetails.get_id() == 0)
+                        _msg = "Cant find Student ID!";
+                    else if (studentmodules.size() == 0)
+                        _msg = "Couldnt access modules";
+
+                    else {
+
+                        String Recepient = studentDetails.get_email();
+                        String body = LoadData(); //getResources().getString(R.string.email_template);
+                        String path = Pathways.PathwayEnum.values()[studentDetails.get_pathway()].toString();
 
 
-                    body = body.replace("[NAME]", studentDetails.get_name());
-                    body = body.replace("[PATH]", path);
+                        body = body.replace("[NAME]", studentDetails.get_name());
+                        body = body.replace("[PATH]", path);
 
-                    int i = 1;
-                    for (TableModules modules : studentmodules) {
-                        body = body.replace(String.format("[CODE%d]", i), modules.get_code());
-                        body = body.replace(String.format("[MODULE%d]", i), modules.get_name());
-                        body = body.replace(String.format("[LEVEL%d]", i), modules.get_name());
+                        int i = 1;
+                        for (TableModules modules : studentmodules) {
+                            body = body.replace(String.format("[CODE%d]", i), modules.get_code());
+                            body = body.replace(String.format("[MODULE%d]", i), modules.get_name());
+                            body = body.replace(String.format("[LEVEL%d]", i), modules.get_name());
 
-                        i++;
+                            i++;
+                        }
+
+
+                        if (SendMail(Recepient, body))
+                            etStudentID.setText("");
+                        
                     }
 
 
-                    SendMail(Recepient, body);
                 }
 
                 if (!_msg.isEmpty()) {
@@ -141,7 +153,7 @@ public class SendPathwayFragment extends Fragment {
 
     }
 
-    private void SendMail(String recepient, String body) {
+    private boolean SendMail(String recepient, String body) {
 
         String subject = "Degree Plan";
         String emailAddress = String.format("mailto:%s", recepient);
@@ -154,6 +166,7 @@ public class SendPathwayFragment extends Fragment {
         mailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mailIntent);
 
+        return true;
     }
 
 }

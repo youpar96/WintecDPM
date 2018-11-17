@@ -20,8 +20,10 @@
         android:id="@+id/btnEmail"
         android:layout_width="match_parent"
         android:layout_below="@+id/etStudentID"
-        android:layout_marginTop="40dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_button_ok"
+        android:textColor="@color/wintecBasicBlack"
         android:text="SEND" />
 
 </RelativeLayout>

@@ -14,6 +14,6 @@
     <item
         android:id="@+id/nav_m_send_plan"
         android:icon="@drawable/ic_email_black_24dp"
-        android:title="Send Plan" />
+        android:title="Send Pathway" />
 
 </menu>

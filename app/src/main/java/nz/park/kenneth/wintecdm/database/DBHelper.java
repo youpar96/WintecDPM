@@ -143,60 +143,56 @@ public class DBHelper extends SQLiteOpenHelper {
     //custom student pathway
     public List<TableModules> GetModulesForStudent(int ID) {
 
-        List<TableModules> _modules, _modulesCopy;
+        List<TableModules> _modules = new ArrayList<>();
         //Get pathway from student ID
-        int _pathway = GetStudentByWintecId(ID).get_pathway();
-        _modules = _modulesCopy = GetModules(Pathways.PathwayEnum.values()[_pathway], String.valueOf(ID));
-        List<TablePreRequisites> _prereqs = GetAllPreRequisites(Pathways.PathwayEnum.values()[_pathway]);
+        try {
+            int _pathway = GetStudentByWintecId(ID).get_pathway();
+            _modules = GetModules(Pathways.PathwayEnum.values()[_pathway], String.valueOf(ID));
+            List<TablePreRequisites> _prereqs = GetAllPreRequisites(Pathways.PathwayEnum.values()[_pathway]);
 
 
-        //Each modules for the pathway
+            //Each modules for the pathway
+            for (int i = 0; i < _modules.size(); i++) {
 
-        for (int i = 0; i < _modules.size(); i++) {
+                boolean _is_enabled = false;
+                String _currentModule = _modules.get(i).get_code();
 
-            boolean _is_enabled = false;
-            String _currentModule = _modules.get(i).get_code();
+                ArrayList<Boolean> _eachCriteria = new ArrayList<>();
+                String _prerequisite = null;
 
-            ArrayList<Boolean> _eachCriteria = new ArrayList<>();
-            String _prerequisite = null;
+                //pathway based pre-requisites
+                boolean _hasCombinationOfPrereqs = false;
+                criteria:
+                for (TablePreRequisites prereq : _prereqs) {
 
-            //pathway based pre-requisites
+                    if (_currentModule.contains(prereq.get_code())) {
+                        _prerequisite = prereq.get_prereqcode().trim();
 
-            boolean _hasCombinationOfPrereqs = false;
-            criteria:
-            for (TablePreRequisites prereq : _prereqs) {
-
-                //test
-//                if (_currentModule.equals("COMP602​")) {
-//                    int gh = 0;
-//                }
-
-                if (_currentModule.contains(prereq.get_code())) {
-                    _prerequisite = prereq.get_prereqcode().trim();
-
-                    //find if prerequisite module has been completed or not
-                    for (TableModules _eachModule : _modules) {
-                        if (_prerequisite.contains(_eachModule.get_code())) {
-                            boolean is_completed = _eachModule.get_is_completed();
-                            _hasCombinationOfPrereqs = prereq.is_is_combo();
-                            _eachCriteria.add(is_completed);
+                        //find if prerequisite module has been completed or not
+                        for (TableModules _eachModule : _modules) {
+                            if (_prerequisite.contains(_eachModule.get_code())) {
+                                boolean is_completed = _eachModule.get_is_completed();
+                                _hasCombinationOfPrereqs = prereq.is_is_combo();
+                                _eachCriteria.add(is_completed);
 
 
-                            if (!_hasCombinationOfPrereqs && is_completed)
-                                break criteria;
+                                if (!_hasCombinationOfPrereqs && is_completed)
+                                    break criteria;
 
+                            }
                         }
                     }
                 }
+
+                _modules.get(i).set_is_enabled(
+                        (_eachCriteria.contains(true) && !_hasCombinationOfPrereqs)
+                                || (!_eachCriteria.contains(false) && _hasCombinationOfPrereqs)
+                                || _prerequisite == null);
             }
 
-            _modules.get(i).set_is_enabled(
-                    (_eachCriteria.contains(true) && !_hasCombinationOfPrereqs)
-                            || (!_eachCriteria.contains(false) && _hasCombinationOfPrereqs)
-                            || _prerequisite == null);
+        } catch (Exception e) {
+
         }
-
-
         return _modules;
     }
 
@@ -272,9 +268,18 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public TableStudents GetStudentByWintecId(int id) {
-        _dbHelper = getReadableDatabase();
-        Cursor c = ExecuteQuery("select * from " + Tables.Students + " where " + TableStudents.COLUMN_ID_WINTEC + "=?", String.valueOf(id));
-        return SelectStudents(c).get(0);
+
+        TableStudents _studentDetail = new TableStudents();
+
+        try {
+            _dbHelper = getReadableDatabase();
+            Cursor c = ExecuteQuery("select * from " + Tables.Students + " where " + TableStudents.COLUMN_ID_WINTEC + "=?", String.valueOf(id));
+            _studentDetail = SelectStudents(c).get(0);
+        } catch (Exception ex) {
+
+        }
+
+        return _studentDetail;
     }
 
     private List<TableStudents> SelectStudents(Cursor c) {
