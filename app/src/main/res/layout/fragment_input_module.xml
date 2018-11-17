@@ -32,13 +32,18 @@
                 android:text="Pathway"
                 android:textColor="@color/wintecBasicBlack"/>
 
+
             <Spinner
                 android:id="@+id/spinnerPathway"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_height="50dp"
+                android:spinnerMode="dropdown"
+                android:clickable="true"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                >
+                <requestFocus/>
+            </Spinner>
 
         </LinearLayout>
 
@@ -166,12 +171,16 @@
                 android:textColor="@color/wintecBasicBlack"/>
 
             <Spinner
-                android:id="@+id/spinnerPreqCode"
+                android:id="@+id/spinnerSemester"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:spinnerMode="dropdown"
+                android:dropDownWidth="50dp"
+                android:clickable="true"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+
+                />
 
         </LinearLayout>
 
@@ -205,6 +214,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="5"
+                    android:buttonTint="@color/wintecBasicBlack"
                     android:textColor="@color/wintecBasicBlack"
                     android:textSize="20sp"
                     android:checked="true" />
@@ -215,6 +225,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="6"
+                    android:buttonTint="@color/wintecBasicBlack"
                     android:textColor="@color/wintecBasicBlack"
                     android:textSize="20sp"
                     android:checked="true" />
@@ -225,6 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="7"
+                    android:buttonTint="@color/wintecBasicBlack"
                     android:textColor="@color/wintecBasicBlack"
                     android:textSize="20sp"
                     android:checked="true" />

@@ -7,6 +7,7 @@ import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 
 public class Profile {
 
+    public static boolean isAdmin=false;
     public static int studentid=1000; //Test
     public static List<TableModules> modules;
 

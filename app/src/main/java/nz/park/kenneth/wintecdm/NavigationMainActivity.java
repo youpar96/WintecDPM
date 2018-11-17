@@ -89,6 +89,8 @@ public class NavigationMainActivity extends AppCompatActivity
         }
         // managers (clients)
         else if ("M".equals(userType)) {
+
+            Profile.isAdmin = true;
             navTitleImg.setImageResource(R.mipmap.icon_manager);
             navUserName.setText("Client");
 
