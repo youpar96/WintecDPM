@@ -15,6 +15,8 @@ public class TableStudents {
     public static final String COLUMN_PHOTO = "photo";
     @FieldOrder(order = 5)
     public static final String COLUMN_PATHWAY = "pathway";  //1,2,3,4
+    @FieldOrder(order = 6)
+    public static final String COLUMN_EMAIL = "email";
 
 
     private int _id;
@@ -24,17 +26,19 @@ public class TableStudents {
     private String _degree;
     private String _photo;
     private int _pathway;
+    private String _email;
 
     public TableStudents() {
     }
 
-    public TableStudents(int id, int wintec_id, String name, String degree, String photo, int pathway) {
+    public TableStudents(int id, int wintec_id, String name, String degree, String photo, int pathway, String email) {
         this._id = id;
         this._wintec_id = wintec_id;
         this._name = name;
         this._degree = degree;
         this._photo = photo;
         this._pathway = pathway;
+        this._email = email;
     }
 
 
@@ -84,6 +88,10 @@ public class TableStudents {
 
     public void set_pathway(int _pathway) {
         this._pathway = _pathway;
+    }
+
+    public String get_email() {
+        return _email;
     }
 
 }

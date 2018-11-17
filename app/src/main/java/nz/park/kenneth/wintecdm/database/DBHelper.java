@@ -291,7 +291,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     String _degree = c.getString(c.getColumnIndex(TableStudents.COLUMN_DEGREE));
                     String _photo = c.getString(c.getColumnIndex(TableStudents.COLUMN_PHOTO));
                     int _pathway = c.getInt(c.getColumnIndex(TableStudents.COLUMN_PATHWAY));
-                    _returnList.add(new TableStudents(_id, _wintec_id, _name, _degree, _photo, _pathway));
+                    String _email = c.getString(c.getColumnIndex(TableStudents.COLUMN_EMAIL));
+
+                    _returnList.add(new TableStudents(_id, _wintec_id, _name, _degree, _photo, _pathway, _email));
 
                 }
                 c.moveToNext();

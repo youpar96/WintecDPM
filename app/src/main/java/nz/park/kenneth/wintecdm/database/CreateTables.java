@@ -36,8 +36,9 @@ public class CreateTables implements Closeable {
                         " " + TableStudents.COLUMN_ID_WINTEC + " INTEGER NOT NULL," +
                         " " + TableStudents.COLUMN_NAME + " VARCHAR NOT NULL," +
                         " " + TableStudents.COLUMN_DEGREE + " VARCHAR NOT NULL," +
-                        " " + TableStudents.COLUMN_PHOTO + " BLOB,"+
-                        " " + TableStudents.COLUMN_PATHWAY + " INTEGER NOT NULL)";
+                        " " + TableStudents.COLUMN_PHOTO + " BLOB," +
+                        " " + TableStudents.COLUMN_PATHWAY + " INTEGER NOT NULL," +
+                        " " + TableStudents.COLUMN_EMAIL + " VARCHAR )";
 
         _db.execSQL(queryStudents);
     }
@@ -103,8 +104,8 @@ public class CreateTables implements Closeable {
                         TableStudentPathway.COLUMN_MODULE + " VARCHAR, " +
                         //TableStudentPathway.COLUMN_IS_ENABLED + " INT DEFAULT 0, " +
                         TableStudentPathway.COLUMN_IS_COMPLETED + " INT DEFAULT 0," +
-                        "UNIQUE("+TableStudentPathway.COLUMN_STUDENT_ID+","+TableStudentPathway.COLUMN_MODULE
-                        +") ON CONFLICT REPLACE)";
+                        "UNIQUE(" + TableStudentPathway.COLUMN_STUDENT_ID + "," + TableStudentPathway.COLUMN_MODULE
+                        + ") ON CONFLICT REPLACE)";
 
         _db.execSQL(queryStudentPathway);
     }
