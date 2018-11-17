@@ -119,6 +119,9 @@ public class NavigationMainActivity extends AppCompatActivity
             case R.id.nav_m_send_plan:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SendPathwayFragment()).commit();
                 break;
+            case R.id.nav_m_add_module:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new InputModuleFragment()).commit();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

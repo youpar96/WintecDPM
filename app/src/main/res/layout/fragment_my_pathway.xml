@@ -20,8 +20,11 @@
         android:id="@+id/btnPathwaySave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/rounded_button_ok"
+        android:textColor="@color/wintecBasicBlack"
         android:text="Save" />
 
 
