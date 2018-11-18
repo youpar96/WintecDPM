@@ -9,4 +9,5 @@
     android:textSize="18dp"
     android:textColor="@color/wintecBasicBlack"
     android:background="#FFF"
+    android:paddingTop="15dp"
     />

@@ -82,6 +82,7 @@ public class NavigationMainActivity extends AppCompatActivity
 
         // students
         if ("S".equals(userType)) {
+            Profile.isAdmin = false;
             navTitleImg.setImageResource(R.mipmap.icon_student);
             navUserName.setText("Student");
 

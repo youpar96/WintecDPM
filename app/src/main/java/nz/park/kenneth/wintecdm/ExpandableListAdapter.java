@@ -96,6 +96,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtCode = (TextView) convertView.findViewById(_ismyPathway ? R.id.txtMyPathwayCode : R.id.txtPathwayCode);
         TextView txtName = (TextView) convertView.findViewById(_ismyPathway ? R.id.txtMyPathwayName : R.id.txtPathwayName);
 
+        if (!_ismyPathway) {
+
+            ImageView ivEdit = (ImageView) convertView.findViewById(R.id.ivEditModule);
+            ivEdit.setVisibility(Profile.isAdmin ? View.VISIBLE : View.INVISIBLE);
+            if (Profile.isAdmin) {
+                //on click to update
+
+            }
+        }
+
         //module link to website
         if (!_ismyPathway) {
 

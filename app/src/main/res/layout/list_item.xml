@@ -7,27 +7,35 @@
 
     <TextView
         android:id="@+id/txtPathwayCode"
-        android:layout_width="80dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textColor="@color/wintecBasicBlack"
         android:textAlignment="center"
         android:background="@color/wintecBasicBackground"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"/>
+        android:layout_margin="4dp"
+        android:layout_weight="3"
+        />
 
     <TextView
         android:id="@+id/txtPathwayName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:paddingLeft="5dp"
         android:textColor="@color/wintecBasicBlack"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp" />
+        android:layout_margin="4dp"
+        android:layout_weight="6"
+        />
+
+    <ImageView
+        android:id="@+id/ivEditModule"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_edit_black_24dp"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        />
 
 </LinearLayout>
