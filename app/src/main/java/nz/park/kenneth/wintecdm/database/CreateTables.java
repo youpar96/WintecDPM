@@ -38,7 +38,8 @@ public class CreateTables implements Closeable {
                         " " + TableStudents.COLUMN_DEGREE + " VARCHAR NOT NULL," +
                         " " + TableStudents.COLUMN_PHOTO + " BLOB," +
                         " " + TableStudents.COLUMN_PATHWAY + " INTEGER NOT NULL," +
-                        " " + TableStudents.COLUMN_EMAIL + " VARCHAR )";
+                        " " + TableStudents.COLUMN_EMAIL + " VARCHAR," +
+                        "UNIQUE(" + TableStudents.COLUMN_ID_WINTEC + ") ON CONFLICT IGNORE)";
 
         _db.execSQL(queryStudents);
     }
@@ -53,18 +54,18 @@ public class CreateTables implements Closeable {
                         TableModules.COLUMN_DETAILS + " TEXT, " +
                         TableModules.COLUMN_SEMESTER + " INTEGER NOT NULL," +
                         TableModules.COLUMN_LEVEL + " INTEGER NOT NULL, " +
-                        TableModules.COLUMN_URL + " VARCHAR)";
+                        TableModules.COLUMN_URL + " VARCHAR," +
+                        "UNIQUE(" + TableModules.COLUMN_CODE + ") ON CONFLICT IGNORE ) ";
 
         _db.execSQL(queryModules);
     }
 
     private void createPathways() {
-
-
         String queryPathways =
                 "CREATE TABLE IF NOT EXISTS " + DBHelper.Tables.Pathways.toString() +
                         "(" + TablePathways.COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                        TablePathways.COLUMN_NAME + " VARCHAR NOT NULL)";
+                        TablePathways.COLUMN_NAME + " VARCHAR NOT NULL," +
+                        "UNIQUE(" + TablePathways.COLUMN_NAME + ") ON CONFLICT REPLACE)";
 
         _db.execSQL(queryPathways);
     }
@@ -78,7 +79,12 @@ public class CreateTables implements Closeable {
                         TablePreRequisites.COLUMN_PREREQ + " VARCHAR, " +
                         TablePreRequisites.COLUMN_COMBINATION + " INT DEFAULT 0, " +
                         "FOREIGN KEY(" + TablePreRequisites.COLUMN_CODE + ") REFERENCES " + DBHelper.Tables.Modules + "(" + TableModules.COLUMN_CODE + "), " +
-                        "FOREIGN KEY(" + TablePreRequisites.COLUMN_STREAM + ") REFERENCES " + DBHelper.Tables.Pathways + "(" + TablePathways.COLUMN_ID + "))";
+                        "FOREIGN KEY(" + TablePreRequisites.COLUMN_STREAM + ") REFERENCES " + DBHelper.Tables.Pathways + "(" + TablePathways.COLUMN_ID + "), " +
+                        "UNIQUE(" + TablePreRequisites.COLUMN_STREAM + ","
+                        + TablePreRequisites.COLUMN_CODE + ","
+                        + TablePreRequisites.COLUMN_PREREQ + ","
+                        + TablePreRequisites.COLUMN_COMBINATION
+                        + ") ON CONFLICT IGNORE)";
 
 
         _db.execSQL(queryClients);
@@ -91,7 +97,9 @@ public class CreateTables implements Closeable {
                         TablePathwayModules.COLUMN_ID_PATHWAY + " INTEGER NOT NULL, " +
                         TablePathwayModules.COLUMN_ID_MODULE + " INTEGER NOT NULL, " +
                         "FOREIGN KEY(" + TablePathwayModules.COLUMN_ID_PATHWAY + ") REFERENCES " + DBHelper.Tables.Pathways + "(" + TablePathways.COLUMN_ID + "), " +
-                        "FOREIGN KEY(" + TablePathwayModules.COLUMN_ID_MODULE + ") REFERENCES " + DBHelper.Tables.Modules + "(" + TableModules.COLUMN_ID + "))";
+                        "FOREIGN KEY(" + TablePathwayModules.COLUMN_ID_MODULE + ") REFERENCES " + DBHelper.Tables.Modules + "(" + TableModules.COLUMN_ID + ")" +
+                        "UNIQUE(" + TablePathwayModules.COLUMN_ID_PATHWAY + "," +
+                        TablePathwayModules.COLUMN_ID_MODULE + ") ON CONFLICT REPLACE)";
 
         _db.execSQL(queryPathwayModule);
     }

@@ -207,8 +207,13 @@ public class DBHelper extends SQLiteOpenHelper {
             ContentValues _values = new ContentValues();
             _values.put(TablePathwayModules.COLUMN_ID_PATHWAY, module.getPathway());
             _values.put(TablePathwayModules.COLUMN_ID_MODULE, module.getModule());
-            _row = _dbHelper.insert(Tables.PathwayModules.toString(), null, _values);
+            _row = _dbHelper.insertWithOnConflict(Tables.PathwayModules.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
 
+            if (_row == -1) {
+                _dbHelper.update(Tables.PathwayModules.toString(), _values, TablePathwayModules.COLUMN_ID_PATHWAY + "=? and " + TablePathwayModules.COLUMN_ID_MODULE + "=?",
+                        new String[]{String.valueOf(module.getPathway()), String.valueOf(module.getModule())}
+                );
+            }
 
         } catch (SQLException ex) {
             Log.d(TAG, "Insert PathwayModules: " + ex.toString());
@@ -244,11 +249,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public TableModules SelectModuleDetails(String code) {
 
-        _dbHelper = getReadableDatabase();
+        TableModules tableModules = new TableModules();
+        try {
+            _dbHelper = getReadableDatabase();
+            Cursor c = ExecuteQuery("select * from " + Tables.Modules + " where " +
+                    TableModules.COLUMN_CODE + "=?", code.trim());
 
-        String _query = "select * from " + Tables.Modules + " where substr(" + TableModules.COLUMN_CODE + ",1,7) ='" + code.trim() + "'";
-        Cursor c = ExecuteQuery(_query, null);
-        return SelectAllModules(c).get(0);
+            List<TableModules> _value = SelectAllModules(c);
+            tableModules = _value.get(0);
+            c.close();
+        } catch (Exception ex) {
+            Log.d(TAG, "SelectModuleDetails " + ex.toString());
+        }
+        return tableModules;
 
     }
 
@@ -259,7 +272,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
         try {
             _dbHelper = getWritableDatabase();
-            _row = _dbHelper.insert(Tables.Modules.toString(), null, ModuleContentValues(module));
+
+            ContentValues _values = ModuleContentValues(module);
+
+            _row = _dbHelper.insertWithOnConflict(Tables.Modules.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
+
+            if (_row == -1) {
+                _dbHelper.update(Tables.Modules.toString(), _values, TableModules.COLUMN_CODE + "=?",
+                        new String[]{String.valueOf(module.get_code())});
+
+            }
+
         } catch (SQLException ex) {
             Log.d(TAG, "InsertModule: " + ex.toString());
         }
@@ -371,6 +394,33 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+    public List<TablePreRequisites> GetPreRequisites(String moduleCode) {
+
+        Cursor _prereqCursor = ExecuteQuery("select * from " + Tables.PreRequisites + " where " + TablePreRequisites.COLUMN_CODE
+                + " IN (0,?)", moduleCode);
+
+        List<TablePreRequisites> _prereqs = new ArrayList<TablePreRequisites>();
+        if (_prereqCursor.moveToFirst()) {
+
+            do {
+
+                String _moduleCode = _prereqCursor.getString(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_CODE));
+                String _prereqCode = _prereqCursor.getString(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_PREREQ));
+                int _prereqCombination = _prereqCursor.getInt(_prereqCursor.getColumnIndex(TablePreRequisites.COLUMN_COMBINATION));
+
+                _prereqs.add(new TablePreRequisites(_moduleCode, _prereqCode, _prereqCombination == 1));
+
+            }
+            while (_prereqCursor.moveToNext());
+
+        }
+        _prereqCursor.close();
+
+
+        return _prereqs;
+    }
+
+
     //StudentPathway Save
 
     public boolean InsertPathway() {
@@ -414,13 +464,18 @@ public class DBHelper extends SQLiteOpenHelper {
         int pathway = 0;
         try {
             _dbHelper = getReadableDatabase();
-            Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where " + TablePathwayModules.COLUMN_ID_MODULE + "=?", module);
 
-            pathway = c.getInt(c.getColumnIndex(TablePathwayModules.COLUMN_ID_PATHWAY));
+            Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where substr(" + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) = ?", module);
 
+
+            if (c != null && c.moveToFirst())
+                pathway = c.getInt(c.getColumnIndex(TablePathwayModules.COLUMN_ID_PATHWAY));
+
+            c.close();
         } catch (Exception ex) {
-
+            Log.d(TAG, "GetModulePathway : " + ex.toString());
         }
+
         return pathway;
     }
 
@@ -440,7 +495,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 try {
                     _dbHelper = getWritableDatabase();
-                    _dbHelper.insert(Tables.PreRequisites.toString(), null, _values);
+                    long row = _dbHelper.insertWithOnConflict(Tables.PreRequisites.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
+
+                    if (row == -1) {
+
+
+                    }
+
                 } catch (SQLException ex) {
                     Log.d(TAG, "Insert PreReq: " + ex.toString());
                 }

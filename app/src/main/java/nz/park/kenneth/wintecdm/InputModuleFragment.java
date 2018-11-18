@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,10 @@ import java.util.List;
 
 import nz.park.kenneth.wintecdm.database.DBHelper;
 import nz.park.kenneth.wintecdm.database.Data.Pathways;
+import nz.park.kenneth.wintecdm.database.Data.PreRequisites;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePathwayModules;
+import nz.park.kenneth.wintecdm.database.Structure.TablePreRequisites;
 import nz.park.kenneth.wintecdm.model.Pathway;
 
 public class InputModuleFragment extends Fragment {
@@ -65,13 +68,15 @@ public class InputModuleFragment extends Fragment {
 
     @Override
     public void onStart() {
+
+        String title = "Create New Module";
         super.onStart();
         Bundle args = getArguments();
         if (args != null) {
             isUpdate = args.getBoolean("IsUpdate");
 
             Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
-            String title = "Create New Module";
+
             if (isUpdate) {
 
                 title = "Update Module";
@@ -132,13 +137,33 @@ public class InputModuleFragment extends Fragment {
         int pathway = dbHelper.GetModulePathway(module.get_code());
         spinnerPathway.setSelection(pathway);
 
-        moduleCode.setText(module.get_code());
+        String _moduleCode = module.get_code();
+        moduleCode.setText(_moduleCode);
         moduleName.setText(module.get_name());
-        moduleCredits.setText(module.get_credits());
+        moduleCredits.setText(String.valueOf(module.get_credits()));
 
         //another call
-        // modulePreqCode.setText(module.);
-        spinnerSemester.setSelection(module.get_level() - 5);
+
+        List<TablePreRequisites> _preReqs = dbHelper.GetPreRequisites(_moduleCode);
+        String _preReqText = "";
+        List<Boolean> _isCombination = new ArrayList<>();
+        if (_preReqs.size() > 0) {
+
+            chkPrereq.setChecked(true);
+            for (TablePreRequisites eachprereq : _preReqs) {
+                _preReqText += eachprereq.get_prereqcode() + ",";
+                _isCombination.add(eachprereq.is_is_combo());
+
+            }
+
+            modulePreqCode.setText(_preReqText);
+            chkIsCombination.setChecked(!_isCombination.contains(false));
+        }
+
+
+        spinnerSemester.setSelection(module.get_sem() - 1);
+        ((RadioButton) radiolevel.getChildAt(module.get_level() - 5)).setChecked(true);
+
     }
 
 
@@ -240,8 +265,6 @@ public class InputModuleFragment extends Fragment {
             _moduleObj.set_level(Integer.valueOf(_level));
 
             dbHelper.InsertModule(_moduleObj);
-
-
             //Pathway Module
             dbHelper.InsertPathwayModules(new TablePathwayModules(pathwayPosition, _moduleCode));
 

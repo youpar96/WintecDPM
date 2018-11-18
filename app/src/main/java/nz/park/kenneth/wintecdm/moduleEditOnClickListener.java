@@ -27,7 +27,7 @@ public class moduleEditOnClickListener implements View.OnClickListener {
         Fragment myFragment = new InputModuleFragment();
         myFragment.setArguments(bundle);
 
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).commit(); //.addToBackStack(null)
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack("SelectPathwayFragment").commit(); //
 
     }
 

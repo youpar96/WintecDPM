@@ -88,9 +88,7 @@ public class TableModules {
         this._code = _code;
     }
 
-    public int get_credits() {
-        return _credits;
-    }
+    public int get_credits() { return _credits; }
 
     public void set_credits(int _credits) {
         this._credits = _credits;

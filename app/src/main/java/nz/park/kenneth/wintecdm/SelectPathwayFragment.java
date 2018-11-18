@@ -60,6 +60,6 @@ public class SelectPathwayFragment extends Fragment implements View.OnClickListe
                 break;
         }
 
-        ((NavigationMainActivity) getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DetailPathwayFragment(pathWay)).commit();
+        ((NavigationMainActivity) getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DetailPathwayFragment(pathWay)).addToBackStack("SelectPathwayFragment").commit();
     }
 }
