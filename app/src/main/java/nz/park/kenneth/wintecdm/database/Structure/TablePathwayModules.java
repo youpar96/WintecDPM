@@ -9,4 +9,24 @@ public class TablePathwayModules {
     public static final String COLUMN_ID_PATHWAY = "pathway"; //code for both
     @FieldOrder(order = 2)
     public static final String COLUMN_ID_MODULE = "module";
+
+
+    private int pathway;
+    private String module;
+
+    public TablePathwayModules(int pathway, String module) {
+
+        this.pathway = pathway;
+        this.module = module;
+    }
+
+    public int getPathway() {
+        return this.pathway;
+    }
+
+    public String getModule() {
+        return this.module;
+    }
+
+
 }

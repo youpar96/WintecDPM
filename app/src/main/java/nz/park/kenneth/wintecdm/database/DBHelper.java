@@ -197,6 +197,25 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+    public boolean InsertPathwayModules(TablePathwayModules module) {
+        long _row = 0;
+
+        try {
+            _dbHelper = getWritableDatabase();
+
+            ContentValues _values = new ContentValues();
+            _values.put(TablePathwayModules.COLUMN_ID_PATHWAY, module.getPathway());
+            _values.put(TablePathwayModules.COLUMN_ID_MODULE, module.getModule());
+            _row = _dbHelper.insert(Tables.PathwayModules.toString(), null, _values);
+
+
+        } catch (SQLException ex) {
+            Log.d(TAG, "Insert PathwayModules: " + ex.toString());
+        }
+        return _row > 0;
+    }
+
+
     private ContentValues ModuleContentValues(TableModules module) {
         ContentValues _values = new ContentValues();
 

@@ -29,6 +29,7 @@ import java.util.List;
 import nz.park.kenneth.wintecdm.database.DBHelper;
 import nz.park.kenneth.wintecdm.database.Data.Pathways;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
+import nz.park.kenneth.wintecdm.database.Structure.TablePathwayModules;
 import nz.park.kenneth.wintecdm.model.Pathway;
 
 public class InputModuleFragment extends Fragment {
@@ -78,7 +79,7 @@ public class InputModuleFragment extends Fragment {
         modulePreqCode = (MultiAutoCompleteTextView) view.findViewById(R.id.modulePreqCode);
         btnPathwaySave = (Button) view.findViewById(R.id.btnPathwaySave);
         tvPrereqCode = view.findViewById(R.id.tvPrereqCode);
-        radiolevel=view.findViewById(R.id.radioLevel);
+        radiolevel = view.findViewById(R.id.radioLevel);
 
 
         chkPrereq = (CheckBox) view.findViewById(R.id.chkPrereq);
@@ -182,8 +183,8 @@ public class InputModuleFragment extends Fragment {
         String _modulePreReqs = modulePreqCode.getText().toString();
         String _semester = spinnerSemester.getSelectedItem().toString();
 
-        RadioButton _radioButton= (RadioButton) getView().findViewById(radiolevel.getCheckedRadioButtonId());
-        String _level =_radioButton.getText().toString();
+        RadioButton _radioButton = (RadioButton) getView().findViewById(radiolevel.getCheckedRadioButtonId());
+        String _level = _radioButton.getText().toString();
 
 
         String _msg = "";
@@ -198,18 +199,23 @@ public class InputModuleFragment extends Fragment {
             _msg = "Please enter numeric value for credits";
 
         else {
-            //module save
 
+            //Modules
             TableModules _moduleObj = new TableModules();
             _moduleObj.set_code(_moduleCode);
-            _moduleObj.set_name(_moduleCode);
+            _moduleObj.set_name(_moduleName);
             _moduleObj.set_credits(Integer.valueOf(_moduleCredits));
             _moduleObj.set_sem(Integer.valueOf(_semester));
             _moduleObj.set_level(Integer.valueOf(_level));
 
             dbHelper.InsertModule(_moduleObj);
 
-            //if module prerequisites are there
+
+            //Pathway Module
+            dbHelper.InsertPathwayModules(new TablePathwayModules(pathwayPosition, _moduleCode));
+
+
+            //Prerequisites
             if (!_modulePreReqs.isEmpty()) {
                 String[] _prereqs = _modulePreReqs.split(",");
                 boolean _isCombination = chkIsCombination.isChecked();

@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -102,6 +107,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             ivEdit.setVisibility(Profile.isAdmin ? View.VISIBLE : View.INVISIBLE);
             if (Profile.isAdmin) {
                 //on click to update
+//                Fragment fragment = new InputModuleFragment();
+//                FragmentManager fm = (Activity) _context.getSupportFragmentManager();
+//
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.replace(R.id.content_frame, fragment);
+//                ft.commit();
+
 
             }
         }
