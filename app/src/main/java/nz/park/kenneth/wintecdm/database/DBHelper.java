@@ -376,4 +376,31 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+
+    //Insert PreReq
+
+    public void InsertPrereq(Pathways.PathwayEnum path, String code, String[] prereqs, boolean isCombo) {
+
+        for (String eachPreqReq : prereqs) {
+
+            if (!eachPreqReq.isEmpty()) {
+                ContentValues _values = new ContentValues();
+                _values.put(TablePreRequisites.COLUMN_STREAM, path.ordinal());
+                _values.put(TablePreRequisites.COLUMN_CODE, code);
+                _values.put(TablePreRequisites.COLUMN_PREREQ, eachPreqReq);
+                _values.put(TablePreRequisites.COLUMN_COMBINATION, isCombo);
+
+                try {
+                    _dbHelper = getWritableDatabase();
+                    _dbHelper.insert(Tables.PreRequisites.toString(), null, _values);
+                } catch (SQLException ex) {
+                    Log.d(TAG, "Insert PreReq: " + ex.toString());
+                }
+            }
+
+        }
+
+
+    }
+
 }
