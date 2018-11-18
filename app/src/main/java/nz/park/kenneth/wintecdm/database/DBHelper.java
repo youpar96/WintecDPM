@@ -20,6 +20,7 @@ import nz.park.kenneth.wintecdm.database.Data.Pathways;
 import nz.park.kenneth.wintecdm.database.Data.PreRequisites;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
 import nz.park.kenneth.wintecdm.database.Structure.TablePathwayModules;
+import nz.park.kenneth.wintecdm.database.Structure.TablePathways;
 import nz.park.kenneth.wintecdm.database.Structure.TablePreRequisites;
 import nz.park.kenneth.wintecdm.database.Structure.TableStudentPathway;
 import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
@@ -240,6 +241,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+
+    public TableModules SelectModuleDetails(String code) {
+
+        _dbHelper = getReadableDatabase();
+
+        String _query = "select * from " + Tables.Modules + " where substr(" + TableModules.COLUMN_CODE + ",1,7) ='" + code.trim() + "'";
+        Cursor c = ExecuteQuery(_query, null);
+        return SelectAllModules(c).get(0);
+
+    }
+
+
     public boolean InsertModule(TableModules module) {
         //if id exists then update
         long _row = 0;
@@ -393,6 +406,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return result;
 
+    }
+
+
+    public int GetModulePathway(String module) {
+
+        int pathway = 0;
+        try {
+            _dbHelper = getReadableDatabase();
+            Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where " + TablePathwayModules.COLUMN_ID_MODULE + "=?", module);
+
+            pathway = c.getInt(c.getColumnIndex(TablePathwayModules.COLUMN_ID_PATHWAY));
+
+        } catch (Exception ex) {
+
+        }
+        return pathway;
     }
 
 

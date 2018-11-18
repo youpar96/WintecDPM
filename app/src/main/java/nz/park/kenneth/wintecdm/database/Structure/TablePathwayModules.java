@@ -14,6 +14,10 @@ public class TablePathwayModules {
     private int pathway;
     private String module;
 
+    public TablePathwayModules(){
+
+    }
+
     public TablePathwayModules(int pathway, String module) {
 
         this.pathway = pathway;

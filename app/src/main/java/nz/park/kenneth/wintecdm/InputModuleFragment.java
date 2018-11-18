@@ -42,33 +42,50 @@ public class InputModuleFragment extends Fragment {
     CheckBox chkPrereq, chkIsCombination;
     TextView tvPrereqCode;
 
-
     private DBHelper dbHelper;
     private int pathwayPosition;
 
+    private boolean isUpdate = false;
+
+    public InputModuleFragment() {
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_input_module, container, false);
         dbHelper = new DBHelper(getContext(), null);
-        // change the title on toolbar
-        Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
-
-        // use indicatior as create or modify module
-        String title = "Create New Module";
-        String mode = "C";
-        if ("U".equals(mode)) {
-            title = "Update Module";
-        }
-        toolbar.setTitle(title);
 
         initialize(view);
         populateSpinners();
-
-
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Bundle args = getArguments();
+        if (args != null) {
+            isUpdate = args.getBoolean("IsUpdate");
+
+            Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
+            String title = "Create New Module";
+            if (isUpdate) {
+
+                title = "Update Module";
+                String moduleCode = args.getString("moduleCode");
+
+                TableModules module = dbHelper.SelectModuleDetails(moduleCode);
+                LoadContent(module);
+
+            }
+
+            toolbar.setTitle(title);
+        }
+    }
+
 
     private void initialize(View view) {
         spinnerPathway = (Spinner) view.findViewById(R.id.spinnerPathway);
@@ -108,6 +125,20 @@ public class InputModuleFragment extends Fragment {
             }
         });
 
+    }
+
+    private void LoadContent(TableModules module) {
+
+        int pathway = dbHelper.GetModulePathway(module.get_code());
+        spinnerPathway.setSelection(pathway);
+
+        moduleCode.setText(module.get_code());
+        moduleName.setText(module.get_name());
+        moduleCredits.setText(module.get_credits());
+
+        //another call
+        // modulePreqCode.setText(module.);
+        spinnerSemester.setSelection(module.get_level() - 5);
     }
 
 

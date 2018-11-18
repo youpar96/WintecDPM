@@ -10,10 +10,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -106,13 +108,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             ImageView ivEdit = (ImageView) convertView.findViewById(R.id.ivEditModule);
             ivEdit.setVisibility(Profile.isAdmin ? View.VISIBLE : View.INVISIBLE);
             if (Profile.isAdmin) {
-                //on click to update
-//                Fragment fragment = new InputModuleFragment();
-//                FragmentManager fm = (Activity) _context.getSupportFragmentManager();
-//
-//                FragmentTransaction ft = fm.beginTransaction();
-//                ft.replace(R.id.content_frame, fragment);
-//                ft.commit();
+
+                ivEdit.setOnClickListener(new moduleEditOnClickListener(childTextArr[0], _context));
 
 
             }
