@@ -112,7 +112,13 @@ public class ImportExportFragment extends Fragment {
 
                 String _directoryPath = etFolderSearch.getText().toString();
 
-                if (!IsImport)
+                if (!hasPermissions(getContext(), PERMISSIONS))
+                    ActivityCompat.requestPermissions((Activity) getContext(), PERMISSIONS, 112);
+
+
+                if (IsImport)
+                    importDB(_directoryPath);
+                else
                     exportDB(_directoryPath);
             }
         });
@@ -154,21 +160,37 @@ public class ImportExportFragment extends Fragment {
     }
 
 
-    public void readCsv(String path) {
+    public void importDB(String storageDirectoryPath) {
 
         try {
-            InputStream is = new FileInputStream(path);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line;
 
-            while ((line = reader.readLine()) != null) {
-                String[] RowData = line.split(",");
+            File directory = Environment.getExternalStorageDirectory();
+            File exportFile = new File(directory.getAbsolutePath() + "/WINTEC_DPM");
+
+
+            File folder = exportFile; // new File(storageDirectoryPath);
+            for (File file : folder.listFiles()) {
+
+                String tableName = file.getName();
+                tableName = tableName.substring(0,tableName.indexOf('.'));
+
+                InputStream inputStream = new FileInputStream(file);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+
+                List<String> data = new ArrayList<>();
+                while ((line = reader.readLine()) != null) {
+                    data.add(line);
+                }
+                dbHelper.ImportData(DBHelper.Tables.valueOf(tableName), data);
+                inputStream.close();
+
             }
-            is.close();
-
-        } catch (IOException io) {
 
 
+        } catch (Exception ex) {
+
+            Log.e("[Fn] Error in Import: ", ex.toString());
         }
     }
 
@@ -179,8 +201,6 @@ public class ImportExportFragment extends Fragment {
         String _msg = "";
         try {
 
-            if (!hasPermissions(getContext(), PERMISSIONS))
-                ActivityCompat.requestPermissions((Activity) getContext(), PERMISSIONS, 112);
 
             for (DBHelper.Tables table : DBHelper.Tables.values()) {
 

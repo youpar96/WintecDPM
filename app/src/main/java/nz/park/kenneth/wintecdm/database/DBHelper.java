@@ -528,13 +528,23 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<String> ExportData(DBHelper.Tables table) {
 
         List<String> _values = new ArrayList<>();
-        String PACKAGE = "nz.park.kenneth.wintecdm.database.";
-        String STRUCTURE = "Structure.Table";
+
 
         try {
-            Class<?> _class = Class.forName(String.format("%s%s%s", PACKAGE, STRUCTURE, table));
+            Class<?> _class = Class.forName(String.format("%s%s%s", Profile.PACKAGE, Profile.STRUCTURE, table));
 
-            String query = "select * from " + table.toString();
+            int fieldCount = 0;
+            String columns = "";
+            for (Field f : _class.getDeclaredFields()) {
+                if (f.isAnnotationPresent(FieldOrder.class)) {
+                    columns += f.get(_class.newInstance()).toString() + ",";
+                    fieldCount++;
+                }
+            }
+
+            columns = columns.substring(0,columns.lastIndexOf(','));
+
+            String query = "select " + columns + " from " + table.toString();
             Cursor c = ExecuteQuery(query);
 
             if (c.moveToNext()) {
@@ -542,12 +552,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 while (!c.isAfterLast()) {
 
                     StringBuilder line = new StringBuilder();
-                    for (Field f : _class.getDeclaredFields()) {
+                    int index = 0;
 
-                        if (f.isAnnotationPresent(FieldOrder.class)) {
-                            int index = f.getAnnotation(FieldOrder.class).order();
-                            line.append(c.getString(index) + ",");
-                        }
+                    while (index <= fieldCount) {
+                        //int index = f.getAnnotation(FieldOrder.class).order();
+                        line.append(c.getString(index) + ",");
+                        index++;
                     }
                     _values.add(line.toString());
                     c.moveToNext();
@@ -558,6 +568,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             c.close();
         } catch (Exception ex) {
+            Log.d(TAG, "[Fn] ExportData" + ex.toString());
 
         } finally {
 
@@ -566,4 +577,49 @@ public class DBHelper extends SQLiteOpenHelper {
         return _values;
 
     }
+
+
+    public void ImportData(DBHelper.Tables table, List<String> data) {
+
+
+        _dbHelper = this.getWritableDatabase();
+        _dbHelper.delete(table.toString(), null, null); //truncate all data
+
+        //Insert content
+        _dbHelper.beginTransaction();
+        try {
+
+            Class<?> _class = Class.forName(String.format("%s%s%s", Profile.PACKAGE, Profile.STRUCTURE, table));
+            for (String eachLine : data) {
+
+                String[] record = eachLine.split(",");
+
+                ContentValues cvalues = new ContentValues();
+
+                int i = 0;
+                for (Field f : _class.getDeclaredFields()) {
+
+                    if (f.isAnnotationPresent(FieldOrder.class)) {
+                        int index = f.getAnnotation(FieldOrder.class).order();
+
+                        String field = f.getName();
+                        cvalues.put(field, record[index]);
+                        i++;
+                    }
+
+                }
+                _dbHelper.insert(table.toString(), null, cvalues);
+
+            }
+
+            _dbHelper.setTransactionSuccessful();
+
+        } catch (Exception ex) {
+            Log.d(TAG, "[Fn] ImportData" + ex.toString());
+        } finally {
+            _dbHelper.endTransaction();
+        }
+
+    }
+
 }

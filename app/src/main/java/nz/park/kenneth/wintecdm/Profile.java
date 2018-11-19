@@ -15,4 +15,9 @@ public class Profile {
         modules = new ArrayList<>();
 
     }
+
+
+    public static final String PACKAGE = "nz.park.kenneth.wintecdm.database.";  //common package path
+    public static final String STRUCTURE = "Structure.Table";
+
 }

@@ -9,13 +9,14 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import nz.park.kenneth.wintecdm.Profile;
+
 public class PopulateTables implements Closeable {
 
     private SQLiteDatabase _dbHelper;
-    private static final String PACKAGE = "nz.park.kenneth.wintecdm.database."; //common package path
+
     private static final String TAG = "Populate data"; //log stuff
     private static final String DATA_ATTRIBUTE = "content"; //Property name in each data file
-    private static final String STRUCTURE = "Structure.Table";
     private static final String DATA = "Data.";
 
     public PopulateTables(Closeable db) {
@@ -27,7 +28,6 @@ public class PopulateTables implements Closeable {
         populate(DBHelper.Tables.Pathways);
         populate(DBHelper.Tables.PathwayModules);
         populate(DBHelper.Tables.PreRequisites);
-
 
 
     }
@@ -49,8 +49,8 @@ public class PopulateTables implements Closeable {
         try {
 
             if (!Validate(_tableName)) {
-                Class<?> _class = Class.forName(String.format("%s%s%s", PACKAGE, STRUCTURE, _tableName));
-                Class _dataClass = Class.forName(String.format("%s%s%s", PACKAGE, DATA, _tableName));
+                Class<?> _class = Class.forName(String.format("%s%s%s", Profile.PACKAGE, Profile.STRUCTURE, _tableName));
+                Class _dataClass = Class.forName(String.format("%s%s%s", Profile.PACKAGE, DATA, _tableName));
                 Field _datafield = _dataClass.getDeclaredField(DATA_ATTRIBUTE);
                 _datafield.setAccessible(true);
 
