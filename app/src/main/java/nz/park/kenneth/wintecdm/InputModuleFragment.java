@@ -2,6 +2,7 @@ package nz.park.kenneth.wintecdm;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -150,6 +151,9 @@ public class InputModuleFragment extends Fragment {
                 modulePreqCode.setAlpha(_alpha);
                 chkIsCombination.setAlpha(_alpha);
 
+
+                LoadPreReqAutoComplete();
+
             }
         });
 
@@ -203,6 +207,7 @@ public class InputModuleFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spinnerPathway.setSelection(position);
                 pathwayPosition = position;
+                LoadPreReqAutoComplete();
             }
 
             @Override
@@ -230,26 +235,33 @@ public class InputModuleFragment extends Fragment {
             }
         });
 
+        LoadPreReqAutoComplete();
 
-        List<String> moduleCodes = new ArrayList<>();
+    }
 
+    private void LoadPreReqAutoComplete() {
 
-        List<TableModules> modules = dbHelper.GetModulesByPathway(Pathways.PathwayEnum.values()[pathwayPosition]);
-        for (TableModules eachModule : modules) {
-            moduleCodes.add(eachModule.get_code());
+        if (modulePreqCode.isEnabled()) {
+
+            final List<String> moduleCodes = new ArrayList<>();
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<TableModules> modules = dbHelper.GetModulesByPathway(Pathways.PathwayEnum.values()[pathwayPosition]);
+                    for (TableModules eachModule : modules) {
+                        moduleCodes.add(eachModule.get_code());
+                    }
+                }
+            });
+            //Pre-req modules
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                    (getActivity(), R.layout.spinner_item, moduleCodes);
+
+            modulePreqCode.setThreshold(1);
+            modulePreqCode.setAdapter(adapter);
+            modulePreqCode.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         }
-
-
-        //Pre-req modules
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (getActivity(), R.layout.spinner_item, moduleCodes);
-
-        modulePreqCode.setThreshold(1);
-        modulePreqCode.setAdapter(adapter);
-        modulePreqCode.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-
     }
 
 

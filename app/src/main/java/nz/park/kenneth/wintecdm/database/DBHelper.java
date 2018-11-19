@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -610,6 +611,104 @@ public class DBHelper extends SQLiteOpenHelper {
 
         }
 
+
+    }
+
+
+    public List<String> ExportData(DBHelper.Tables table) {
+
+        List<String> _values = new ArrayList<>();
+
+
+        try {
+            Class<?> _class = Class.forName(String.format("%s%s%s", Profile.PACKAGE, Profile.STRUCTURE, table));
+
+            int fieldCount = 0;
+            String columns = "";
+            for (Field f : _class.getDeclaredFields()) {
+                if (f.isAnnotationPresent(FieldOrder.class)) {
+                    columns += f.get(_class.newInstance()).toString() + ",";
+                    fieldCount++;
+                }
+            }
+
+            columns = columns.substring(0,columns.lastIndexOf(','));
+
+            String query = "select " + columns + " from " + table.toString();
+            Cursor c = ExecuteQuery(query);
+
+            if (c.moveToNext()) {
+
+                while (!c.isAfterLast()) {
+
+                    StringBuilder line = new StringBuilder();
+                    int index = 0;
+
+                    while (index <= fieldCount) {
+                        //int index = f.getAnnotation(FieldOrder.class).order();
+                        line.append(c.getString(index) + ",");
+                        index++;
+                    }
+                    _values.add(line.toString());
+                    c.moveToNext();
+                }
+
+
+            }
+
+            c.close();
+        } catch (Exception ex) {
+            Log.d(TAG, "[Fn] ExportData" + ex.toString());
+
+        } finally {
+
+
+        }
+        return _values;
+
+    }
+
+
+    public void ImportData(DBHelper.Tables table, List<String> data) {
+
+
+        _dbHelper = this.getWritableDatabase();
+        _dbHelper.delete(table.toString(), null, null); //truncate all data
+
+        //Insert content
+        _dbHelper.beginTransaction();
+        try {
+
+            Class<?> _class = Class.forName(String.format("%s%s%s", Profile.PACKAGE, Profile.STRUCTURE, table));
+            for (String eachLine : data) {
+
+                String[] record = eachLine.split(",");
+
+                ContentValues cvalues = new ContentValues();
+
+                int i = 0;
+                for (Field f : _class.getDeclaredFields()) {
+
+                    if (f.isAnnotationPresent(FieldOrder.class)) {
+                        int index = f.getAnnotation(FieldOrder.class).order();
+
+                        String field = f.getName();
+                        cvalues.put(field, record[index]);
+                        i++;
+                    }
+
+                }
+                _dbHelper.insert(table.toString(), null, cvalues);
+
+            }
+
+            _dbHelper.setTransactionSuccessful();
+
+        } catch (Exception ex) {
+            Log.d(TAG, "[Fn] ImportData" + ex.toString());
+        } finally {
+            _dbHelper.endTransaction();
+        }
 
     }
 
