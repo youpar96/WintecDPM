@@ -47,8 +47,8 @@ public class ProfileFragment extends Fragment {
 
     private static final int REQUEST_CODE_CAMERA = 101;
     private static final int REQUEST_CODE_GALLERY = 102;
-    private static final String FILE_PREFERENCES = "FilePreferences";
-    private static final String FILE_PREFERENCES_ID_STUDENT_KEY = "IdStudent";
+    public static final String FILE_PREFERENCES = "FilePreferences";
+    public static final String FILE_PREFERENCES_ID_STUDENT_KEY = "IdStudent";
     private ImageButton btnCamera, btnGallery;
     private CircleImageView ivPhotoProfile;
     private EditText etIdWintec, etName, etDegree, etEmailStudentProfile;
@@ -99,8 +99,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                if(getActivity().getPackageManager() != null)
-                {
+                if (getActivity().getPackageManager() != null) {
                     startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 }
 
@@ -112,8 +111,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                if(getActivity().getPackageManager() != null)
-                {
+                if (getActivity().getPackageManager() != null) {
                     startActivityForResult(intent, REQUEST_CODE_GALLERY);
                 }
             }
@@ -123,19 +121,17 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(validatePropertiesToSave(etIdWintec.getText().toString(), etName.getText().toString(), etDegree.getText().toString(), etEmailStudentProfile.getText().toString()))
-                {
+                if (validatePropertiesToSave(etIdWintec.getText().toString(), etName.getText().toString(), etDegree.getText().toString(), etEmailStudentProfile.getText().toString())) {
                     int idWintec = Integer.parseInt(etIdWintec.getText().toString());
                     String name = etName.getText().toString();
                     String degree = etDegree.getText().toString();
                     String email = etEmailStudentProfile.getText().toString();
-                    Bitmap photo = ((BitmapDrawable)ivPhotoProfile.getDrawable()).getBitmap();
+                    Bitmap photo = ((BitmapDrawable) ivPhotoProfile.getDrawable()).getBitmap();
 
                     saveProfile(idWintec, name, degree, photo, email);
                 }
             }
         });
-
 
 
         //change method to student modules later
@@ -148,14 +144,11 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK)
-        {
+        if (resultCode == RESULT_OK) {
             Bitmap imagem = null;
 
-            try
-            {
-                switch(requestCode)
-                {
+            try {
+                switch (requestCode) {
                     case REQUEST_CODE_CAMERA:
 
                         imagem = (Bitmap) data.getExtras().get("data");
@@ -168,23 +161,18 @@ public class ProfileFragment extends Fragment {
                         break;
                 }
 
-                if(imagem != null)
-                {
+                if (imagem != null) {
                     ivPhotoProfile.setImageBitmap(imagem);
                 }
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void saveProfile(int idWintec, String name, String degree, Bitmap photo, String email)
-    {
+    private void saveProfile(int idWintec, String name, String degree, Bitmap photo, String email) {
 
-        if(studentExists)
-        {
+        if (studentExists) {
             //SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
             //String idStudent = preferences.getString(FILE_PREFERENCES_ID_STUDENT_KEY, "0");
             int idStudent = this.getIdStudentSharedPreferences();
@@ -194,19 +182,16 @@ public class ProfileFragment extends Fragment {
             _dbhelper.UpdateStudentByID(studentToUpdate);
 
             this.showToastMessage("Profile updated!");
-        }
-        else
-        {
+        } else {
             TableStudents _studentObj = updatePropertiesStudent(new TableStudents(), idWintec, name, degree, photo, email);
 
             boolean studentInserted = _dbhelper.InsertStudentProfile(_studentObj);
 
-            if(studentInserted)
-            {
+            if (studentInserted) {
                 TableStudents student = _dbhelper.GetStudentByWintecId(idWintec);
 
                 // set IdWintec saved to get Student Details when load MyProfile screen
-                this.setIdStudentSharedPreferences(student.get_id());
+                this.setIdStudentSharedPreferences(student.get_wintec_id());
 
                 /*SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -237,8 +222,7 @@ public class ProfileFragment extends Fragment {
         }*/
     }
 
-    private boolean validatePropertiesToSave(String idWintec, String name, String degree, String email)
-    {
+    private boolean validatePropertiesToSave(String idWintec, String name, String degree, String email) {
         boolean isValid = true;
 
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
@@ -248,27 +232,23 @@ public class ProfileFragment extends Fragment {
 
         this.resetEditTextsConfiguration();
 
-        if(idWintec.matches(""))
-        {
+        if (idWintec.matches("")) {
             isValid = false;
             etIdWintec.setBackground(shape);
         }
 
-        if(name.matches(""))
-        {
+        if (name.matches("")) {
             isValid = false;
             etName.setBackground(shape);
         }
 
-        if(degree.matches(""))
-        {
+        if (degree.matches("")) {
             isValid = false;
             etDegree.setBackground(shape);
         }
 
-        if(!email.matches(""))
-        {
-            if(!isEmailValid(email)) {
+        if (!email.matches("")) {
+            if (!isEmailValid(email)) {
                 isValid = false;
                 etEmailStudentProfile.setBackground(shape);
             }
@@ -277,8 +257,7 @@ public class ProfileFragment extends Fragment {
         return isValid;
     }
 
-    private void resetEditTextsConfiguration()
-    {
+    private void resetEditTextsConfiguration() {
         etIdWintec.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         etIdWintec.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
 
@@ -292,36 +271,33 @@ public class ProfileFragment extends Fragment {
         etEmailStudentProfile.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
     }
 
-    public boolean isEmailValid(String email)
-    {
+    public boolean isEmailValid(String email) {
         String regExpn =
                 "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
-                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+                        + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
 
         CharSequence inputStr = email;
 
-        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);
 
-        if(matcher.matches())
+        if (matcher.matches())
             return true;
         else
             return false;
     }
 
-    private void LoadStudentDetails()
-    {
+    private void LoadStudentDetails() {
         // pega o shared preferences
         //SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
 
-        if(this.hasSharedPreferencesFile())
-        {
-        //if(preferences.contains(FILE_PREFERENCES_ID_STUDENT_KEY))
-        //{
+        if (this.hasSharedPreferencesFile()) {
+            //if(preferences.contains(FILE_PREFERENCES_ID_STUDENT_KEY))
+            //{
             //String idStudent = preferences.getString(FILE_PREFERENCES_ID_STUDENT_KEY, "0");
             //editor.putString("studentId", String.valueOf(student.get_id()));
 
@@ -330,9 +306,9 @@ public class ProfileFragment extends Fragment {
             //TableStudents student = _dbhelper.GetStudentById(6);
 
             int idStudent = getIdStudentSharedPreferences();
-            TableStudents student = _dbhelper.GetStudentById(idStudent);
+            TableStudents student = _dbhelper.GetStudentByWintecId(idStudent);
 
-            if(student != null
+            if (student != null
                     && student.get_id() > 0) {
                 etIdWintec.setText(String.valueOf(student.get_wintec_id()));
                 etName.setText(student.get_name());
@@ -347,8 +323,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private TableStudents updatePropertiesStudent(TableStudents student, int idWintec, String name, String degree, Bitmap photo, String email)
-    {
+    private TableStudents updatePropertiesStudent(TableStudents student, int idWintec, String name, String degree, Bitmap photo, String email) {
         student.set_wintec_id(idWintec);
         student.set_name(name);
         student.set_degree(degree);
@@ -359,40 +334,35 @@ public class ProfileFragment extends Fragment {
 
         student.set_photo(photoBlob);
 
-        if(!email.matches(""))
-        {
+        if (!email.matches("")) {
             student.set_email(email);
         }
 
         return student;
     }
 
-    private boolean hasSharedPreferencesFile()
-    {
+    private boolean hasSharedPreferencesFile() {
         SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
 
-        return  preferences.contains(FILE_PREFERENCES_ID_STUDENT_KEY);
+        return preferences.contains(FILE_PREFERENCES_ID_STUDENT_KEY);
     }
 
-    private int getIdStudentSharedPreferences()
-    {
+    private int getIdStudentSharedPreferences() {
         SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
-        String idStudent = preferences.getString(FILE_PREFERENCES_ID_STUDENT_KEY, "0");
+        int idStudent = preferences.getInt(FILE_PREFERENCES_ID_STUDENT_KEY, 0);
 
-        return Integer.parseInt(idStudent);
+        return idStudent;
     }
 
-    private void setIdStudentSharedPreferences(int idStudent)
-    {
+    private void setIdStudentSharedPreferences(int idStudent) {
         SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putString(FILE_PREFERENCES_ID_STUDENT_KEY, String.valueOf(idStudent));
+        editor.putInt(FILE_PREFERENCES_ID_STUDENT_KEY, idStudent);
         editor.commit();
     }
 
-    private void showToastMessage(String message)
-    {
+    private void showToastMessage(String message) {
         Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
         //toast.setTex
         View toastView = toast.getView();

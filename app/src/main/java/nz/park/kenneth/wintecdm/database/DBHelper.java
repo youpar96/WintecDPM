@@ -291,7 +291,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-
     //By ID
     private boolean UpdateModuleByID(TableModules module) {
         int count = 0;
@@ -328,13 +327,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Students
     //add where
-    public boolean InsertStudentProfile(TableStudents student)
-    {
+    public boolean InsertStudentProfile(TableStudents student) {
         //if id exists then update
         long _row = 0;
 
-        try
-        {
+        try {
             _dbHelper = getWritableDatabase();
 
             ContentValues _values = StudentContentValues(student);
@@ -342,13 +339,11 @@ public class DBHelper extends SQLiteOpenHelper {
             _row = _dbHelper.insertWithOnConflict(Tables.Students.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
 
             if (_row == -1) {
-                _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID + "=?",
+                _row = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID + "=?",
                         new String[]{String.valueOf(student.get_id())});
 
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             Log.d(TAG, "InsertStudent: " + e.toString());
         }
 
@@ -434,7 +429,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-
     private ContentValues StudentContentValues(TableStudents student) {
         ContentValues _values = new ContentValues();
 
@@ -451,7 +445,7 @@ public class DBHelper extends SQLiteOpenHelper {
             _values.put(TableStudents.COLUMN_DEGREE, student.get_degree());
 
         // photo
-        if (student.get_photo() != null  && student.get_photo().length > 0)
+        if (student.get_photo() != null && student.get_photo().length > 0)
             _values.put(TableStudents.COLUMN_PHOTO, student.get_photo());
 
         // pathway
@@ -632,7 +626,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 }
             }
 
-            columns = columns.substring(0,columns.lastIndexOf(','));
+            columns = columns.substring(0, columns.lastIndexOf(','));
 
             String query = "select " + columns + " from " + table.toString();
             Cursor c = ExecuteQuery(query);

@@ -49,7 +49,7 @@ public class MyPathwayFragment extends Fragment {
 
     }
 
-    private void reset(){
+    private void reset() {
         semesterList = new ArrayList<String>();
         programmeMap = new HashMap<String, List<Structure>>();
     }
@@ -75,7 +75,10 @@ public class MyPathwayFragment extends Fragment {
     private void SavePathway() {
         String msg = "";
 
-        if (_dbhelper.InsertPathway())
+
+        if (Profile.studentid == 0 && !Profile.isAdmin)
+            msg = "Please create a student profile";
+        else if (_dbhelper.InsertPathway())
             msg = "Saving Success";
         else
             msg = "Saving Failed";
@@ -103,10 +106,11 @@ public class MyPathwayFragment extends Fragment {
         reset();
 
         viewContainer = container;
+        Profile.Initialize(getContext());
+
 
         //modules.clear();
         View view = inflater.inflate(R.layout.fragment_my_pathway, container, false);
-
         // change the title on toolbar
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("My Pathway");
@@ -120,6 +124,7 @@ public class MyPathwayFragment extends Fragment {
         });
 
         _dbhelper = new DBHelper(getContext(), null);
+
 
         //change method to student modules later
         Profile.modules = _dbhelper.GetModulesForStudent(Profile.studentid);

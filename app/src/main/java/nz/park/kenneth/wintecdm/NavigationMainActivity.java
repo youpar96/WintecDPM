@@ -118,22 +118,22 @@ public class NavigationMainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_select_pathway:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SelectPathwayFragment()).addToBackStack(mainScreen).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SelectPathwayFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_s_my_pathway:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPathwayFragment()).addToBackStack(mainScreen).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPathwayFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_m_send_plan:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SendPathwayFragment()).addToBackStack(mainScreen).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SendPathwayFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_m_add_module:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new InputModuleFragment()).addToBackStack(mainScreen).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new InputModuleFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_s_edit_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).addToBackStack(mainScreen).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_m_import_export:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ImportExportFragment()).addToBackStack(mainScreen).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ImportExportFragment()).addToBackStack(null).commit();
                 break;
         }
 
