@@ -24,14 +24,14 @@ public class TableStudents {
     private int _wintec_id;
     private String _name;
     private String _degree;
-    private String _photo;
+    private byte[] _photo;
     private int _pathway;
     private String _email;
 
     public TableStudents() {
     }
 
-    public TableStudents(int id, int wintec_id, String name, String degree, String photo, int pathway, String email) {
+    public TableStudents(int id, int wintec_id, String name, String degree, byte[] photo, int pathway, String email) {
         this._id = id;
         this._wintec_id = wintec_id;
         this._name = name;
@@ -74,11 +74,11 @@ public class TableStudents {
         this._degree = _degree;
     }
 
-    public String get_photo() {
+    public byte[] get_photo() {
         return _photo;
     }
 
-    public void set_photo(String _photo) {
+    public void set_photo(byte[] _photo) {
         this._photo = _photo;
     }
 
@@ -94,6 +94,9 @@ public class TableStudents {
         return _email;
     }
 
+    public void set_email(String _email) {
+        this._email = _email;
+    }
 }
 
 

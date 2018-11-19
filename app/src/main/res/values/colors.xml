@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorWhite">#FFF</color>
-    <color name="colorPrimary">#FFDD00</color>
+    <color name="colorPrimary">#ffdd00</color>
     <color name="colorPrimaryDark">#222222</color>
     <color name="colorAccent">#222222</color>
     <color name="wintecBasicBackground">#FFDD00</color>
     <color name="wintecBasicBlack">#191919</color>
     <color name="wintecDeleteButton">#f45042</color>
+    <color name="colorRed">#ff0000</color>
 
 
 </resources>

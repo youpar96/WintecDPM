@@ -1,5 +1,6 @@
 package nz.park.kenneth.wintecdm;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import nz.park.kenneth.wintecdm.helper.ActionPermission;
 
 public class NavigationMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -124,6 +127,9 @@ public class NavigationMainActivity extends AppCompatActivity
                 break;
             case R.id.nav_m_add_module:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new InputModuleFragment()).commit();
+                break;
+            case R.id.nav_s_edit_profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
                 break;
         }
 

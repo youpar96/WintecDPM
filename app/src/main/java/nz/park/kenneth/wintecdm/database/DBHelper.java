@@ -289,6 +289,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return _row > 0;
     }
 
+
+
     //By ID
     private boolean UpdateModuleByID(TableModules module) {
         int count = 0;
@@ -325,12 +327,68 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Students
     //add where
+    public boolean InsertStudentProfile(TableStudents student)
+    {
+        //if id exists then update
+        long _row = 0;
 
+        try
+        {
+            _dbHelper = getWritableDatabase();
+
+            ContentValues _values = StudentContentValues(student);
+
+            _row = _dbHelper.insertWithOnConflict(Tables.Students.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
+
+            if (_row == -1) {
+                _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID + "=?",
+                        new String[]{String.valueOf(student.get_id())});
+
+            }
+        }
+        catch (SQLException e)
+        {
+            Log.d(TAG, "InsertStudent: " + e.toString());
+        }
+
+        return _row > 0;
+    }
+
+    public boolean UpdateStudentByID(TableStudents student) {
+        int count = 0;
+        try {
+            _dbHelper = getWritableDatabase();
+
+            ContentValues _values = StudentContentValues(student);
+
+            count = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID + " = " + student.get_id(), null);
+
+            //count = _dbHelper.update(Tables.Students.toString(), StudentContentValues(student), TableStudents.COLUMN_ID + " where ?", new String[]{String.valueOf(student.get_id())});
+        } catch (SQLException ex) {
+            Log.d(TAG, "Fn UpdateStudentByID " + ex.toString());
+        }
+        return count > 0;
+    }
 
     public List<?> GetAllStudents() {
         _dbHelper = getReadableDatabase();
         Cursor c = ExecuteQuery("select * from " + Tables.Students);
         return SelectStudents(c);
+    }
+
+    public TableStudents GetStudentById(int id) {
+
+        TableStudents _studentDetail = new TableStudents();
+
+        try {
+            _dbHelper = getReadableDatabase();
+            Cursor c = ExecuteQuery("select * from " + Tables.Students + " where " + TableStudents.COLUMN_ID + "=?", String.valueOf(id));
+            _studentDetail = SelectStudents(c).get(0);
+        } catch (Exception ex) {
+
+        }
+
+        return _studentDetail;
     }
 
     public TableStudents GetStudentByWintecId(int id) {
@@ -360,7 +418,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     String _name = c.getString(c.getColumnIndex(TableStudents.COLUMN_NAME));
                     int _wintec_id = c.getInt(c.getColumnIndex(TableStudents.COLUMN_ID_WINTEC));
                     String _degree = c.getString(c.getColumnIndex(TableStudents.COLUMN_DEGREE));
-                    String _photo = c.getString(c.getColumnIndex(TableStudents.COLUMN_PHOTO));
+                    byte[] _photo = c.getBlob(c.getColumnIndex(TableStudents.COLUMN_PHOTO));
                     int _pathway = c.getInt(c.getColumnIndex(TableStudents.COLUMN_PATHWAY));
                     String _email = c.getString(c.getColumnIndex(TableStudents.COLUMN_EMAIL));
 
@@ -374,6 +432,38 @@ public class DBHelper extends SQLiteOpenHelper {
         return _returnList;
     }
 
+
+
+    private ContentValues StudentContentValues(TableStudents student) {
+        ContentValues _values = new ContentValues();
+
+        // id wintec
+        if (student.get_wintec_id() != 0)
+            _values.put(TableStudents.COLUMN_ID_WINTEC, student.get_wintec_id());
+
+        // name
+        if (student.get_name() != null)
+            _values.put(TableStudents.COLUMN_NAME, student.get_name());
+
+        //degree
+        if (student.get_degree() != null)
+            _values.put(TableStudents.COLUMN_DEGREE, student.get_degree());
+
+        // photo
+        if (student.get_photo() != null  && student.get_photo().length > 0)
+            _values.put(TableStudents.COLUMN_PHOTO, student.get_photo());
+
+        // pathway
+        // TODO Change fixed value to Selected value
+        _values.put(TableStudents.COLUMN_PATHWAY, 1);
+
+        // email
+        if (student.get_email() != null)
+            _values.put(TableStudents.COLUMN_EMAIL, student.get_email());
+
+        return _values;
+
+    }
 
     //prerequisites
 

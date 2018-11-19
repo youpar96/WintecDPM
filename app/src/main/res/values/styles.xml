@@ -33,4 +33,10 @@
         <item name="trackTint">@color/switch_color</item>
     </style>
 
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/wintecBasicBlack</item>
+        <item name="android:textColor">@color/wintecBasicBlack</item>
+        <item name="android:textColorPrimary">@color/wintecBasicBlack</item>
+    </style>
+
 </resources>
