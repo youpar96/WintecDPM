@@ -33,7 +33,10 @@
 
         <activity
             android:name=".NavigationMainActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 </manifest>

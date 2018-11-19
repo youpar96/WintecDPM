@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -523,4 +524,46 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+
+    public List<String> ExportData(DBHelper.Tables table) {
+
+        List<String> _values = new ArrayList<>();
+        String PACKAGE = "nz.park.kenneth.wintecdm.database.";
+        String STRUCTURE = "Structure.Table";
+
+        try {
+            Class<?> _class = Class.forName(String.format("%s%s%s", PACKAGE, STRUCTURE, table));
+
+            String query = "select * from " + table.toString();
+            Cursor c = ExecuteQuery(query);
+
+            if (c.moveToNext()) {
+
+                while (!c.isAfterLast()) {
+
+                    StringBuilder line = new StringBuilder();
+                    for (Field f : _class.getDeclaredFields()) {
+
+                        if (f.isAnnotationPresent(FieldOrder.class)) {
+                            int index = f.getAnnotation(FieldOrder.class).order();
+                            line.append(c.getString(index) + ",");
+                        }
+                    }
+                    _values.add(line.toString());
+                    c.moveToNext();
+                }
+
+
+            }
+
+            c.close();
+        } catch (Exception ex) {
+
+        } finally {
+
+
+        }
+        return _values;
+
+    }
 }

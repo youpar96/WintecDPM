@@ -92,10 +92,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:hint="Folder path"
-                        android:textColorHint="@color/wintecBasicBlack" />
+                        android:textColorHint="#caccce"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/wintecBasicBlack"
+                        />
 
                     <Button
-                        android:id="@+id/btnSearch"
+                        android:id="@+id/btnSubmit"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"

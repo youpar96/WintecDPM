@@ -1,26 +1,62 @@
 package nz.park.kenneth.wintecdm;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.lang.reflect.Field;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import nz.park.kenneth.wintecdm.database.DBHelper;
+import nz.park.kenneth.wintecdm.database.Data.Pathways;
+import nz.park.kenneth.wintecdm.database.FieldOrder;
 
 public class ImportExportFragment extends Fragment {
 
     EditText etFolderSearch;
-    Button btnSearch, btnImport, btnExport;
+    Button btnSubmit, btnImport, btnExport;
     TextView tvTitle;
 
-    static boolean IsImport = true;
+    private DBHelper dbHelper;
+
+    private static boolean IsImport = true;
+    private static final String PACKAGE = "nz.park.kenneth.wintecdm.database.";
+    private static final String STRUCTURE = "Structure.Table";
+    private static final String[] PERMISSIONS = {android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +71,9 @@ public class ImportExportFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_import_export, container, false);
 
-
+        dbHelper = new DBHelper(getContext(), null);
         etFolderSearch = v.findViewById(R.id.etFolderSearch);
-        btnSearch = v.findViewById(R.id.btnSearch);
+        btnSubmit = v.findViewById(R.id.btnSubmit);
         btnImport = v.findViewById(R.id.btnImport);
         btnExport = v.findViewById(R.id.btnExport);
         tvTitle = v.findViewById(R.id.tvTitle);
@@ -70,6 +106,17 @@ public class ImportExportFragment extends Fragment {
             }
         });
 
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String _directoryPath = etFolderSearch.getText().toString();
+
+                if (!IsImport)
+                    exportDB(_directoryPath);
+            }
+        });
+
 
         return v;
     }
@@ -86,10 +133,108 @@ public class ImportExportFragment extends Fragment {
         startActivityForResult(intent, 1);
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent result) {
+        try {
+            Uri data = result.getData();
+            File myFile = new File(data.toString());
+
+            etFolderSearch.setText(myFile.getAbsolutePath());
+
+        } catch (Exception ex) {
+
+
+        }
+
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
+    }
+
+
+    public void readCsv(String path) {
+
+        try {
+            InputStream is = new FileInputStream(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] RowData = line.split(",");
+            }
+            is.close();
+
+        } catch (IOException io) {
+
+
+        }
+    }
+
+
+    //check storageDirectoryPath issue later
+    public void exportDB(String storageDirectoryPath) {
+
+        String _msg = "";
+        try {
+
+            if (!hasPermissions(getContext(), PERMISSIONS))
+                ActivityCompat.requestPermissions((Activity) getContext(), PERMISSIONS, 112);
+
+            for (DBHelper.Tables table : DBHelper.Tables.values()) {
+
+                // File exportFile = new File(storageDirectoryPath + "/" + table.toString() + ".csv");
+//                if (!exportFile.getParentFile().exists())
+//                    exportFile.getParentFile().mkdirs();
+//
+
+                File directory = Environment.getExternalStorageDirectory();
+                File exportFile = new File(directory.getAbsolutePath() + "/WINTEC_DPM/" + table.toString() + ".csv");
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                exportFile.createNewFile();
+
+                FileOutputStream fOut = new FileOutputStream(exportFile, false);
+                OutputStreamWriter streamWriter = new OutputStreamWriter(fOut);
+
+                List<String> data = dbHelper.ExportData(table);
+
+                for (String each : data) {
+                    streamWriter.append(each);
+                    streamWriter.append("\n");
+                }
+
+                streamWriter.close();
+                fOut.close();
+
+            }
+            _msg = "Exported successfully!";
+
+        } catch (Exception ex) {
+            Log.e("[Fn] Error in Export: ", ex.toString());
+            _msg = "Unsuccessful";
+
+        } finally {
+
+            dbHelper.close();
+            Toast.makeText(getContext(), _msg, Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    private static boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 
