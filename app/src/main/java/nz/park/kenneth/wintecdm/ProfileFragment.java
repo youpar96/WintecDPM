@@ -20,18 +20,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import nz.park.kenneth.wintecdm.database.DBHelper;
+import nz.park.kenneth.wintecdm.database.Data.Pathways;
 import nz.park.kenneth.wintecdm.database.Structure.TableStudents;
 import nz.park.kenneth.wintecdm.model.Student;
 
@@ -54,6 +59,9 @@ public class ProfileFragment extends Fragment {
     private EditText etIdWintec, etName, etDegree, etEmailStudentProfile;
     private Button btnSave;
     private static boolean studentExists = false;
+    private Spinner spinnerPathway;
+
+    private static int pathwayPosition = 0;
 
     public ProfileFragment() {
 
@@ -87,6 +95,7 @@ public class ProfileFragment extends Fragment {
         etDegree = view.findViewById(R.id.etDegree);
         etEmailStudentProfile = view.findViewById(R.id.etEmailStudentProfile);
         btnSave = view.findViewById(R.id.btnStudentProfileSave);
+        spinnerPathway = view.findViewById(R.id.spinnerPathway);
 
         // change the title on toolbar
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
@@ -132,6 +141,26 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
+
+        //String[] pathwaysArr = Arrays.toString(Pathways.PathwayEnum.values()).replaceAll("^.|.$", "").split(", ");
+        ArrayAdapter<String> aAdapt = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, Arrays.copyOfRange(Profile.pathways, 1, Profile.pathways.length));
+
+        spinnerPathway.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerPathway.setSelection(position);
+                pathwayPosition = position + 1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        aAdapt.setDropDownViewResource(R.layout.spinner_item);
+        spinnerPathway.setAdapter(aAdapt);
+        aAdapt.notifyDataSetChanged();
 
 
         //change method to student modules later
@@ -327,6 +356,7 @@ public class ProfileFragment extends Fragment {
         student.set_wintec_id(idWintec);
         student.set_name(name);
         student.set_degree(degree);
+        student.set_pathway(pathwayPosition);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);

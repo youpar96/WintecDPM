@@ -15,6 +15,9 @@ public class Profile {
     public static int studentid = 0; //Test
     public static List<TableModules> modules;
 
+    //Test
+    public static final String[] pathways = new String[]{"Common", "Networking", "Software", "Database", "Web"};
+
     static {
         modules = new ArrayList<>();
     }

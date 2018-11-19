@@ -196,12 +196,11 @@ public class InputModuleFragment extends Fragment {
 
     private void populateSpinners() {
 
-        String[] pathways = new String[]{"Common", "Networking", "Software", "Database", "Web"};
         String[] sems = new String[]{"1", "2", "3", "4", "5", "6"};
 
 
         //pathways
-        ArrayAdapter<String> aAdapt = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, pathways);
+        ArrayAdapter<String> aAdapt = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, Profile.pathways);
         spinnerPathway.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

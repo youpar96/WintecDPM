@@ -339,8 +339,8 @@ public class DBHelper extends SQLiteOpenHelper {
             _row = _dbHelper.insertWithOnConflict(Tables.Students.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
 
             if (_row == -1) {
-                _row = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID + "=?",
-                        new String[]{String.valueOf(student.get_id())});
+                _row = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID_WINTEC + "=?",
+                        new String[]{String.valueOf(student.get_wintec_id())});
 
             }
         } catch (SQLException e) {
@@ -356,8 +356,7 @@ public class DBHelper extends SQLiteOpenHelper {
             _dbHelper = getWritableDatabase();
 
             ContentValues _values = StudentContentValues(student);
-
-            count = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID + " = " + student.get_id(), null);
+            count = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID_WINTEC + " = ?", new String[]{String.valueOf(student.get_wintec_id())});
 
             //count = _dbHelper.update(Tables.Students.toString(), StudentContentValues(student), TableStudents.COLUMN_ID + " where ?", new String[]{String.valueOf(student.get_id())});
         } catch (SQLException ex) {
@@ -449,8 +448,8 @@ public class DBHelper extends SQLiteOpenHelper {
             _values.put(TableStudents.COLUMN_PHOTO, student.get_photo());
 
         // pathway
-        // TODO Change fixed value to Selected value
-        _values.put(TableStudents.COLUMN_PATHWAY, 1);
+        if (student.get_pathway() != 0)
+            _values.put(TableStudents.COLUMN_PATHWAY, student.get_pathway());
 
         // email
         if (student.get_email() != null)
