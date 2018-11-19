@@ -1,11 +1,14 @@
 package nz.park.kenneth.wintecdm;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import nz.park.kenneth.wintecdm.database.DBHelper;
@@ -68,14 +72,13 @@ public class InputModuleFragment extends Fragment {
 
     @Override
     public void onStart() {
-
+        Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
         String title = "Create New Module";
         super.onStart();
         Bundle args = getArguments();
+
         if (args != null) {
             isUpdate = args.getBoolean("IsUpdate");
-
-            Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
 
             if (isUpdate) {
 
@@ -86,9 +89,9 @@ public class InputModuleFragment extends Fragment {
                 LoadContent(module);
 
             }
-
-            toolbar.setTitle(title);
         }
+        toolbar.setTitle(title);
+        btnModuleDelete.setVisibility(isUpdate ? View.VISIBLE : View.GONE);
     }
 
 
@@ -117,7 +120,20 @@ public class InputModuleFragment extends Fragment {
         btnModuleDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Delete();
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("CONFIRMATION")
+                        .setMessage(Html.fromHtml("<font color='#000'>Delete Module?</font>"))
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Delete();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
+
+
             }
         });
 
@@ -281,7 +297,7 @@ public class InputModuleFragment extends Fragment {
                 boolean _isCombination = chkIsCombination.isChecked();
 
                 dbHelper.InsertPrereq(Pathways.PathwayEnum.values()[pathwayPosition],
-                        _moduleCode, _prereqs, _isCombination);
+                        _moduleCode, Arrays.copyOf(_prereqs, _prereqs.length - 1), _isCombination);
             }
 
             _msg = "Saved Successfully!";
@@ -296,8 +312,16 @@ public class InputModuleFragment extends Fragment {
     }
 
     private Boolean Delete() {
+        boolean _return = false;
+        String _msg = null;
+        String _moduleCode = moduleCode.getText().toString();
 
-        return true;
+        if (!_moduleCode.isEmpty()) {
+            _return = dbHelper.DeleteModuleByCode(_moduleCode);
+            ClearValues();
+        }
+
+        return _return;
     }
 
 

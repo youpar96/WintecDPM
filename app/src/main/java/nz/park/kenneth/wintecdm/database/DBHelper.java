@@ -296,19 +296,30 @@ public class DBHelper extends SQLiteOpenHelper {
             _dbHelper = getWritableDatabase();
             count = _dbHelper.update(Tables.Modules.toString(), ModuleContentValues(module), TableModules.COLUMN_ID + " where ?", new String[]{String.valueOf(module.get_id())});
         } catch (SQLException ex) {
-            //log
+            Log.d(TAG, "Fn UpdateModuleByID " + ex.toString());
         }
         return count > 0;
     }
 
+
+    //prereq
+    //pathwaymodules
+    //modules
     public boolean DeleteModuleByCode(String code) {
+
+        int _return = 0;
         try {
             _dbHelper = getWritableDatabase();
-            _dbHelper.delete(Tables.Modules.toString(), TableModules.COLUMN_ID + " where " + TableModules.COLUMN_CODE + "= ?", new String[]{code});
+
+            _dbHelper.delete(Tables.PreRequisites.toString(), TablePreRequisites.COLUMN_CODE + "=?", new String[]{code});
+            _dbHelper.delete(Tables.PathwayModules.toString(), TablePathwayModules.COLUMN_ID_MODULE + "=?", new String[]{code});
+
+            _return = _dbHelper.delete(Tables.Modules.toString(), TableModules.COLUMN_CODE + "= ?", new String[]{code});
+
         } catch (SQLException ex) {
-            //log
+            Log.d(TAG, "Fn DeleteModuleByCode " + ex.toString());
         }
-        return true;
+        return _return > 0;
     }
 
 
