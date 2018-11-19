@@ -41,7 +41,7 @@ public class InputModuleFragment extends Fragment {
     EditText moduleCode, moduleName, moduleCredits;
     MultiAutoCompleteTextView modulePreqCode;
     RadioGroup radiolevel;
-    Button btnPathwaySave;
+    Button btnModuleSave, btnModuleDelete;
     CheckBox chkPrereq, chkIsCombination;
     TextView tvPrereqCode;
 
@@ -99,7 +99,8 @@ public class InputModuleFragment extends Fragment {
         moduleName = (EditText) view.findViewById(R.id.moduleName);
         moduleCredits = (EditText) view.findViewById(R.id.moduleCredits);
         modulePreqCode = (MultiAutoCompleteTextView) view.findViewById(R.id.modulePreqCode);
-        btnPathwaySave = (Button) view.findViewById(R.id.btnPathwaySave);
+        btnModuleSave = (Button) view.findViewById(R.id.btnModuleSave);
+        btnModuleDelete = (Button) view.findViewById(R.id.btnModuleDelete);
         tvPrereqCode = view.findViewById(R.id.tvPrereqCode);
         radiolevel = view.findViewById(R.id.radioLevel);
 
@@ -107,10 +108,16 @@ public class InputModuleFragment extends Fragment {
         chkPrereq = (CheckBox) view.findViewById(R.id.chkPrereq);
         chkIsCombination = (CheckBox) view.findViewById(R.id.chkIsCombination);
 
-        btnPathwaySave.setOnClickListener(new View.OnClickListener() {
+        btnModuleSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Save();
+            }
+        });
+        btnModuleDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Delete();
             }
         });
 
@@ -169,7 +176,6 @@ public class InputModuleFragment extends Fragment {
 
     private void populateSpinners() {
 
-        //Dummy values
         String[] pathways = new String[]{"Common", "Networking", "Software", "Database", "Web"};
         String[] sems = new String[]{"1", "2", "3", "4", "5", "6"};
 
@@ -285,6 +291,11 @@ public class InputModuleFragment extends Fragment {
 
         if (!_msg.isEmpty())
             Toast.makeText(getContext(), _msg, Toast.LENGTH_SHORT).show();
+
+        return true;
+    }
+
+    private Boolean Delete() {
 
         return true;
     }

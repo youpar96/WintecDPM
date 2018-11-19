@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".InputModuleFragment"
     android:windowSoftInputMode="stateHidden"
-    >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".InputModuleFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,8 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -148,9 +146,9 @@
                 <CheckBox
                     android:id="@+id/chkPrereq"
                     android:layout_width="0dp"
-                    android:background="#d7d9dd"
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
+                    android:background="#d7d9dd"
                     android:clickable="true"
                     android:text="Has Pre-requisites"
                     android:textColor="@color/wintecBasicBlack"
@@ -173,8 +171,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="Prereq Code"
                     android:alpha="0.5"
+                    android:text="Prereq Code"
                     android:textColor="@color/wintecBasicBlack"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -206,11 +204,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
                     android:alpha="0.5"
+                    android:buttonTint="@color/wintecBasicBlack"
                     android:clickable="true"
                     android:enabled="false"
                     android:text="Combination"
                     android:textColor="@color/wintecBasicBlack"
-                    android:buttonTint="@color/wintecBasicBlack"
                     android:textSize="20sp"
 
                     />
@@ -314,7 +312,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnPathwaySave"
+                    android:id="@+id/btnModuleSave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -322,9 +320,33 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/rounded_button_ok"
                     android:text="Save"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:textColor="@color/wintecBasicBlack" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnModuleDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_button_delete"
+                    android:text="Delete"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>
