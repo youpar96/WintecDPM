@@ -42,7 +42,9 @@
                 <Spinner
                     android:id="@+id/spinnerPathway"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="5"
                     android:clickable="true"
                     android:spinnerMode="dropdown"
@@ -75,6 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_weight="5"
                     android:background="@drawable/rounded_border"
                     android:textColor="@color/wintecBasicBlack" />
@@ -102,6 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_weight="5"
                     android:background="@drawable/rounded_border"
                     android:textColor="@color/wintecBasicBlack" />
@@ -129,6 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_weight="5"
                     android:background="@drawable/rounded_border"
                     android:textColor="@color/wintecBasicBlack" />
@@ -183,6 +191,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_weight="5"
                     android:alpha="0.5"
                     android:background="@drawable/rounded_border"
@@ -235,6 +245,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:clickable="true"
                     android:dropDownWidth="50dp"
                     android:spinnerMode="dropdown"
@@ -326,30 +338,23 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnModuleDelete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/rounded_button_delete"
-                    android:text="Delete"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorWhite"
-                    android:visibility="visible" />
-
-            </LinearLayout>
-
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnModuleDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_button_delete"
+        android:text="Delete"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/colorWhite"
+        android:visibility="visible" />
 
 
 </RelativeLayout>
