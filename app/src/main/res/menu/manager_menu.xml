@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_email_black_24dp"
         android:title="Send Pathway" />
 
+    <item
+        android:id="@+id/nav_m_import_export"
+        android:icon="@drawable/ic_backup_black_24dp"
+        android:title="Import/Export" />
+
 </menu>

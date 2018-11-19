@@ -19,6 +19,7 @@ public class NavigationMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean checkDisclaimer = false;
+    private final static String mainScreen = "SelectPathwayFragment";
 
     public void setCheckDisclaimer(boolean checkDisclaimer) {
         this.checkDisclaimer = checkDisclaimer;
@@ -114,17 +115,22 @@ public class NavigationMainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_select_pathway:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SelectPathwayFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SelectPathwayFragment()).addToBackStack(mainScreen).commit();
                 break;
             case R.id.nav_s_my_pathway:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPathwayFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPathwayFragment()).addToBackStack(mainScreen).commit();
                 break;
             case R.id.nav_m_send_plan:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SendPathwayFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SendPathwayFragment()).addToBackStack(mainScreen).commit();
                 break;
             case R.id.nav_m_add_module:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new InputModuleFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new InputModuleFragment()).addToBackStack(mainScreen).commit();
                 break;
+            case R.id.nav_m_import_export:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ImportExportFragment()).addToBackStack(mainScreen).commit();
+                break;
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
