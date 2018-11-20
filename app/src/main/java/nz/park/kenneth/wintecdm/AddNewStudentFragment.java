@@ -62,6 +62,7 @@ public class AddNewStudentFragment extends Fragment {
     private Button btnStudentSaveAddNewStudent;
 
     private static int pathwayPosition = 0;
+    private static Bitmap imagem;
 
     public AddNewStudentFragment() {
 
@@ -103,6 +104,10 @@ public class AddNewStudentFragment extends Fragment {
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Add new student");
 
+        if (imagem != null)
+            ivPhotoAddNewStudent.setImageBitmap(imagem);
+        
+
         btnCameraAddNewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,8 +139,7 @@ public class AddNewStudentFragment extends Fragment {
                         etIdWintecAddNewStudent.getText().toString(),
                         etNameAddNewStudent.getText().toString(),
                         etDegreeAddNewStudent.getText().toString(),
-                        etEmailStudentAddNewStudent.getText().toString()))
-                {
+                        etEmailStudentAddNewStudent.getText().toString())) {
 
                     int idWintec = Integer.parseInt(etIdWintecAddNewStudent.getText().toString());
                     String name = etNameAddNewStudent.getText().toString();
@@ -143,16 +147,11 @@ public class AddNewStudentFragment extends Fragment {
                     String email = etEmailStudentAddNewStudent.getText().toString();
                     Bitmap photo = ((BitmapDrawable) ivPhotoAddNewStudent.getDrawable()).getBitmap();
 
-                    if(idWintecStudentExists(idWintec))
-                    {
+                    if (idWintecStudentExists(idWintec)) {
                         showToastMessage("Id Wintec already registered");
-                    }
-                    else if(emailStudentExists(email))
-                    {
+                    } else if (emailStudentExists(email)) {
                         showToastMessage("Email already registered");
-                    }
-                    else
-                    {
+                    } else {
                         saveNewStudent(idWintec, name, degree, photo, email);
                     }
                 }
@@ -164,6 +163,23 @@ public class AddNewStudentFragment extends Fragment {
             public void onClick(View v) {
 
                 redirectToStudentList();
+            }
+        });
+
+
+        btnGoPathwayAddNewStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Profile.studentid = Integer.valueOf(etIdWintecAddNewStudent.getText().toString());
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new MyPathwayFragment())
+                        .addToBackStack(this.getClass().getName())
+                        .commit();
+
+
             }
         });
 
@@ -199,7 +215,7 @@ public class AddNewStudentFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            Bitmap imagem = null;
+
 
             try {
                 switch (requestCode) {
@@ -293,6 +309,7 @@ public class AddNewStudentFragment extends Fragment {
             return false;
     }
 
+
     private TableStudents createNewStudent(int idWintec, String name, String degree, Bitmap photo, String email) {
 
         TableStudents student = new TableStudents();
@@ -325,7 +342,8 @@ public class AddNewStudentFragment extends Fragment {
 
             this.showToastMessage("Student registered!");
 
-            this.redirectToStudentList();
+
+            //this.redirectToStudentList();
         }
     }
 
@@ -338,29 +356,26 @@ public class AddNewStudentFragment extends Fragment {
         toast.show();
     }
 
-    private void redirectToStudentList()
-    {
+    private void redirectToStudentList() {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StudentListFragment()).commit();
         DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    private boolean emailStudentExists(String email)
-    {
+    private boolean emailStudentExists(String email) {
         TableStudents student = _dbhelper.GetStudentByEmail(email);
 
-        if(student != null
-            && student.get_id() > 0) return true;
+        if (student != null
+                && student.get_id() > 0) return true;
 
         return false;
     }
 
-    private boolean idWintecStudentExists(int idWintec)
-    {
+    private boolean idWintecStudentExists(int idWintec) {
         TableStudents student = _dbhelper.GetStudentByWintecId(idWintec);
 
-        if(student != null
-            && student.get_id() > 0) return true;
+        if (student != null
+                && student.get_id() > 0) return true;
 
         return false;
     }
