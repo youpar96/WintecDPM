@@ -138,8 +138,7 @@ public class EditDeleteStudentFragment extends Fragment {
                         etIdWintecEditStudent.getText().toString(),
                         etNameEditStudent.getText().toString(),
                         etDegreeEditStudent.getText().toString(),
-                        etEmailStudentEditStudent.getText().toString()))
-                {
+                        etEmailStudentEditStudent.getText().toString())) {
 
                     int idWintec = Integer.parseInt(etIdWintecEditStudent.getText().toString());
                     String name = etNameEditStudent.getText().toString();
@@ -147,16 +146,11 @@ public class EditDeleteStudentFragment extends Fragment {
                     String email = etEmailStudentEditStudent.getText().toString();
                     Bitmap photo = ((BitmapDrawable) ivPhotoEditStudent.getDrawable()).getBitmap();
 
-                    if(idWintecStudentExists(idWintec))
-                    {
+                    if (idWintecStudentExists(idWintec)) {
                         showToastMessage("Id Wintec already registered");
-                    }
-                    else if(emailStudentExists(email))
-                    {
+                    } else if (emailStudentExists(email)) {
                         showToastMessage("Email already registered");
-                    }
-                    else
-                    {
+                    } else {
                         updateStudent(idWintec, name, degree, photo, email);
                     }
                 }
@@ -176,6 +170,18 @@ public class EditDeleteStudentFragment extends Fragment {
             public void onClick(View v) {
 
                 redirectToStudentList();
+            }
+        });
+
+        btnGoPathwayEditStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Profile.studentid = Integer.valueOf(etIdWintecEditStudent.getText().toString());
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new MyPathwayFragment())
+                        .addToBackStack(this.getClass().getName())
+                        .commit();
             }
         });
 
@@ -310,15 +316,13 @@ public class EditDeleteStudentFragment extends Fragment {
         int idStudent = this.getIdStudentSharedPreferences();
         TableStudents student = _dbhelper.GetStudentById(idStudent);
 
-        if(student != null
-                && student.get_id() > 0)
-        {
+        if (student != null
+                && student.get_id() > 0) {
             TableStudents studentToUpdate = updatePropertiesStudent(student, idWintec, name, degree, photo, email);
 
             boolean hadSuccess = _dbhelper.UpdateStudentByID(studentToUpdate);
 
-            if(hadSuccess)
-            {
+            if (hadSuccess) {
                 this.showToastMessage("Student updated!");
 
                 redirectToStudentList();
@@ -354,33 +358,30 @@ public class EditDeleteStudentFragment extends Fragment {
         toast.show();
     }
 
-    private void redirectToStudentList()
-    {
+    private void redirectToStudentList() {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StudentListFragment()).commit();
         DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    private boolean emailStudentExists(String email)
-    {
+    private boolean emailStudentExists(String email) {
         int idStudent = getIdStudentSharedPreferences();
         TableStudents student = _dbhelper.GetStudentByEmail(email);
 
-        if(student != null
-            && student.get_id() > 0
-            && student.get_id() != idStudent) return true;
+        if (student != null
+                && student.get_id() > 0
+                && student.get_id() != idStudent) return true;
 
         return false;
     }
 
-    private boolean idWintecStudentExists(int idWintec)
-    {
+    private boolean idWintecStudentExists(int idWintec) {
         int idStudent = getIdStudentSharedPreferences();
         TableStudents student = _dbhelper.GetStudentByWintecId(idWintec);
 
-        if(student != null
-            && student.get_id() > 0
-            && student.get_id() != idStudent) return true;
+        if (student != null
+                && student.get_id() > 0
+                && student.get_id() != idStudent) return true;
 
         return false;
     }
@@ -406,7 +407,8 @@ public class EditDeleteStudentFragment extends Fragment {
                 etDegreeEditStudent.setText(student.get_degree());
                 etEmailStudentEditStudent.setText(student.get_email());
 
-                ivPhotoEditStudent.setImageBitmap(BitmapFactory.decodeByteArray(student.get_photo(), 0, student.get_photo().length));
+                if (student.get_photo() != null)
+                    ivPhotoEditStudent.setImageBitmap(BitmapFactory.decodeByteArray(student.get_photo(), 0, student.get_photo().length));
             }
         }
     }
@@ -417,8 +419,7 @@ public class EditDeleteStudentFragment extends Fragment {
         return preferences.contains(EDIT_FILE_PREFERENCES_ID_STUDENT_KEY);
     }
 
-    private void deleteStudent()
-    {
+    private void deleteStudent() {
         if (this.hasSharedPreferencesFile()) {
 
             int idStudent = getIdStudentSharedPreferences();
@@ -429,8 +430,7 @@ public class EditDeleteStudentFragment extends Fragment {
 
                 boolean hadSuccess = _dbhelper.DeleteStudentById(idStudent);
 
-                if(hadSuccess)
-                {
+                if (hadSuccess) {
                     this.showToastMessage("Student deleted");
 
                     redirectToStudentList();

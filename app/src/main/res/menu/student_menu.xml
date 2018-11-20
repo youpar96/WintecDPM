@@ -11,4 +11,10 @@
         android:id="@+id/nav_s_edit_profile"
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Edit Profile" />
+
+    <item
+        android:id="@+id/nav_s_about_us"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="About Us"
+        ></item>
 </menu>

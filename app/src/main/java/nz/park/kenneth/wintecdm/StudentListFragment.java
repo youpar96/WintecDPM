@@ -39,7 +39,6 @@ import nz.park.kenneth.wintecdm.model.Student;
 public class StudentListFragment extends Fragment {
 
     DBHelper _dbhelper;
-
     ViewGroup viewContainer;
 
     public static final String EDIT_FILE_PREFERENCES = "EditStudentFilePreferences";
@@ -66,11 +65,9 @@ public class StudentListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
 
         viewContainer = container;
-
         _dbhelper = new DBHelper(getContext(), null);
 
         final View view = inflater.inflate(R.layout.fragment_student_list, container, false);
@@ -105,15 +102,12 @@ public class StudentListFragment extends Fragment {
                                 TableStudents student = listStudents.get(position);
                                 boolean addNewStudent = student.get_wintec_id() <= 0;
 
-                                if(addNewStudent)
-                                {
+                                if (addNewStudent) {
                                     // fragment to add new student
                                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewStudentFragment()).commit();
                                     DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
                                     drawer.closeDrawer(GravityCompat.START);
-                                }
-                                else
-                                {
+                                } else {
                                     // Save student id in SharedPreferences
                                     setIdStudentSharedPreferences(student.get_id());
 
@@ -148,8 +142,7 @@ public class StudentListFragment extends Fragment {
         return view;
     }
 
-    private void CreateAddNewStudent()
-    {
+    private void CreateAddNewStudent() {
         TableStudents addNewStudent = new TableStudents();
         addNewStudent.set_name("Add new student");
 
@@ -182,12 +175,10 @@ public class StudentListFragment extends Fragment {
         listStudents = new ArrayList<>();
     }
 
-    public void getAllStudents()
-    {
+    public void getAllStudents() {
         List<TableStudents> studentList = _dbhelper.GetAllStudents();
 
-        for (TableStudents student : studentList)
-        {
+        for (TableStudents student : studentList) {
             listStudents.add(student);
         }
     }

@@ -377,7 +377,7 @@ public class ProfileFragment extends Fragment {
         return preferences.contains(FILE_PREFERENCES_ID_STUDENT_KEY);
     }
 
-    private int getIdStudentSharedPreferences() {
+    public int getIdStudentSharedPreferences() {
         SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
         int idStudent = preferences.getInt(FILE_PREFERENCES_ID_STUDENT_KEY, 0);
 
@@ -390,6 +390,8 @@ public class ProfileFragment extends Fragment {
 
         editor.putInt(FILE_PREFERENCES_ID_STUDENT_KEY, idStudent);
         editor.commit();
+
+        Profile.Initialize(getContext());
     }
 
     private void showToastMessage(String message) {

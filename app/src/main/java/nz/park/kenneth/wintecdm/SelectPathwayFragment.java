@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,7 +21,7 @@ public class SelectPathwayFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_pathway, container, false);
-
+        ClearBackStacks();
         // change the title on toolbar
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Select Pathway");
@@ -38,6 +39,12 @@ public class SelectPathwayFragment extends Fragment implements View.OnClickListe
         return view;
     }
 
+
+    private void ClearBackStacks() {
+
+        getActivity().getSupportFragmentManager()
+                .popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
 
     @Override
     public void onClick(View view) {

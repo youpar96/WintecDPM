@@ -32,8 +32,6 @@ public class Profile {
         if (prefs != null && prefs.contains(ProfileFragment.FILE_PREFERENCES_ID_STUDENT_KEY)) {
             studentid = prefs.getInt(ProfileFragment.FILE_PREFERENCES_ID_STUDENT_KEY,0);
 
-
-
         }
     }
 

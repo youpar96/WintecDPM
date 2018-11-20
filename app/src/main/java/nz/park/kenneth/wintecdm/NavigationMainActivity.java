@@ -132,6 +132,9 @@ public class NavigationMainActivity extends AppCompatActivity
             case R.id.nav_s_edit_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).addToBackStack(null).commit();
                 break;
+            case R.id.nav_s_about_us:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUs()).commit();
+                break;
             case R.id.nav_m_import_export:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ImportExportFragment()).addToBackStack(null).commit();
                 break;
