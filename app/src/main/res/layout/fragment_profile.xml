@@ -213,30 +213,22 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnStudentProfileSave"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/rounded_button_ok"
-                    android:text="Save"
-                    android:textColor="@color/wintecBasicBlack" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
 
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnStudentProfileSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_button_ok"
+        android:text="Save"
+        android:textColor="@color/wintecBasicBlack" />
 
 
 </RelativeLayout>
