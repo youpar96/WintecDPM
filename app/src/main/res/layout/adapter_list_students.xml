@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@color/wintecBasicBackground"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivStudentListPhoto"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/wintecBasicBackground"
+        android:src="@drawable/avatar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/wintecBasicBackground"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tvStudentListName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/wintecBasicBackground"
+            android:text="Name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvStudentListIdWintec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/wintecBasicBackground"
+            android:text="00000000"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/tvStudentListDegree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/wintecBasicBackground"
+            android:text="Degree"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+</LinearLayout>

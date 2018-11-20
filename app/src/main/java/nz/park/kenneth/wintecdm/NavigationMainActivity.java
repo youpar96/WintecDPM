@@ -135,6 +135,9 @@ public class NavigationMainActivity extends AppCompatActivity
             case R.id.nav_m_import_export:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ImportExportFragment()).addToBackStack(null).commit();
                 break;
+            case R.id.nav_m_find_student:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StudentListFragment()).commit();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

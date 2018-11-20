@@ -371,7 +371,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public List<?> GetAllStudents() {
+    public List<TableStudents> GetAllStudents() {
         _dbHelper = getReadableDatabase();
         Cursor c = ExecuteQuery("select * from " + Tables.Students);
         return SelectStudents(c);
