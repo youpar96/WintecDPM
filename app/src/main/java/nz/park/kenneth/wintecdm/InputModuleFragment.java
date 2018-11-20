@@ -161,7 +161,8 @@ public class InputModuleFragment extends Fragment {
 
     private void LoadContent(TableModules module) {
 
-        int pathway = dbHelper.GetModulePathway(module.get_code());
+        int test=spinnerPathway.getSelectedItemPosition();
+        int pathway = dbHelper.GetModulePathway(test,module.get_code());
         spinnerPathway.setSelection(pathway);
 
         String _moduleCode = module.get_code();

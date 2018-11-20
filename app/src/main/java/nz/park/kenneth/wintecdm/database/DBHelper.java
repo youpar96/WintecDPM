@@ -157,8 +157,11 @@ public class DBHelper extends SQLiteOpenHelper {
             for (int i = 0; i < _modules.size(); i++) {
 
                 boolean _is_enabled = false;
-                String _currentModule = _modules.get(i).get_code();
+                String _currentModule = _modules.get(i).get_code().trim();
 
+                if (_currentModule.replace('\u00a0', ' ').equals("COMP601​")) {
+                    int gh = 0;
+                }
                 ArrayList<Boolean> _eachCriteria = new ArrayList<>();
                 String _prerequisite = null;
 
@@ -168,11 +171,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 for (TablePreRequisites prereq : _prereqs) {
 
                     if (_currentModule.contains(prereq.get_code())) {
-                        _prerequisite = prereq.get_prereqcode().trim();
+                        _prerequisite = prereq.get_prereqcode().replaceAll("\\P{Print}", "");
 
                         //find if prerequisite module has been completed or not
                         for (TableModules _eachModule : _modules) {
-                            if (_prerequisite.contains(_eachModule.get_code())) {
+                            // String test = _eachModule.get_code().replaceAll("\\P{Print}", "");
+                            if (_eachModule.get_code().contains(_prerequisite)) {
                                 boolean is_completed = _eachModule.get_is_completed();
                                 _hasCombinationOfPrereqs = prereq.is_is_combo();
                                 _eachCriteria.add(is_completed);
@@ -189,7 +193,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 _modules.get(i).set_is_enabled(
                         (_eachCriteria.contains(true) && !_hasCombinationOfPrereqs)
                                 || (!_eachCriteria.contains(false) && _hasCombinationOfPrereqs)
-                                || _prerequisite == null);
+                                || _prerequisite == null
+                                || _eachCriteria.size() == 0
+                );
             }
 
         } catch (Exception e) {
@@ -554,16 +560,18 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public int GetModulePathway(String module) {
+    public int GetModulePathway(int pathway, String module) {
 
-        int pathway = 0;
+
         try {
             _dbHelper = getReadableDatabase();
 
-            Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where substr(" + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) = ?", module);
+            Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where " + TablePathwayModules.COLUMN_ID_PATHWAY + "=? and substr(" + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) =?"
+                    , String.valueOf(pathway)
+                    , module.replace('\u00a0', ' ')
 
-
-            if (c != null && c.moveToFirst())
+            );
+            if (c.moveToFirst())
                 pathway = c.getInt(c.getColumnIndex(TablePathwayModules.COLUMN_ID_PATHWAY));
 
             c.close();
