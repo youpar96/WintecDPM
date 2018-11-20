@@ -343,7 +343,7 @@ public class AddNewStudentFragment extends Fragment {
             this.showToastMessage("Student registered!");
 
 
-            //this.redirectToStudentList();
+            this.redirectToStudentList();
         }
     }
 
