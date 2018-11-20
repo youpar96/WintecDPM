@@ -317,8 +317,13 @@ public class InputModuleFragment extends Fragment {
 
         }
 
-        if (!_msg.isEmpty())
-            Toast.makeText(getContext(), _msg, Toast.LENGTH_SHORT).show();
+        if (!_msg.isEmpty()) {
+            Toast toast = Toast.makeText(getContext(), _msg, Toast.LENGTH_LONG);
+            View view = toast.getView();
+            TextView text = (TextView) view.findViewById(android.R.id.message);
+            text.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            toast.show();
+        }
 
         return true;
     }
