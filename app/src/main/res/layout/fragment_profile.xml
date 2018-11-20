@@ -107,6 +107,7 @@
                         android:background="@drawable/rounded_border"
                         android:ems="10"
                         android:hint="Id Wintec"
+                        android:maxLength="8"
                         android:inputType="number"
                         android:padding="5dp"
                         android:paddingLeft="10dp"
