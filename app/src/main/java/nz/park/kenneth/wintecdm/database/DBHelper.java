@@ -362,7 +362,7 @@ public class DBHelper extends SQLiteOpenHelper {
             _dbHelper = getWritableDatabase();
 
             ContentValues _values = StudentContentValues(student);
-            count = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID_WINTEC + " = ?", new String[]{String.valueOf(student.get_wintec_id())});
+            count = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID + " = ?", new String[]{String.valueOf(student.get_id())});
 
             //count = _dbHelper.update(Tables.Students.toString(), StudentContentValues(student), TableStudents.COLUMN_ID + " where ?", new String[]{String.valueOf(student.get_id())});
         } catch (SQLException ex) {
@@ -420,6 +420,22 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return _studentDetail;
+    }
+
+    public boolean DeleteStudentById(int idStudent) {
+
+        int _return = 0;
+        try {
+            _dbHelper = getWritableDatabase();
+
+            _dbHelper.delete(Tables.StudentPathway.toString(), TableStudentPathway.COLUMN_STUDENT_ID + "=?", new String[]{String.valueOf(idStudent)});
+
+            _return = _dbHelper.delete(Tables.Students.toString(), TableStudents.COLUMN_ID + "= ?", new String[]{String.valueOf(idStudent)});
+
+        } catch (SQLException ex) {
+            Log.d(TAG, "Fn DeleteStudentById " + ex.toString());
+        }
+        return _return > 0;
     }
 
     private List<TableStudents> SelectStudents(Cursor c) {

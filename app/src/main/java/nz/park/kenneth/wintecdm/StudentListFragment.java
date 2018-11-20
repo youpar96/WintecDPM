@@ -1,6 +1,7 @@
 package nz.park.kenneth.wintecdm;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -40,6 +41,9 @@ public class StudentListFragment extends Fragment {
     DBHelper _dbhelper;
 
     ViewGroup viewContainer;
+
+    public static final String EDIT_FILE_PREFERENCES = "EditStudentFilePreferences";
+    public static final String EDIT_FILE_PREFERENCES_ID_STUDENT_KEY = "IdStudent_Edit";
 
     private RecyclerView rvStudentList;
     private StudentsAdapter StudentsAdapter;
@@ -98,14 +102,6 @@ public class StudentListFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                /*Cocktail cocktail = cocktailsList.get(position);
-
-                                Intent intent = new Intent(getApplicationContext(), CocktailDetailActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                intent.putExtra("objectCocktail", (Serializable) cocktail);
-
-                                startActivity(intent);*/
-
                                 TableStudents student = listStudents.get(position);
                                 boolean addNewStudent = student.get_wintec_id() <= 0;
 
@@ -118,12 +114,19 @@ public class StudentListFragment extends Fragment {
                                 }
                                 else
                                 {
+                                    // Save student id in SharedPreferences
+                                    setIdStudentSharedPreferences(student.get_id());
+
                                     // fragment to edit/delete student
-                                    Toast toast = Toast.makeText(getContext(), student.get_name(), Toast.LENGTH_LONG);
+                                    /*Toast toast = Toast.makeText(getContext(), student.get_name(), Toast.LENGTH_LONG);
                                     view = toast.getView();
                                     TextView text = (TextView) view.findViewById(android.R.id.message);
                                     text.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                                    toast.show();
+                                    toast.show();*/
+
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EditDeleteStudentFragment()).commit();
+                                    DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                                    drawer.closeDrawer(GravityCompat.START);
                                 }
                             }
 
@@ -164,6 +167,8 @@ public class StudentListFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        setIdStudentSharedPreferences(0);
+
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Students");
 
@@ -185,5 +190,13 @@ public class StudentListFragment extends Fragment {
         {
             listStudents.add(student);
         }
+    }
+
+    private void setIdStudentSharedPreferences(int idStudent) {
+        SharedPreferences preferences = getContext().getSharedPreferences(EDIT_FILE_PREFERENCES, getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putInt(EDIT_FILE_PREFERENCES_ID_STUDENT_KEY, idStudent);
+        editor.commit();
     }
 }
