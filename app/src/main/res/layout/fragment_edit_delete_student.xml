@@ -216,45 +216,50 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/btnArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|center_horizontal">
+
+                <Button
+                    android:id="@+id/btnStudentSaveEditStudent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_button_ok"
+                    android:text="Edit"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/wintecBasicBlack" />
+
+                <Button
+                    android:id="@+id/btnDeleteStudent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_button_delete"
+                    android:text="Delete"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
 
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/btnArea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|center_horizontal">
 
-        <Button
-            android:id="@+id/btnStudentSaveEditStudent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_button_ok"
-            android:text="Edit"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/wintecBasicBlack" />
-
-        <Button
-            android:id="@+id/btnDeleteStudent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_button_delete"
-            android:text="Delete"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite"
-            android:visibility="visible" />
-
-    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btnGoPathwayEditStudent"

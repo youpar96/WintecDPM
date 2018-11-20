@@ -133,13 +133,13 @@ public class NavigationMainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_s_about_us:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUs()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUs()).addToBackStack(null).commit();
                 break;
             case R.id.nav_m_import_export:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ImportExportFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_m_find_student:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StudentListFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StudentListFragment()).addToBackStack(null).commit();
                 break;
         }
 

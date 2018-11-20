@@ -55,7 +55,7 @@ public class CreateTables implements Closeable {
                         TableModules.COLUMN_SEMESTER + " INTEGER NOT NULL," +
                         TableModules.COLUMN_LEVEL + " INTEGER NOT NULL, " +
                         TableModules.COLUMN_URL + " VARCHAR," +
-                        "UNIQUE(" + TableModules.COLUMN_CODE + ") ON CONFLICT IGNORE ) ";
+                        "UNIQUE(" + TableModules.COLUMN_CODE + ") ON CONFLICT REPLACE ) ";
 
         _db.execSQL(queryModules);
     }

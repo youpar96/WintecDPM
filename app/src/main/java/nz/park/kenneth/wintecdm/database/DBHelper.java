@@ -442,25 +442,32 @@ public class DBHelper extends SQLiteOpenHelper {
 
         List<TableStudents> _returnList = new ArrayList<TableStudents>();
 
-        if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-                if (c.getString(c.getColumnIndex(TableStudents.COLUMN_ID)) != null) {
+        try {
+            if (c.moveToFirst()) {
+                while (!c.isAfterLast()) {
 
-                    int _id = c.getInt(c.getColumnIndex(TableStudents.COLUMN_ID));
-                    String _name = c.getString(c.getColumnIndex(TableStudents.COLUMN_NAME));
-                    int _wintec_id = c.getInt(c.getColumnIndex(TableStudents.COLUMN_ID_WINTEC));
-                    String _degree = c.getString(c.getColumnIndex(TableStudents.COLUMN_DEGREE));
-                    byte[] _photo = c.getBlob(c.getColumnIndex(TableStudents.COLUMN_PHOTO));
-                    int _pathway = c.getInt(c.getColumnIndex(TableStudents.COLUMN_PATHWAY));
-                    String _email = c.getString(c.getColumnIndex(TableStudents.COLUMN_EMAIL));
+                    if (c.getString(c.getColumnIndex(TableStudents.COLUMN_ID)) != null) {
 
-                    _returnList.add(new TableStudents(_id, _wintec_id, _name, _degree, _photo, _pathway, _email));
+                        int _id = c.getInt(c.getColumnIndex(TableStudents.COLUMN_ID));
+                        String _name = c.getString(c.getColumnIndex(TableStudents.COLUMN_NAME));
+                        int _wintec_id = c.getInt(c.getColumnIndex(TableStudents.COLUMN_ID_WINTEC));
+                        String _degree = c.getString(c.getColumnIndex(TableStudents.COLUMN_DEGREE));
+                        byte[] _photo = c.getBlob(c.getColumnIndex(TableStudents.COLUMN_PHOTO));
+                        int _pathway = c.getInt(c.getColumnIndex(TableStudents.COLUMN_PATHWAY));
+                        String _email = c.getString(c.getColumnIndex(TableStudents.COLUMN_EMAIL));
 
+                        _returnList.add(new TableStudents(_id, _wintec_id, _name, _degree, _photo, _pathway, _email));
+
+                    }
+                    c.moveToNext();
                 }
-                c.moveToNext();
             }
+        } catch (Exception e) {
+
+        } finally {
+            c.close();
         }
-        c.close();
+
         return _returnList;
     }
 
@@ -601,7 +608,7 @@ public class DBHelper extends SQLiteOpenHelper {
             _dbHelper = getReadableDatabase();
 
             Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where substr(" + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) =?"
-                                    , module.trim()
+                    , module.trim()
 
             );
             if (c.moveToFirst())
