@@ -182,7 +182,7 @@ public class ImportExportFragment extends Fragment {
                 while ((line = reader.readLine()) != null) {
                     data.add(line);
                 }
-                dbHelper.ImportData(DBHelper.Tables.valueOf(tableName), data);
+                // dbHelper.ImportData(DBHelper.Tables.valueOf(tableName), data);
                 inputStream.close();
 
             }

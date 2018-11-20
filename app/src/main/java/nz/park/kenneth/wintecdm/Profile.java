@@ -13,10 +13,11 @@ import nz.park.kenneth.wintecdm.model.Pathway;
 
 public class Profile {
 
+
+
     public static boolean isAdmin = false;
     public static int studentid = 0; //Test
     public static List<TableModules> modules;
-
 
     //Test
     public static final String[] pathways = new String[]{"Common", "Networking", "Software", "Database", "Web"};

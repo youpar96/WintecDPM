@@ -157,6 +157,10 @@ public class DBHelper extends SQLiteOpenHelper {
     //custom student pathway
     public List<TableModules> GetModulesForStudent(int ID) {
 
+        int moduleStartIndex = 0;
+        int moduleLength = 7;
+
+
         List<TableModules> _modules = new ArrayList<>();
         //Get pathway from student ID
         try {
@@ -169,21 +173,20 @@ public class DBHelper extends SQLiteOpenHelper {
             for (int i = 0; i < _modules.size(); i++) {
 
                 boolean _is_enabled = false;
-                String _currentModule = _modules.get(i).get_code().trim();
+                String _currentModule = _modules.get(i).get_code().substring(moduleStartIndex, moduleLength);
 
-                if (_currentModule.replace('\u00a0', ' ').equals("COMP601​")) {
-                    int gh = 0;
-                }
+
                 ArrayList<Boolean> _eachCriteria = new ArrayList<>();
                 String _prerequisite = null;
+
 
                 //pathway based pre-requisites
                 boolean _hasCombinationOfPrereqs = false;
                 criteria:
                 for (TablePreRequisites prereq : _prereqs) {
 
-                    if (_currentModule.contains(prereq.get_code())) {
-                        _prerequisite = prereq.get_prereqcode().replaceAll("\\P{Print}", "");
+                    if (_currentModule.contains(prereq.get_code().substring(moduleStartIndex, moduleLength))) {
+                        _prerequisite = prereq.get_prereqcode().substring(moduleStartIndex, moduleLength);//.replaceAll("\\P{Print}", "");
 
                         //find if prerequisite module has been completed or not
                         for (TableModules _eachModule : _modules) {
@@ -553,7 +556,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " where " + TablePreRequisites.COLUMN_STREAM
                 + " IN (0,?) AND "
                 + TablePreRequisites.COLUMN_CODE
-                + " = ?", String.valueOf(pathway), moduleCode.trim());
+                + " = ?", String.valueOf(pathway), moduleCode.substring(0, 7));
 
         List<TablePreRequisites> _prereqs = new ArrayList<TablePreRequisites>();
         if (_prereqCursor.moveToFirst()) {
@@ -679,17 +682,8 @@ public class DBHelper extends SQLiteOpenHelper {
             Class<?> _class = Class.forName(String.format("%s%s%s", Profile.PACKAGE, Profile.STRUCTURE, table));
 
             int fieldCount = 0;
-            String columns = "";
-            for (Field f : _class.getDeclaredFields()) {
-                if (f.isAnnotationPresent(FieldOrder.class)) {
-                    columns += f.get(_class.newInstance()).toString() + ",";
-                    fieldCount++;
-                }
-            }
 
-            columns = columns.substring(0, columns.lastIndexOf(','));
-
-            String query = "select " + columns + " from " + table.toString();
+            String query = "select * from " + table.toString();
             Cursor c = ExecuteQuery(query);
 
             if (c.moveToNext()) {
@@ -697,12 +691,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 while (!c.isAfterLast()) {
 
                     StringBuilder line = new StringBuilder();
-                    int index = 0;
 
-                    while (index <= fieldCount) {
-                        //int index = f.getAnnotation(FieldOrder.class).order();
-                        line.append(c.getString(index) + ",");
-                        index++;
+                    int index = 0;
+                    for (Field f : _class.getDeclaredFields()) {
+
+                        if (f.isAnnotationPresent(FieldOrder.class)) {
+                            //columns += f.get(_class.newInstance()).toString() + ",";
+                            line.append(c.getString(index) + ",");
+                            index++;
+                        }
                     }
                     _values.add(line.toString());
                     c.moveToNext();
