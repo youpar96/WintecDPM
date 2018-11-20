@@ -407,8 +407,10 @@ public class EditDeleteStudentFragment extends Fragment {
                 etDegreeEditStudent.setText(student.get_degree());
                 etEmailStudentEditStudent.setText(student.get_email());
 
-                if (student.get_photo() != null)
+                if(student.get_photo() != null) {
                     ivPhotoEditStudent.setImageBitmap(BitmapFactory.decodeByteArray(student.get_photo(), 0, student.get_photo().length));
+                }
+
             }
         }
     }
