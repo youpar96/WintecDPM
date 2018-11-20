@@ -501,7 +501,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " where " + TablePreRequisites.COLUMN_STREAM
                 + " IN (0,?) AND "
                 + TablePreRequisites.COLUMN_CODE
-                + " = ?",String.valueOf(pathway), moduleCode.trim());
+                + " = ?", String.valueOf(pathway), moduleCode.trim());
 
         List<TablePreRequisites> _prereqs = new ArrayList<TablePreRequisites>();
         if (_prereqCursor.moveToFirst()) {
@@ -570,7 +570,7 @@ public class DBHelper extends SQLiteOpenHelper {
             _dbHelper = getReadableDatabase();
 
             Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where substr(" + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) =?"
-                    , module.replace('\u00a0', ' ')
+                                    , module.trim()
 
             );
             if (c.moveToFirst())

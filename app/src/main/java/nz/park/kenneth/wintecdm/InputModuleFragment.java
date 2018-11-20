@@ -162,6 +162,7 @@ public class InputModuleFragment extends Fragment {
     private void LoadContent(TableModules module) {
 
         int pathway = Profile.selectedPath.ordinal(); //dbHelper.GetModulePathway(module.get_code());
+
         spinnerPathway.setSelection(pathway);
 
         String _moduleCode = module.get_code();
