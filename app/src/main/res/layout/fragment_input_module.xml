@@ -11,7 +11,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="500dp">
+        android:minHeight="500dp"
+        android:layout_above="@+id/btnArea">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -317,44 +318,43 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnModuleSave"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/rounded_button_ok"
-                    android:text="Save"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/wintecBasicBlack" />
-
-            </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/btnModuleDelete"
+    <LinearLayout
+        android:id="@+id/btnArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="10dp"
-        android:background="@drawable/rounded_button_delete"
-        android:text="Delete"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@color/colorWhite"
-        android:visibility="visible" />
+        android:layout_gravity="bottom|center_horizontal">
 
+        <Button
+            android:id="@+id/btnModuleSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_button_ok"
+            android:text="Save"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/wintecBasicBlack" />
+
+        <Button
+            android:id="@+id/btnModuleDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_button_delete"
+            android:text="Delete"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
 </RelativeLayout>
