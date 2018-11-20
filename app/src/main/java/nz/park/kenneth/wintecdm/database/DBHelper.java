@@ -495,10 +495,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<TablePreRequisites> GetPreRequisites(String moduleCode) {
+    public List<TablePreRequisites> GetPreRequisites(int pathway, String moduleCode) {
 
-        Cursor _prereqCursor = ExecuteQuery("select * from " + Tables.PreRequisites + " where " + TablePreRequisites.COLUMN_CODE
-                + " IN (0,?)", moduleCode);
+        Cursor _prereqCursor = ExecuteQuery("select * from " + Tables.PreRequisites
+                + " where " + TablePreRequisites.COLUMN_STREAM
+                + " IN (0,?) AND "
+                + TablePreRequisites.COLUMN_CODE
+                + " = ?",String.valueOf(pathway), moduleCode.trim());
 
         List<TablePreRequisites> _prereqs = new ArrayList<TablePreRequisites>();
         if (_prereqCursor.moveToFirst()) {
@@ -560,14 +563,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public int GetModulePathway(int pathway, String module) {
+    public int GetModulePathway(String module) {
 
-
+        int pathway = 0;
         try {
             _dbHelper = getReadableDatabase();
 
-            Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where " + TablePathwayModules.COLUMN_ID_PATHWAY + "=? and substr(" + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) =?"
-                    , String.valueOf(pathway)
+            Cursor c = ExecuteQuery("select * from " + Tables.PathwayModules + " where substr(" + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) =?"
                     , module.replace('\u00a0', ' ')
 
             );

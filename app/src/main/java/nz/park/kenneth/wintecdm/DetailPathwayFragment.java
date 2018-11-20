@@ -34,12 +34,12 @@ public class DetailPathwayFragment extends Fragment {
 
     private String pathWay;
 
-    public void setPathWay(String pathWay){
+    public void setPathWay(String pathWay) {
         this.pathWay = pathWay;
     }
 
     // create constructor to get the pathWay value instead of getting from intent object
-    public DetailPathwayFragment(){
+    public DetailPathwayFragment() {
         super();
     }
 
@@ -56,7 +56,7 @@ public class DetailPathwayFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             String pathWay = savedInstanceState.getString("pathWay");
 
             setPathWay(pathWay);
@@ -101,6 +101,8 @@ public class DetailPathwayFragment extends Fragment {
                 break;
         }
 
+
+        Profile.selectedPath = _path;
         ArrayList<TableModules> _values = _dbhelper.GetModulesByPathway(_path);
 
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
@@ -134,7 +136,7 @@ public class DetailPathwayFragment extends Fragment {
 
 
             semDisplay = "Semester" + String.valueOf(currentItem.get_sem());
-            programmeList.add(currentItem.get_code() + " | " + currentItem.get_name() +" | "+ currentItem.get_url());
+            programmeList.add(currentItem.get_code() + " | " + currentItem.get_name() + " | " + currentItem.get_url());
 
             if (nextItem == null || currentItem.get_sem() != nextItem.get_sem()) {
                 semesterList.add(semDisplay);

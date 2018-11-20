@@ -161,8 +161,7 @@ public class InputModuleFragment extends Fragment {
 
     private void LoadContent(TableModules module) {
 
-        int test=spinnerPathway.getSelectedItemPosition();
-        int pathway = dbHelper.GetModulePathway(test,module.get_code());
+        int pathway = Profile.selectedPath.ordinal(); //dbHelper.GetModulePathway(module.get_code());
         spinnerPathway.setSelection(pathway);
 
         String _moduleCode = module.get_code();
@@ -172,7 +171,7 @@ public class InputModuleFragment extends Fragment {
 
         //another call
 
-        List<TablePreRequisites> _preReqs = dbHelper.GetPreRequisites(_moduleCode);
+        List<TablePreRequisites> _preReqs = dbHelper.GetPreRequisites(pathway,_moduleCode);
         String _preReqText = "";
         List<Boolean> _isCombination = new ArrayList<>();
         if (_preReqs.size() > 0) {

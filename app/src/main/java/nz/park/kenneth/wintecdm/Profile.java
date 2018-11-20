@@ -7,13 +7,16 @@ import android.preference.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import nz.park.kenneth.wintecdm.database.Data.Pathways;
 import nz.park.kenneth.wintecdm.database.Structure.TableModules;
+import nz.park.kenneth.wintecdm.model.Pathway;
 
 public class Profile {
 
     public static boolean isAdmin = false;
     public static int studentid = 0; //Test
     public static List<TableModules> modules;
+
 
     //Test
     public static final String[] pathways = new String[]{"Common", "Networking", "Software", "Database", "Web"};
@@ -37,5 +40,7 @@ public class Profile {
 
     public static final String PACKAGE = "nz.park.kenneth.wintecdm.database.";  //common package path
     public static final String STRUCTURE = "Structure.Table";
+
+    public static Pathways.PathwayEnum selectedPath= Pathways.PathwayEnum.Networking;
 
 }
