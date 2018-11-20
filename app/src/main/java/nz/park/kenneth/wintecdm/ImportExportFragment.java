@@ -240,7 +240,11 @@ public class ImportExportFragment extends Fragment {
         } finally {
 
             dbHelper.close();
-            Toast.makeText(getContext(), _msg, Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(getContext(), _msg, Toast.LENGTH_LONG);
+            View view = toast.getView();
+            TextView text = (TextView) view.findViewById(android.R.id.message);
+            text.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            toast.show();
         }
 
 
