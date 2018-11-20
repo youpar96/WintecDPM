@@ -138,7 +138,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<TableModules> GetModulesByPathway(Pathways.PathwayEnum path) {
-        return GetModules(path);
+
+        _dbHelper = getReadableDatabase();
+
+        String _query = "select m.* from " + Tables.Modules + " m inner join "
+                + Tables.PathwayModules + " pm on substr(m." + TableModules.COLUMN_CODE + ",1,7) = substr(pm."
+                + TablePathwayModules.COLUMN_ID_MODULE + ",1,7) "
+                + " where pm." + TablePathwayModules.COLUMN_ID_PATHWAY + " IN (0,?) order by "
+                + TableModules.COLUMN_SEMESTER + "," + TableModules.COLUMN_CODE;
+
+
+        Cursor c = ExecuteQuery(_query, String.valueOf(path.ordinal()));
+        return SelectAllModules(c);
+
     }
 
 
@@ -583,7 +595,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 _values.put(TableStudentPathway.COLUMN_IS_COMPLETED, _each.get_is_completed());
 
 
-                long id = _dbHelper.insertWithOnConflict(Tables.StudentPathway.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
+                long id = _dbHelper.insertWithOnConflict(Tables.StudentPathway.toString(), null, _values, SQLiteDatabase.CONFLICT_REPLACE);
 
                 if (id == -1) {
                     _dbHelper.update(Tables.StudentPathway.toString(), _values,
