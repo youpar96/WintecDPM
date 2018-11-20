@@ -339,10 +339,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         try {
             _dbHelper = getWritableDatabase();
-
             ContentValues _values = StudentContentValues(student);
-
-            _row = _dbHelper.insertWithOnConflict(Tables.Students.toString(), null, _values, SQLiteDatabase.CONFLICT_IGNORE);
+            _row = _dbHelper.insertWithOnConflict(Tables.Students.toString(), null, _values, SQLiteDatabase.CONFLICT_REPLACE);
 
             if (_row == -1) {
                 _row = _dbHelper.update(Tables.Students.toString(), _values, TableStudents.COLUMN_ID_WINTEC + "=?",
@@ -474,6 +472,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private ContentValues StudentContentValues(TableStudents student) {
         ContentValues _values = new ContentValues();
+
+        //for proper functioning of content values
+        if (student.get_id() != 0)
+            _values.put(TableStudents.COLUMN_ID, student.get_id());
 
         // id wintec
         if (student.get_wintec_id() != 0)

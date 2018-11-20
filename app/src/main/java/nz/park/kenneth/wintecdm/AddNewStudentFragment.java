@@ -62,7 +62,6 @@ public class AddNewStudentFragment extends Fragment {
     private Button btnStudentSaveAddNewStudent;
 
     private static int pathwayPosition = 0;
-    private static Bitmap imagem;
 
     public AddNewStudentFragment() {
 
@@ -104,9 +103,6 @@ public class AddNewStudentFragment extends Fragment {
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Add new student");
 
-        if (imagem != null)
-            ivPhotoAddNewStudent.setImageBitmap(imagem);
-        
 
         btnCameraAddNewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +210,7 @@ public class AddNewStudentFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Bitmap imagem = null;
         if (resultCode == RESULT_OK) {
 
 
@@ -341,8 +338,6 @@ public class AddNewStudentFragment extends Fragment {
         if (studentInserted) {
 
             this.showToastMessage("Student registered!");
-
-
             this.redirectToStudentList();
         }
     }
