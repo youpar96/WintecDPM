@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,29 +106,25 @@ public class StudentListFragment extends Fragment {
 
                                 startActivity(intent);*/
 
-                                /*TableStudents student = listStudents.get(position);
-                                boolean addNewStudent = student.get_wintec_id() <= 0;*/
+                                TableStudents student = listStudents.get(position);
+                                boolean addNewStudent = student.get_wintec_id() <= 0;
 
-                                /*if(addNewStudent)
-                                {*/
+                                if(addNewStudent)
+                                {
                                     // fragment to add new student
-                                    /*getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewStudentFragment()).commit();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewStudentFragment()).commit();
                                     DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-                                    drawer.closeDrawer(GravityCompat.START);*/
-                                /*}
+                                    drawer.closeDrawer(GravityCompat.START);
+                                }
                                 else
                                 {
                                     // fragment to edit/delete student
-                                }*/
-
-                                /*Toast toast = Toast.makeText(getContext(), student.get_name(), Toast.LENGTH_SHORT);
-                                //toast.setTex
-                                View toastView = toast.getView();
-
-                                TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
-                                toastMessage.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-                                toastMessage.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.wintecBasicBackground));
-                                toast.show();*/
+                                    Toast toast = Toast.makeText(getContext(), student.get_name(), Toast.LENGTH_LONG);
+                                    view = toast.getView();
+                                    TextView text = (TextView) view.findViewById(android.R.id.message);
+                                    text.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                    toast.show();
+                                }
                             }
 
                             @Override
@@ -166,6 +163,9 @@ public class StudentListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
+        toolbar.setTitle("Students");
 
         getAllStudents();
     }

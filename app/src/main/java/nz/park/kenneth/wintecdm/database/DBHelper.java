@@ -407,6 +407,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return _studentDetail;
     }
 
+    public TableStudents GetStudentByEmail(String email) {
+
+        TableStudents _studentDetail = new TableStudents();
+
+        try {
+            _dbHelper = getReadableDatabase();
+            Cursor c = ExecuteQuery("select * from " + Tables.Students.toString() + " where " + TableStudents.COLUMN_EMAIL + "=?", email);
+            _studentDetail = SelectStudents(c).get(0);
+        } catch (Exception ex) {
+
+        }
+
+        return _studentDetail;
+    }
+
     private List<TableStudents> SelectStudents(Cursor c) {
 
         List<TableStudents> _returnList = new ArrayList<TableStudents>();

@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,9 +44,8 @@ import nz.park.kenneth.wintecdm.model.Student;
 
 import static android.app.Activity.RESULT_OK;
 
-
 @SuppressLint("ValidFragment")
-public class ProfileFragment extends Fragment {
+public class AddNewStudentFragment extends Fragment {
 
     DBHelper _dbhelper;
 
@@ -54,16 +55,27 @@ public class ProfileFragment extends Fragment {
     private static final int REQUEST_CODE_GALLERY = 102;
     public static final String FILE_PREFERENCES = "FilePreferences";
     public static final String FILE_PREFERENCES_ID_STUDENT_KEY = "IdStudent";
-    private ImageButton btnCamera, btnGallery;
-    private CircleImageView ivPhotoProfile;
-    private EditText etIdWintec, etName, etDegree, etEmailStudentProfile;
-    private Button btnSave;
-    private static boolean studentExists = false;
-    private Spinner spinnerPathway;
+    private ImageButton btnCameraAddNewStudent, btnGalleryAddNewStudent, btnGoPathwayAddNewStudent, btnGoBackStudentList;
+    private CircleImageView ivPhotoAddNewStudent;
+    private EditText etIdWintecAddNewStudent, etNameAddNewStudent, etDegreeAddNewStudent, etEmailStudentAddNewStudent;
+    private Spinner spinnerPathwayAddNewStudent;
+    private Button btnStudentSaveAddNewStudent;
+
+    // ivPhotoAddNewStudent
+    // btnGalleryAddNewStudent
+    // btnCameraAddNewStudent
+    // etIdWintecAddNewStudent
+    // etNameAddNewStudent
+    // etDegreeAddNewStudent
+    // spinnerPathwayAddNewStudent
+    // etEmailStudentAddNewStudent
+    // btnStudentSaveAddNewStudent
+    // btnGoPathwayAddNewStudent
+    // btnGoBackStudentList
 
     private static int pathwayPosition = 0;
 
-    public ProfileFragment() {
+    public AddNewStudentFragment() {
 
     }
 
@@ -85,9 +97,9 @@ public class ProfileFragment extends Fragment {
 
         _dbhelper = new DBHelper(getContext(), null);
 
-        final View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        final View view = inflater.inflate(R.layout.fragment_add_new_student, container, false);
 
-        btnCamera = view.findViewById(R.id.btnCamera);
+        /*btnCamera = view.findViewById(R.id.btnCamera);
         btnGallery = view.findViewById(R.id.btnGallery);
         ivPhotoProfile = view.findViewById(R.id.ivPhotoProfile);
         etIdWintec = view.findViewById(R.id.etIdWintec);
@@ -95,15 +107,25 @@ public class ProfileFragment extends Fragment {
         etDegree = view.findViewById(R.id.etDegree);
         etEmailStudentProfile = view.findViewById(R.id.etEmailStudentProfile);
         btnSave = view.findViewById(R.id.btnStudentProfileSave);
-        spinnerPathway = view.findViewById(R.id.spinnerPathway);
+        spinnerPathway = view.findViewById(R.id.spinnerPathway);*/
+
+        btnCameraAddNewStudent = view.findViewById(R.id.btnCameraAddNewStudent);
+        btnGalleryAddNewStudent = view.findViewById(R.id.btnGalleryAddNewStudent);
+        ivPhotoAddNewStudent = view.findViewById(R.id.ivPhotoAddNewStudent);
+        etIdWintecAddNewStudent = view.findViewById(R.id.etIdWintecAddNewStudent);
+        etNameAddNewStudent = view.findViewById(R.id.etNameAddNewStudent);
+        etDegreeAddNewStudent = view.findViewById(R.id.etDegreeAddNewStudent);
+        etEmailStudentAddNewStudent = view.findViewById(R.id.etEmailStudentAddNewStudent);
+        spinnerPathwayAddNewStudent = view.findViewById(R.id.spinnerPathwayAddNewStudent);
+        btnStudentSaveAddNewStudent = view.findViewById(R.id.btnStudentSaveAddNewStudent);
+        btnGoPathwayAddNewStudent = view.findViewById(R.id.btnGoPathwayAddNewStudent);
+        btnGoBackStudentList = view.findViewById(R.id.btnGoBackStudentList);
 
         // change the title on toolbar
         Toolbar toolbar = (Toolbar) ((NavigationMainActivity) getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle("My Profile");
+        toolbar.setTitle("Add new student");
 
-        this.LoadStudentDetails();
-
-        btnCamera.setOnClickListener(new View.OnClickListener() {
+        btnCameraAddNewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -115,7 +137,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        btnGallery.setOnClickListener(new View.OnClickListener() {
+        btnGalleryAddNewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -126,19 +148,44 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnStudentSaveAddNewStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (validatePropertiesToSave(etIdWintec.getText().toString(), etName.getText().toString(), etDegree.getText().toString(), etEmailStudentProfile.getText().toString())) {
-                    int idWintec = Integer.parseInt(etIdWintec.getText().toString());
-                    String name = etName.getText().toString();
-                    String degree = etDegree.getText().toString();
-                    String email = etEmailStudentProfile.getText().toString();
-                    Bitmap photo = ((BitmapDrawable) ivPhotoProfile.getDrawable()).getBitmap();
+                if (validatePropertiesToSave(
+                        etIdWintecAddNewStudent.getText().toString(),
+                        etNameAddNewStudent.getText().toString(),
+                        etDegreeAddNewStudent.getText().toString(),
+                        etEmailStudentAddNewStudent.getText().toString()))
+                {
 
-                    saveProfile(idWintec, name, degree, photo, email);
+                    int idWintec = Integer.parseInt(etIdWintecAddNewStudent.getText().toString());
+                    String name = etNameAddNewStudent.getText().toString();
+                    String degree = etDegreeAddNewStudent.getText().toString();
+                    String email = etEmailStudentAddNewStudent.getText().toString();
+                    Bitmap photo = ((BitmapDrawable) ivPhotoAddNewStudent.getDrawable()).getBitmap();
+
+                    if(idWintecStudentExists(idWintec))
+                    {
+                        showToastMessage("Id Wintec already registered");
+                    }
+                    else if(emailStudentExists(email))
+                    {
+                        showToastMessage("Email already registered");
+                    }
+                    else
+                    {
+                        saveNewStudent(idWintec, name, degree, photo, email);
+                    }
                 }
+            }
+        });
+
+        btnGoBackStudentList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                redirectToStudentList();
             }
         });
 
@@ -146,10 +193,10 @@ public class ProfileFragment extends Fragment {
         //String[] pathwaysArr = Arrays.toString(Pathways.PathwayEnum.values()).replaceAll("^.|.$", "").split(", ");
         ArrayAdapter<String> aAdapt = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, Arrays.copyOfRange(Profile.pathways, 1, Profile.pathways.length));
 
-        spinnerPathway.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerPathwayAddNewStudent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinnerPathway.setSelection(position);
+                spinnerPathwayAddNewStudent.setSelection(position);
                 pathwayPosition = position + 1;
             }
 
@@ -159,7 +206,7 @@ public class ProfileFragment extends Fragment {
             }
         });
         aAdapt.setDropDownViewResource(R.layout.spinner_item);
-        spinnerPathway.setAdapter(aAdapt);
+        spinnerPathwayAddNewStudent.setAdapter(aAdapt);
         aAdapt.notifyDataSetChanged();
 
 
@@ -191,64 +238,12 @@ public class ProfileFragment extends Fragment {
                 }
 
                 if (imagem != null) {
-                    ivPhotoProfile.setImageBitmap(imagem);
+                    ivPhotoAddNewStudent.setImageBitmap(imagem);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void saveProfile(int idWintec, String name, String degree, Bitmap photo, String email) {
-
-        if (studentExists) {
-            //SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
-            //String idStudent = preferences.getString(FILE_PREFERENCES_ID_STUDENT_KEY, "0");
-            int idStudent = this.getIdStudentSharedPreferences();
-            TableStudents student = _dbhelper.GetStudentById(idStudent);
-
-            TableStudents studentToUpdate = updatePropertiesStudent(student, idWintec, name, degree, photo, email);
-            _dbhelper.UpdateStudentByID(studentToUpdate);
-
-            this.showToastMessage("Profile updated!");
-        } else {
-            TableStudents _studentObj = updatePropertiesStudent(new TableStudents(), idWintec, name, degree, photo, email);
-
-            boolean studentInserted = _dbhelper.InsertStudentProfile(_studentObj);
-
-            if (studentInserted) {
-                TableStudents student = _dbhelper.GetStudentByWintecId(idWintec);
-
-                // set IdWintec saved to get Student Details when load MyProfile screen
-                this.setIdStudentSharedPreferences(student.get_wintec_id());
-
-                /*SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-
-                editor.putString(FILE_PREFERENCES_ID_STUDENT_KEY, String.valueOf(student.get_id()));
-                editor.commit();*/
-
-                this.showToastMessage("Profile created!");
-            }
-        }
-
-        //Student
-        /*TableStudents _studentObj = new TableStudents();
-
-        _studentObj.set_wintec_id(Integer.parseInt(etIdWintec.getText().toString()));
-        _studentObj.set_name(etName.getText().toString());
-        _studentObj.set_degree(etDegree.getText().toString());
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] photoBlob = byteArrayOutputStream.toByteArray();
-
-        _studentObj.set_photo(photoBlob);
-
-        if(!etEmailStudentProfile.getText().toString().matches(""))
-        {
-            _studentObj.set_email(etEmailStudentProfile.getText().toString());
-        }*/
     }
 
     private boolean validatePropertiesToSave(String idWintec, String name, String degree, String email) {
@@ -263,23 +258,23 @@ public class ProfileFragment extends Fragment {
 
         if (idWintec.matches("")) {
             isValid = false;
-            etIdWintec.setBackground(shape);
+            etIdWintecAddNewStudent.setBackground(shape);
         }
 
         if (name.matches("")) {
             isValid = false;
-            etName.setBackground(shape);
+            etNameAddNewStudent.setBackground(shape);
         }
 
         if (degree.matches("")) {
             isValid = false;
-            etDegree.setBackground(shape);
+            etDegreeAddNewStudent.setBackground(shape);
         }
 
         if (!email.matches("")) {
             if (!isEmailValid(email)) {
                 isValid = false;
-                etEmailStudentProfile.setBackground(shape);
+                etEmailStudentAddNewStudent.setBackground(shape);
             }
         }
 
@@ -287,17 +282,17 @@ public class ProfileFragment extends Fragment {
     }
 
     private void resetEditTextsConfiguration() {
-        etIdWintec.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        etIdWintec.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
+        etIdWintecAddNewStudent.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        etIdWintecAddNewStudent.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
 
-        etName.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        etName.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
+        etNameAddNewStudent.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        etNameAddNewStudent.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
 
-        etDegree.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        etDegree.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
+        etDegreeAddNewStudent.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        etDegreeAddNewStudent.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
 
-        etEmailStudentProfile.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        etEmailStudentProfile.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
+        etEmailStudentAddNewStudent.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        etEmailStudentAddNewStudent.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow_back_black_border));
     }
 
     public boolean isEmailValid(String email) {
@@ -320,39 +315,10 @@ public class ProfileFragment extends Fragment {
             return false;
     }
 
-    private void LoadStudentDetails() {
-        // pega o shared preferences
-        //SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
+    private TableStudents createNewStudent(int idWintec, String name, String degree, Bitmap photo, String email) {
 
-        if (this.hasSharedPreferencesFile()) {
-            //if(preferences.contains(FILE_PREFERENCES_ID_STUDENT_KEY))
-            //{
-            //String idStudent = preferences.getString(FILE_PREFERENCES_ID_STUDENT_KEY, "0");
-            //editor.putString("studentId", String.valueOf(student.get_id()));
+        TableStudents student = new TableStudents();
 
-            //GetStudentById
-            //TableStudents student = _dbhelper.GetStudentById(Integer.parseInt(idStudent));
-            //TableStudents student = _dbhelper.GetStudentById(6);
-
-            int idStudent = getIdStudentSharedPreferences();
-            TableStudents student = _dbhelper.GetStudentByWintecId(idStudent);
-
-            if (student != null
-                    && student.get_id() > 0) {
-                etIdWintec.setText(String.valueOf(student.get_wintec_id()));
-                etName.setText(student.get_name());
-                etDegree.setText(student.get_degree());
-                etEmailStudentProfile.setText(student.get_email());
-
-                //ivPhotoProfile.setImageBitmap(imagem);
-                ivPhotoProfile.setImageBitmap(BitmapFactory.decodeByteArray(student.get_photo(), 0, student.get_photo().length));
-
-                studentExists = true;
-            }
-        }
-    }
-
-    private TableStudents updatePropertiesStudent(TableStudents student, int idWintec, String name, String degree, Bitmap photo, String email) {
         student.set_wintec_id(idWintec);
         student.set_name(name.toUpperCase());
         student.set_degree(degree);
@@ -371,25 +337,18 @@ public class ProfileFragment extends Fragment {
         return student;
     }
 
-    private boolean hasSharedPreferencesFile() {
-        SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
+    private void saveNewStudent(int idWintec, String name, String degree, Bitmap photo, String email) {
 
-        return preferences.contains(FILE_PREFERENCES_ID_STUDENT_KEY);
-    }
+        TableStudents _studentObj = createNewStudent(idWintec, name, degree, photo, email);
 
-    private int getIdStudentSharedPreferences() {
-        SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
-        int idStudent = preferences.getInt(FILE_PREFERENCES_ID_STUDENT_KEY, 0);
+        boolean studentInserted = _dbhelper.InsertStudentProfile(_studentObj);
 
-        return idStudent;
-    }
+        if (studentInserted) {
 
-    private void setIdStudentSharedPreferences(int idStudent) {
-        SharedPreferences preferences = getContext().getSharedPreferences(FILE_PREFERENCES, getContext().MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+            this.showToastMessage("Student registered!");
 
-        editor.putInt(FILE_PREFERENCES_ID_STUDENT_KEY, idStudent);
-        editor.commit();
+            this.redirectToStudentList();
+        }
     }
 
     private void showToastMessage(String message) {
@@ -399,5 +358,32 @@ public class ProfileFragment extends Fragment {
         TextView text = (TextView) view.findViewById(android.R.id.message);
         text.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         toast.show();
+    }
+
+    private void redirectToStudentList()
+    {
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StudentListFragment()).commit();
+        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    private boolean emailStudentExists(String email)
+    {
+        TableStudents student = _dbhelper.GetStudentByEmail(email);
+
+        if(student != null
+            && student.get_id() > 0) return true;
+
+        return false;
+    }
+
+    private boolean idWintecStudentExists(int idWintec)
+    {
+        TableStudents student = _dbhelper.GetStudentByWintecId(idWintec);
+
+        if(student != null
+            && student.get_id() > 0) return true;
+
+        return false;
     }
 }
